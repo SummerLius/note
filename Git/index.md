@@ -20,7 +20,9 @@ git config --local
 ##### core.autocrlf  
 
 `git config --global core.autocrlf input`  
+
 `git config --global core.autocrlf true`  
+
 `git config --global core.autocrlf false`  
 
 input：适合Linux或Mac系统配置，签出文件时不进行crlf转换，提交文件会将crlf修正为lf   
