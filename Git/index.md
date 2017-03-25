@@ -1,7 +1,12 @@
 
 ## 基础理论
 
-### 配置
+### 文件状态
+
+![file_status](../Resources/images/file_status.png)
+![file_status](https://github.com/SummerLius/note/blob/master/Resources/images/file_status.png)
+
+## 配置
 
 git config  
 git config --system    
@@ -16,7 +21,7 @@ git config --local
 - Windows：C:/Users/admin/.gitconfig  
 - Windows：.git/config
 
-#### core.autocrlf  
+### core.autocrlf  
 
 git config --global core.autocrlf input    
 git config --global core.autocrlf true    
@@ -27,18 +32,7 @@ true ：适合Windows系统配置，签出文件自动将lf转换为crlf，提�
 false：任何时候都不转换
 
 
-
-
-
-
-### Git仓库文件状态
-
-![file_status](../Resources/images/file_status.png)
-![file_status](https://github.com/SummerLius/note/blob/master/Resources/images/file_status.png)
-
-
-
-### Git Command
+## Git Command
 
 获取一个仓库
 git init
