@@ -6,6 +6,8 @@
 ![file_status](../Resources/images/file_status.png)
 ![file_status](https://github.com/SummerLius/note/blob/master/Resources/images/file_status.png)
 
+上图清晰的显示了，文件有
+
 ## 配置
 
 git config  
@@ -15,8 +17,8 @@ git config --local
 
 依次对应的目录为：  
 - Linux：/etc/gitconfig  
-- Linux：~/.gitconfig`  
-- Linux：.git/config`  
+- Linux：~/.gitconfig  
+- Linux：.git/config  
 - Windows: D:/WorkSoftwares/Git/mingw64/etc/gitconfig  
 - Windows：C:/Users/admin/.gitconfig  
 - Windows：.git/config
