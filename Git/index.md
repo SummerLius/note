@@ -33,8 +33,6 @@ false：任何时候都不转换
 
 ### Git仓库文件状态
 
----
-
 ![file_status](../Resources/images/file_status.png)
 ![file_status](https://github.com/SummerLius/note/blob/master/Resources/images/file_status.png)
 
