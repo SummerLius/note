@@ -1,7 +1,7 @@
 ### 基础理论
 
-### 开始Git Command
+### Git Command
 
-获取一个仓库
-git init
-git clone <repo-url>
+获取一个仓库 
+git init 
+git clone <repo-url> 
