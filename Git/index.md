@@ -1,7 +1,7 @@
 
-### 基础理论
+## 基础理论
 
-#### 环境变量配置
+### 配置
 
 git config  
 git config --system    
@@ -16,7 +16,7 @@ git config --local
 - Windows：C:/Users/admin/.gitconfig  
 - Windows：.git/config
 
-##### **core.autocrlf**  
+#### core.autocrlf  
 
 git config --global core.autocrlf input    
 git config --global core.autocrlf true    
