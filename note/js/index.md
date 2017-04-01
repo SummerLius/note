@@ -161,13 +161,13 @@ No！不完全相同，因为用1去使其它位保持不变的话，我们需�
 函数没有任何途径访问对象本身属性，只能通过Func.prototype来访问对象原型属性；对象只能通过ptototype.constructor属性来访问函数属性，obj.constructor.xxx。
 
 
-	1. 为什么函数属性，其构造出来的对象不能直接访问？
+1. 为什么函数属性，其构造出来的对象不能直接访问？
  
 构造流程：创建新一个新的空对象，并将其原型__proto__指向函数prototype属性指向的原型对象。所以很明显，新对象寻找属性路径：this自身 -->函数prototype对象，而函数属性
 明显在函数本身上，不再prototype上，所以函数属性有且只有函数名直接才能访问。对象访问的话比较曲折，通过ptototype原型对象中constructor属性访问。
 
 
-	2. 为什么函数不能直接访问其prototype上的属性，不是可以按照原型链自动找到么?
+2. 为什么函数不能直接访问其prototype上的属性，不是可以按照原型链自动找到么?
 
 如果有Jail.prototype.cb=1，那么只能通过Jail.prototype.cb访问而不能通过，Jail.cb访问。
 原因很简单，因为tm函数Jail的原型对象是__proto__指向的对象，不是prototype的指向，其实任何对象的原型都是__proto__来指定的。prototype只是函数的一个属性，用于构建对象。所以当执行Jail.cb时，引擎自动的找其__proto__对象，但是显然没有。
