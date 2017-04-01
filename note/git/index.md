@@ -3,8 +3,8 @@
 
 ### 文件状态
 
-![file_status](../resources/images/file_status.png)
-![file_status](https://github.com/SummerLius/note/blob/master/note/resources/images/file_status.png)
+![file_status](../../assets/file_status.png)
+![file_status](https://github.com/SummerLius/note/blob/master/assets/file_status.png)
 
 上图清晰的显示了，文件有
 
