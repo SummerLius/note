@@ -25,3 +25,7 @@
 ## 资源网站
 
 [w3cfuns](http://www1.qdfuns.com/feres.php?do=picture&listtype=book)  
+
+## Linux
+
+[鸟哥私房菜](http://cn.linux.vbird.org/)
