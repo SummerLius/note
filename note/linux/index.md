@@ -1,3 +1,5 @@
+# 文件系统
+
 ## Linux的文件权限与系统目录结构
 
 ### 文件属性
@@ -73,14 +75,16 @@ chmod ugo=rwx         filename
 
 ### 权限rwx对于文件和目录的作用
 
-文件：
+#### 文件
+
 - r（read）：读取文件内容
 - w（write）：可以编辑，修改文件内容（不含删除文件）
 - x（execute）：该文件具有被系统执行的权限
 
 是否可执行在Windows下根据文件名的扩展类型来判断，而Linux下根据是否具有x权限！至于w权限，只针对文件的内容，与文件的新建和删除无关！  
 
-目录：  
+#### 目录 
+
 - r（read）：表示具有读取目录下列表的权限，允许使用ls指定来读取列表内容
 - w（modify）：表示具有改动该目录结构列表的权限，例如
     - 建立新的文件和目录
@@ -100,6 +104,8 @@ chmod ugo=rwx         filename
 [Linux目录结构、配置-鸟哥](http://cn.linux.vbird.org/linux_basic/0210filepermission.php#dir)
 
 ## Linux文件与目录管理
+
+### 常见目录操作
 
 
 
