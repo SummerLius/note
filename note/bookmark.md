@@ -31,3 +31,7 @@
 [鸟哥私房菜](http://cn.linux.vbird.org/)  
 [linux系统结构](http://blog.csdn.net/hguisu/article/details/7408047#t6)  
 [硬盘读写原理](http://blog.csdn.net/hguisu/article/details/6122513)  
+
+
+[计算机操作系统](http://www.codeman.net/wp-content/uploads/2011/12/os-3.pdf)
+[os](http://staff.ustc.edu.cn/~chizhang/OS/Textbooks/%B2%D9%D7%F7%CF%B5%CD%B3-%BE%AB%CB%E8%D3%EB%C9%E8%BC%C6%D4%AD%C0%ED(5e)%D3%B0%D3%A1%B0%E6.pdf)
