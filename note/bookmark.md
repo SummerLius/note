@@ -28,6 +28,6 @@
 
 ## Linux
 
-[鸟哥私房菜](http://cn.linux.vbird.org/)
-[linux系统结构](http://blog.csdn.net/hguisu/article/details/7408047#t6)
-[硬盘读写原理](http://blog.csdn.net/hguisu/article/details/6122513)
+[鸟哥私房菜](http://cn.linux.vbird.org/)  
+[linux系统结构](http://blog.csdn.net/hguisu/article/details/7408047#t6)  
+[硬盘读写原理](http://blog.csdn.net/hguisu/article/details/6122513)  
