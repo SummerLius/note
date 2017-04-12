@@ -1,4 +1,4 @@
-﻿taskkilltasklist在文件中寻找字符串。
+﻿在文件中寻找字符串。
 
 FINDSTR [/B] [/E] [/L] [/R] [/S] [/I] [/X] [/V] [/N] [/M] [/O] [/P] [/F:file]
         [/C:string] [/G:file] [/D:dir list] [/A:color attributes] [/OFF[LINE]]
