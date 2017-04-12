@@ -21,7 +21,7 @@
 - `**`，跨路径匹配，匹配[0, +∞)个目录或子目录，不会匹配链接目录(目录的快捷方式)，例如lib/**/*.js，匹配lib目录下所有js文件
 - 更多详细见[node-glob](https://github.com/isaacs/node-glob)
 
-## .gitignore
+### .gitignore
 
 .gitignore文件作用为，指定工作目录中Git需要忽略的文件或目录，即不纳入Git仓库中，如果文件已经纳入仓库，则.gitignore不会对此再生效了。
 
@@ -67,7 +67,7 @@ doc/*.js
     - `a/**/b`，中间匹配[0, +∞)个目录，例如，“a/b”，“a/x/b”,“a/x/y/b”
     - 除了上面3种**用法，其它用法视为无效
 
-## unix shell glob
+### unix shell glob
 
 **gitignore依赖于shell glob规则，其中文件名便依据此匹配**  
 
