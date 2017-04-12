@@ -66,3 +66,19 @@ doc/*.js
     - `/**`结尾，匹配里面的所有文件或目录，例如“abc/**”，匹配目录abc下所有文件，abc目录相对于gitignore文件
     - `a/**/b`，中间匹配[0, +∞)个目录，例如，“a/b”，“a/x/b”,“a/x/y/b”
     - 除了上面3种**用法，其它用法视为无效
+
+## unix shell glob
+
+**gitignore依赖于shell glob规则，其中文件名便依据此匹配**  
+
+- 通配符匹配
+    - `?` 匹配任何一个字符
+    - `*` 匹配[0, +∞)个字符
+    - `[...]`
+        - 字符组：匹配其中的任意一个字符，里面不能为空，因此"]"字符可以作为第一个字符放在里面。例如，"[][!]"匹配"["，"]"，"!"
+        - 范围：以"-"分隔的两个字符表示范围，如果欲将'-'作为普通字符，则应将其放置在[]里面的第一位或最后一位
+        - 互补：`[!...]`表示不满足里面任何一个字符则匹配
+- 路径名： 其中的斜杠"/"不会被"?"，"*"通配符所匹配；如果文件名包含"."符号，则此符号必须明确匹配，例如 "rm *" 不会删除".profile"文件
+
+>Globbing is applied on each of the components of a pathname separately.  A '/' in a pathname cannot be matched by a '?' or '*' wildcard, or by a range like "[.-0]".  A range containing an explicit '/' character is syntactically incorrect.  (POSIX requires that syntactically incorrect patterns are left unchanged.) If a filename starts with a '.', this character must be matched explicitly.  (Thus, rm * will not remove .profile, and tar c * will not archive all your files; tar c . is better.)
+- 详细见[glob(7)](http://man7.org/linux/man-pages/man7/glob.7.html)
