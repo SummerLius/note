@@ -1,1 +1,6 @@
-[help](./help.txt)
+[help](./help.txt)  
+[netstat](./netstat.txt)  
+[find](./find.txt)  
+[findstr](./findstr.txt)  
+[tasklist](./tasklist.txt)  
+[taskkill](./taskkill.txt)  
