@@ -37,5 +37,5 @@
 [os](http://staff.ustc.edu.cn/~chizhang/OS/Textbooks/%B2%D9%D7%F7%CF%B5%CD%B3-%BE%AB%CB%E8%D3%EB%C9%E8%BC%C6%D4%AD%C0%ED(5e)%D3%B0%D3%A1%B0%E6.pdf)
 
 ## 算法
-[算法可视化 visualgo](https://visualgo.net/)
-[算法可视化 usfca](http://www.cs.usfca.edu/~galles/visualization/Algorithms.html)
+[算法可视化 visualgo](https://visualgo.net/)  
+[算法可视化 usfca](http://www.cs.usfca.edu/~galles/visualization/Algorithms.html)  
