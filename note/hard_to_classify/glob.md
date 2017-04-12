@@ -28,13 +28,41 @@
 在gitignore文件中的每一行指定一个模式(pattern)
 
 - 一行一个模式(pattern)
+
 - 空行不匹配文件，所以空行可以作为pattern之间的分隔符，提高阅读性
+
 - 一行首字符为`#`，表示此行为注释
+
+- 以`!`开头的pattern表示反模式，会将之前忽略的文件重新纳入Git仓库。但是匹配到的文件，其父目录处理忽略状态，则反模式不会生效。`\!`转义字符表示仅作为字符，不作为反模式关键字。
+
+```
+# 忽略项目下所有.js文件
+*.js
+
+# 除了名为app.js的文件
+!app.js
+```
+
 - 以斜杠`/`结尾，则只会匹配目录，例如`foo/`只会匹配foo目录，不会匹配文件和快捷方式目录或文件
-- 如果pattern不含`/`，则Git把pattern作为一个shell glob pattern，并相对与.gitignore文件所在路径来匹配检查
-- 如果pattern含有`/`，则 “Git treats the pattern as a shell glob suitable for consumption by fnmatch(3) with the FNM_PATHNAME flag:”， pattern中的通配符*，不会匹配斜杠/，即不会跨层级目录。例如，“doc/\*.html”会匹配“doc/git.html”，不会匹配“doc/temp/git.html”或“/public/doc/git.html”
-- 以`/`斜杠开头，匹配路径名的开头，例如，“/*.html”会匹配“git.html”，不会匹配“doc/git.html”
--`**/`开头，会在跨路径，在所有目录下匹配，例如“**/foo”会匹配所有目录下的foo文件或目录
--`/**`结尾，匹配里面的所有文件或目录，例如“abc/**”，匹配目录abc下所有文件，abc目录相对于gitignore文件
-- `a/**/b`，中间匹配[0, +∞)个目录，例如，“a/b”，“a/x/b”,“a/x/y/b”
-- 除了上面3种**用法，其它用法视为无效
+
+- 如果pattern头部和中部不含`/`，则Git把pattern作为一个shell glob pattern，pattern会匹配项目根目录及其所有子目录下的文件名
+
+- 如果pattern头部和中部含有`/`，pattern只会从项目根目录路径开始匹配，即gitignore所在目录，不会进入各个子目录所在路径开始匹配，通配符也不会匹配斜杠"/"字符，即通配符不会跨层级目录。
+
+>Git treats the pattern as a shell glob suitable for consumption by fnmatch(3) with the FNM_PATHNAME flag:wildcards in the pattern will not match a / in the pathname
+
+```
+# ✕ doc/app.js 
+# ✓ temp/doc/app.js
+doc/*.js
+
+# ✕ doc/app.js
+# ✓ app.js
+/*.js
+```
+
+- 两个连续星号
+    - `**/`开头，会在跨路径，在所有目录下匹配，例如“**/foo”会匹配所有目录下的foo文件或目录
+    - `/**`结尾，匹配里面的所有文件或目录，例如“abc/**”，匹配目录abc下所有文件，abc目录相对于gitignore文件
+    - `a/**/b`，中间匹配[0, +∞)个目录，例如，“a/b”，“a/x/b”,“a/x/y/b”
+    - 除了上面3种**用法，其它用法视为无效
