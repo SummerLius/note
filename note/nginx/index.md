@@ -1,7 +1,8 @@
 ## 导读列表  
 [新手指南](./beginner_guide.md)  
 [http核心模块](./ngx_http_core_module.md)    
-[http代理模块](./ngx_http_proxy_module.md)    
+[http代理模块](./ngx_http_proxy_module.md)  
+[http重写模块](./ngx_http_rewrite_module.md)     
 
 ## 参考
 [nginx官方文档](http://nginx.org/en/docs/)  

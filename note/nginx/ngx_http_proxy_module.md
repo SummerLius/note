@@ -47,7 +47,7 @@ location /name/ {
 ```  
 
 某些情况下，请求URI被替换的部分是不确定的：
-- 当 `location` 是正则表达式类型，`proxy_pass` 不能指定URI部分
+- 当 `location` 是正则表达式类型，`proxy_pass` 不能指定URI部分，即直接将源URI传递到代理服务
 - When the URI is changed inside a proxied location using the rewrite directive, and this same configuration will be used to process a request (break).In this case, the URI specified in the directive is ignored and the full changed request URI is passed to the server.
 
 ```nginx
