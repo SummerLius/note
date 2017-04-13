@@ -2,16 +2,9 @@
 
 ## location
 
-**Syntax**
-- `location [= | ~ | ~* | ^~] uri {...}` 
-- `location @name {...}`
-
-**Default**
-- 无
-
-**Context**
-- server
-- location
+>**Syntax**：`location [= | ~ | ~* | ^~] uri {...}`，`location @name {...}`  
+>**Default**：无  
+>**Context**：`server`，`location`  
 
 **Desc**
 

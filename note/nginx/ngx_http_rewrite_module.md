@@ -6,6 +6,6 @@
 | :--- | :----: | ----: |
 | aaaa | bbbbbb | ccccc |
 | a    | b      | c     |-->
->- **Syntax**：`rewrite regex [flag]`
->- **Default**：无
->- **Context**：`server`，`location`，`if`
+>**Syntax**：`rewrite regex [flag]`  
+>**Default**：无  
+>**Context**：`server`，`location`，`if`  
