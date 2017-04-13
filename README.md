@@ -6,7 +6,7 @@
 ## catalogue
 
 - [Bookmark](./note/bookmark.md)
-- [Terminology](./note/terminologys.md)
+- [Terminology](./note/terminology.md)
 - [Nginx](./note/nginx/index.md)
 - [Docker](./note/docker/index.md)
 - [Git](./note/git/index.md)

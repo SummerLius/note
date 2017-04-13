@@ -3,6 +3,7 @@
 
 ## 参考
 [nginx官方文档](http://nginx.org/en/docs/)  
+[tengine taobao](http://tengine.taobao.org/book/index.html)
 
 [nginx中文手册](http://treelib.com/book-detail-id-5.html)  
 [nginx开发从入门到精通](http://treelib.com/book-detail-id-17.html)  
