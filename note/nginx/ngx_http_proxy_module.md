@@ -2,7 +2,7 @@
 
 ## proxy_pass
 
->**Syntax**：`proxy_pass URL`
+>**Syntax**：`proxy_pass URL`   
 >**Default**：无  
 >**Context**：`location`，`if in location`，`limit_except`  
 
