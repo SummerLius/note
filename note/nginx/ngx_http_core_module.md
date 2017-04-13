@@ -1,8 +1,8 @@
 ## location
 
 **Syntax**
-- location [= | ~ | \~\* | \^\~] uri {...} 
-- location @name {...}
+- `location [= | ~ | ~* | ^~] uri {...}` 
+- `location @name {...}`
 
 **Default**
 - 无
