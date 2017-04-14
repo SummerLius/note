@@ -31,11 +31,11 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
 | :--: | :-- |
 | `(x)` | 匹配并捕获匹配项，这被称为捕获括号( capturing parentheses )。 例如，/(foo)/ 匹配并捕获 "foo bar" 中的 "foo" 。被匹配的子字符串可以在结果数组的元素[1]，..., [n] 中找到，或在RegExp构造函数的属性 $1，...，$9 中找到。捕获组有性能惩罚，如果不需要再次访问被匹配的子字符串，最好使用非捕获括号(non-capturing parentheses)，接下面 |
 | `\n` | n是一个整数。一个反向引用(back reference)，指向正则表达式中第n个括号(从左开始数)中匹配的子字符串。 |
-| `(?:x)` | 匹配x不会捕获匹配项，称为非捕获括号(non-capturing parentheses)。匹配项不能从结果数组元素[0]，...，[n] 或在RegExp构造函数的属性$1，...，$9访问。 |   
-
-- 反向引用
+| `(?:x)` | 匹配x不会捕获匹配项，称为非捕获括号(non-capturing parentheses)。匹配项不能从结果数组元素[0]，...，[n] 或在RegExp构造函数的属性$1，...，$9访问。|   
 
 ```javascript
+// 反向引用
+
 var re = /(ab(c))\1\2/;
 
 var result1 = re.exec('abc');
@@ -52,9 +52,9 @@ var conclusion = "反向引用`\1`,'\2'只是占位符而已，类似与es6特�
 var re1 = /(\w)(\w)(\w)\3\2\1/;// 123321, abccba
 ```
 
-- 非捕获括号
-
 ```javascript
+// 非捕获括号
+
 var re = /(?:a|b)c/;
 
 var result1 = re.exec('c');
