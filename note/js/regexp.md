@@ -227,3 +227,9 @@ RegExp 构造函数包含一些属性，这些属性在其它语言中看作静�
 ## 局限性，不足
 
 ![limit](../../assets/regexp_pattern_limit.png)
+
+
+[1](http://cenalulu.github.io/linux/character-encoding/)
+[2](http://polaris.blog.51cto.com/1146394/377468)
+[3](http://www.unicode.org/)
+[4](http://www.qqxiuzi.cn/zh/unicode-zifu.php)
