@@ -233,3 +233,5 @@ RegExp 构造函数包含一些属性，这些属性在其它语言中看作静�
 [2](http://polaris.blog.51cto.com/1146394/377468)
 [3](http://www.unicode.org/)
 [4](http://www.qqxiuzi.cn/zh/unicode-zifu.php)
+
+[5](https://segmentfault.com/a/1190000002471140#articleHeader13)
