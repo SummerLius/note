@@ -1,25 +1,39 @@
 # Javacript 所支持的正则表达式
 
-ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很全，基本上够用，下面列出RegExp支持的情况。完整的情况可以参考
+ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很全，基本上够用，下面列出RegExp支持的情况。完整的情况可以参考  
 [正则表达式30分钟](http://deerchao.net/tutorials/regex/regex.htm)  
 [正则-维基百科](https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)  
-[各种语言或工具软件的不同风格的正则表达式文法规定](http://www.greenend.org.uk/rjk/tech/regexp.html)
+[各种语言或工具软件的不同风格的正则表达式文法规定](http://www.greenend.org.uk/rjk/tech/regexp.html)  
 
 ## RegExp Pattern特殊字符含义
 
 ### 字符类别 (character classes)
 
 | 字符 | 含义 |
-| :--: | :--: |
-| . |  |
-|  |  |
-|  |  |
+| :--: | :-- |
+| `.` | 匹配除了换行符的任意单个字符，等价与 `[^\r\n]`。换行符有：\n \r \u2028 \u2029 |
+| `\d` | 等价于 `[0-9]` |
+| `\D` | 等价于 `[^0-9]` |
+| `\w` | 等价与 `[A-Za-z0-9]` |
+| `\W` | 等价于 `[^A-Za-z0-9]` |
+| `\s` | 匹配一个空白符，包括空格，制表符，换页符，换行符和其它Unicode空格等。等价于  [ \f\n\r\t\v​\u00a0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​ \u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​​\u202f\u205f​ \u3000]。 |
+| `\S` | 等价于 `[^\s]` |
+| `\t` | 匹配一个水平制表符(horizontal tab) |
+| `\v` | 匹配一个垂直制表符(vertical tab) |
+| `\r` | 匹配一个回车符(carriage return) |
+| `\n` | 匹配一个换行符(linefeed) |
+| `\f` | 匹配一个换页符(form-feed) |
+| `[\b]` | 匹配一个退格符(backspace) (不要和\b混淆) |
+| `\0` | 匹配一个空字符(NUL character)，注意不要在后面跟其它数字 |
+| `\cX` | (**此字符暂时没搞明白**) X 是 A - Z 的一个字母。匹配字符串中的一个控制字符。例如，/\cM/ 匹配字符串中的 control-M。 |
+| `\xhh` | 匹配一个编码为hh的字符(两个十六进制数)，可见，值范围局限为[0, 255] |
+| `\uhhhh` | 匹配Unicode值为hhhh的字符(四个十六进制数) |
 
 
 ### 字符集合 (character sets)
 
 | 字符 | 含义 |
-| :--: | :--: |
+| :--: | :-- |
 | [xyz] | 一个字符集合，也叫字符组，可以使用 "-" 指定一个范围 |
 | [^xyz] | 一个反义或补充字符集，也叫反义字符组，JS下用"^"表示，不是"!" |
 
@@ -66,6 +80,25 @@ var conclusion = "从result2可以看到，只有匹配内容result[0]，没有�
 ```
 
 ### 数量词 (quantifiers)
+
+| 字符 | 含义 |
+| :--: | :-- |
+| `x*` | 匹配前一项x [0, +∞)次 |
+| `x+` | [1, +∞) |
+| `x?` | [0, 1] |
+| `x{n}` | n 次 |
+| `x{n,}` | [n, +∞) |
+| `x{n, m}` | [n, m] |
+| 贪婪模式 | 默认下，`*` `+`  `?` `{}` 均为贪婪模式，即匹配最大化 |
+| 非贪婪模式 | 在 `*` `+`  `?` `{}` 后面再跟上 `?` 表示非贪婪模式，即匹配最小化 |
+
+```javascript
+var re_greedy = /ab*/;
+var re_non_greedy = /ab*?/;
+
+re_greedy.exec('abbb');// 默认为贪婪，[ 'abbbb', index: 0, input: 'abbbb' ]
+re_non_greedy.exec('abbb');// 非贪婪匹配最小化 [ 'a', index: 0, input: 'abbbb' ]
+```
 
 ### 正向查找 (lookahead) (不支持反向查找 lookahead)
 
@@ -224,7 +257,7 @@ RegExp 构造函数包含一些属性，这些属性在其它语言中看作静�
 
 详细暂略...
 
-## 局限性，不足
+## JS正则表达式不支持的规则
 
 ![limit](../../assets/regexp_pattern_limit.png)
 
