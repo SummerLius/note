@@ -1,4 +1,5 @@
 ![](../../assets/1.jpg)
+
 # Javacript 所支持的正则表达式
 
 ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很全，基本上够用，下面列出RegExp支持的情况。完整的情况可以参考，[正则表达式30分钟](http://deerchao.net/tutorials/regex/regex.htm)，[正则-维基百科](https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)，[各种语言或工具软件的不同风格的正则表达式文法规定](http://www.greenend.org.uk/rjk/tech/regexp.html)。 
