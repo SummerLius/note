@@ -10,6 +10,8 @@
 
 ## github一些仓库
 
+> 或者见star过的仓库
+
 [showdownjs/showdown](https://github.com/showdownjs/showdown)  
 [Khan/KaTeX](https://github.com/Khan/KaTeX)  
 [isagalaev/highlight.js](https://github.com/isagalaev/highlight.js)  
@@ -19,7 +21,9 @@
 [google group](https://github.com/google)  
 [google/material-design-lite](https://github.com/google/material-design-lite)  
 [google/styleguide](https://github.com/google/styleguide)  
-[zh-google-styleguide](https://github.com/zh-google-styleguide/zh-google-styleguide)  
+[zh-google-styleguide](https://github.com/zh-google-styleguide/zh-google-styleguide)
+
+[conf.d](https://github.com/cfgd/conf.d)  
 
 ## HTML CSS 一些网站
 
@@ -44,3 +48,20 @@
 ## 算法
 [算法可视化 visualgo](https://visualgo.net/)  
 [算法可视化 usfca](http://www.cs.usfca.edu/~galles/visualization/Algorithms.html)  
+
+## 图片
+
+- [在线图片编辑器](http://www.uupoop.com)
+- [lifeofpix](http://www.lifeofpix.com/)
+- [publicdomainarchive](http://publicdomainarchive.com/)
+- [unsplash](https://unsplash.com/)
+- [raumrot](http://raumrot.com)
+- [gratisography](https://pixabay.com/)
+- [gratisography](http://www.gratisography.com/)
+- [deviantart](http://www.deviantart.com/
+)
+- [pexels](https://www.pexels.com/)
+- [foter](http://foter.com/)
+- [publicdomainarchive](http://publicdomainarchive.com/
+)
+- [ssyer](http://www.ssyer.com/)
