@@ -62,8 +62,7 @@
 )
 - [pexels](https://www.pexels.com/)
 - [foter](http://foter.com/)
-- [publicdomainarchive](http://publicdomainarchive.com/
-)
+- [publicdomainarchive](http://publicdomainarchive.com/)
 - [ssyer](http://www.ssyer.com/)
 
 
