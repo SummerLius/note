@@ -2,7 +2,7 @@
 
 # Javacript 所支持的正则表达式
 
-ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很全，基本上够用，下面列出RegExp支持的情况。完整的情况可以参考，[正则表达式30分钟](http://deerchao.net/tutorials/regex/regex.htm)，[正则-维基百科](https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)，[各种语言或工具软件的不同风格的正则表达式文法规定](http://www.greenend.org.uk/rjk/tech/regexp.html)。 
+ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很全，基本上够用，下面列出RegExp支持的情况。完整的情况可以参考，[正则表达式30分钟](http://deerchao.net/tutorials/regex/regex.htm)，[正则-维基百科](https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)，[各种语言或工具软件的不同风格的正则表达式文法规定](http://www.greenend.org.uk/rjk/tech/regexp.html)，[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)。 
 
 ## RegExp 特殊字符含义
 
@@ -11,10 +11,10 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
 | 字符 | 含义 |
 | :--: | :-- |
 | `.` | 匹配除了换行符的任意单个字符，等价与 `[^\r\n]`。换行符有：\n \r \u2028 \u2029 |
-| `\d` | 等价于 `[0-9]` |
-| `\D` | 等价于 `[^0-9]` |
-| `\w` | 等价与 `[A-Za-z0-9]` |
-| `\W` | 等价于 `[^A-Za-z0-9]` |
+| `\d` | 匹配基本拉丁字母表中的一个数字字符。等价于 `[0-9]` |
+| `\D` | 等价于 `[^\d]` |
+| `\w` | 匹配任意来自基本拉丁字母表中的字母数字字符，还包括下划线。等价于 `[A-Za-z0-9_]`。 |
+| `\W` | 等价于 `[^\w]` |
 | `\s` | 匹配一个空白符，包括空格，制表符，换页符，换行符和其它Unicode空格等。等价于  [ \f\n\r\t\v​\u00a0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​ \u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​​\u202f\u205f​ \u3000]。 |
 | `\S` | 等价于 `[^\s]` |
 | `\t` | 匹配一个水平制表符(horizontal tab) |
@@ -24,19 +24,33 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
 | `\f` | 匹配一个换页符(form-feed) |
 | `[\b]` | 匹配一个退格符(backspace) (不要和\b混淆) |
 | `\0` | 匹配一个空字符(NUL character)，注意不要在后面跟其它数字 |
-| `\cX` | (**此字符暂时没搞明白**) X 是 A - Z 的一个字母。匹配字符串中的一个控制字符。例如，/\cM/ 匹配字符串中的 control-M。 |
+| `\cX` | X 是 A - Z 的一个字母。匹配字符串中的一个控制字符。例如，/\cM/ 匹配 ctrl+M 控制字符，而 ctrl+M 在字符串中可以由 \r 或 \x0D 或 \u000D 或 \u{0D} 来表示。 |
 | `\xhh` | 匹配一个编码为hh的字符(两个十六进制数)，可见，值范围局限为[0, 255] |
 | `\uhhhh` | 匹配Unicode值为hhhh的字符(四个十六进制数) |
+| `\u{h~h}` | **此字符只有RegExp设置`u`标志才会生效**， 限制Unicode的value范围为，[`\u{0}`, `\u{fffff}`]|
+| `\` | 转义符 |
+
+```javascript
+// 范例
+```
 
 
 ### 字符集合 (character sets)
 
 | 字符 | 含义 |
 | :--: | :-- |
-| [xyz] | 一个字符集合，也叫字符组，可以使用 "-" 指定一个范围 |
+| [xyz] | 一个字符集合，也叫字符组，可以使用连字符号 `-` 指定一个范围。**当连接符 `-` 位于 `[]` 的头和尾时，仅代表其字面量，不起连接范围作用**。例如：[\x41-5a], [a-z], [ab-]|
 | [^xyz] | 一个反义或补充字符集，也叫反义字符组，JS下用"^"表示，不是"!" |
 
 ### 边界 (boundaries)
+
+| 字符 | 含义 |
+| :--: | :-- |
+| `^` |  |
+| `$` |  |
+| `\b` |  |
+| `\B` |  |
+
 
 ### 分组和反向引用 (grouping, back references)
 
