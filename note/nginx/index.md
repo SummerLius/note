@@ -1,11 +1,12 @@
 ## 导读列表  
+[nginx官方文档](http://nginx.org/en/docs/)   
+
 [新手指南](./beginner_guide.md)  
-[http核心模块](./ngx_http_core_module.md)    
+<!--[http核心模块](./ngx_http_core_module.md)    
 [http代理模块](./ngx_http_proxy_module.md)  
-[http重写模块](./ngx_http_rewrite_module.md)     
+[http重写模块](./ngx_http_rewrite_module.md)     -->
 
 ## 参考
-[nginx官方文档](http://nginx.org/en/docs/)  
 [tengine taobao](http://tengine.taobao.org/book/index.html)
 
 [nginx中文手册](http://treelib.com/book-detail-id-5.html)  
