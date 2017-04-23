@@ -31,7 +31,14 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
 | `\` | 转义符 |
 
 ```javascript
-// 范例
+/\cM/.exec('\r');            // [ '\r', index: 0, input: '\r' ]
+/\x61\x62/.exec('abc');      // [ 'ab', index: 0, input: 'abc' ]
+
+/\u61\u62/.exec('abc');     // null
+/\u0061\u0062/.exec('abc'); // [ 'ab', index: 0, input: 'abc' ]
+
+/\u{61}\u{62}/u.exec('abc');     // [ 'ab', index: 0, input: 'abc' ]
+/\u{0061}\u{0062}/u.exec('abc'); // [ 'ab', index: 0, input: 'abc' ]
 ```
 
 
@@ -46,10 +53,10 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
 
 | 字符 | 含义 |
 | :--: | :-- |
-| `^` |  |
-| `$` |  |
-| `\b` |  |
-| `\B` |  |
+| `^` | 匹配输入开始。如果 m 标志设为true，则也会匹配一个断行符的后面。 |
+| `$` | 匹配输入的结尾。如果 m 标志设为true，则也会匹配一个断行符的前面。 |
+| `\b` | 匹配一个零宽单词边界，如一个字母与空格、句号之间等。 |
+| `\B` | 与 `\B` 相反，匹配一个零宽非单词边界，如两个字符之间或两个空格之间。 |
 
 
 ### 分组和反向引用 (grouping, back references)
