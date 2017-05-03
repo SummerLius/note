@@ -70,6 +70,7 @@
 - [技术的热门度曲线](https://stateofdev.com/)
 - [emoji详解](http://www.ruanyifeng.com/blog/2017/04/emoji.html)
 - [emoji 热门统计](http://emojitracker.com/)
+- [一些开源协议](http://blog.csdn.net/testcs_dn/article/details/38496107)
 
 ## 临时
 - http://code.oneapm.com/
