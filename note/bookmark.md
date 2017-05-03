@@ -58,13 +58,18 @@
 - [raumrot](http://raumrot.com)
 - [gratisography](https://pixabay.com/)
 - [gratisography](http://www.gratisography.com/)
-- [deviantart](http://www.deviantart.com/
-)
+- [deviantart](http://www.deviantart.com/)
 - [pexels](https://www.pexels.com/)
 - [foter](http://foter.com/)
 - [publicdomainarchive](http://publicdomainarchive.com/)
 - [ssyer](http://www.ssyer.com/)
 
+
+## 未分类
+
+- [技术的热门度曲线](https://stateofdev.com/)
+- [emoji详解](http://www.ruanyifeng.com/blog/2017/04/emoji.html)
+- [emoji 热门统计](http://emojitracker.com/)
 
 ## 临时
 - http://code.oneapm.com/

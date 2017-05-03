@@ -35,6 +35,20 @@ EventEmitter.prototype.getMaxListeners = function(n) {
 EventEmitter.prototype.on = function(eventName, listener) {}
 
 ```
+## emitter提供的api
+
+1. 添加和移除监听器
+    - (on|addListener)/once/prependListener(v6.0.0)/prependOnceListener(v6.0.0)
+    - removeListener/removeAllListener
+2. 触发事件
+    - emit
+3. 获取emitter实例中的listener的一些信息
+    - maxListeners信息：getMaxListeners/setMaxListeners
+    - 获取某个eventName的所有监听器数组：listeners
+    - 获取某个eventName的监听器数组长度：listenerCount
+    - 获取所有eventName数组：eventNames
+
+
 
 ## this._event 结构
 
@@ -99,7 +113,7 @@ EventEmitter.prototype.removeListener = function(eventName, listener) {
 ## emit(eventName, xx,xx, ..)
 ```javascript
 EventEmitter.prototype.emit = function(eventName, xx, xx,..) {
-    // 若this._events不存在，且eventName !== 'error', 则直接return false；终止函数
+    // 若this._events不存在，且eventName !== 'error', 则直接return false；忽略此事件，终止函数。
 
     // 若this._event存在，
     // var doError = ((eventName === 'error') && events.error == null);
@@ -115,3 +129,5 @@ EventEmitter.prototype.emit = function(eventName, xx, xx,..) {
 
 }
 ```
+
+从上面流程大致可以看出emit('error', xx)，来传递Error的处理方法里面实质还是类似于try{}catch(){}，没有'error'事件的监听器，类似于没有catch，那么触发'error'事件时会直接throw
