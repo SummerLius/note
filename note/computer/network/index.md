@@ -15,4 +15,4 @@
 - 主机到本地域名服务器采用递归查询
 - 本地域名服务器向根域名服务器采用迭代查询
 
-![dns.search.png](../../assets/dns.search.png)
+![dns.search.png](../../../assets/dns.search.png)
