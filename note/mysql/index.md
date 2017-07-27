@@ -27,6 +27,13 @@ show create table 表名;
 - 隔离性（isolation）：保证多个事务并发时的一致性
 - 持久性（durability）
 
+### SQL语句
+
+```sql
+CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] db_name 
+
+```
+
 ### 附录
 
 - `\G` 的用法：使mysql的查询结果按列打印
