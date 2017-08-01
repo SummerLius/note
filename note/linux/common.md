@@ -1,4 +1,17 @@
-##### seq
+<!-- TOC -->
+
+- [seq](#seq)
+- [pwd](#pwd)
+- [dirname、basename](#dirnamebasename)
+- [du、df](#dudf)
+- [openssl](#openssl)
+- [openssh](#openssh)
+
+<!-- /TOC -->
+
+<hr>
+
+#### seq
 
 打印一串连续的数字
 
@@ -12,7 +25,9 @@ seq first increment last
 seq 5 # 返回 1到5数字
 ```
 
-##### pwd
+<hr>
+
+#### pwd
 
  显示当前目录  
 
@@ -23,7 +38,9 @@ pwd -P
 pwd -L
 ```
 
-###### dirname、basename
+<hr>
+
+#### dirname、basename
 
 路径处理
 
@@ -40,7 +57,9 @@ basename -s .h /g/h.h   --> h
 cd $(dirname $0) || exit 0;
 ```
 
-##### du、df
+<hr>
+
+#### du、df
 
 ```shell
 df -h
@@ -50,3 +69,22 @@ du -h -d 0 /xxx
 du -h -d 1 /xxx
 du -h -d 2 /xxx
 ```
+
+<hr>
+
+#### openssl
+
+[OpenSSL](https://www.openssl.org/)是一个开源项目，为传输层安全（TLS）和安全套接字层（SSL）协议提供了强大的商业级和全功能工具包。它也是通用加密库。
+
+
+<hr>
+
+#### openssh
+
+[openSSH](http://www.openssh.com/)是使用SSH协议进行远程登录的首选连接工具。它加密所有流量，以消除窃听，连接劫持和其他攻击。此外，OpenSSH提供了一套安全的隧道功能，多种身份验证方法和复杂的配置选项。
+
+OpenSSH套件包含以下工具：
+
+使用ssh， scp和 sftp完成远程操作 。
+使用ssh-add， ssh-keysign， ssh-keyscan和 ssh-keygen进行密钥管理 。
+服务 端由sshd， sftp-server和 ssh-agent组成。
