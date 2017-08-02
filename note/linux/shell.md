@@ -8,7 +8,9 @@
     - [结构语句if,case,while,until,for](#结构语句ifcasewhileuntilfor)
     - [单、双引号](#单双引号)
     - [shell脚本的第一行作用](#shell脚本的第一行作用)
-    - [重定向、管道](#重定向管道)
+    - [重定向](#重定向)
+    - [管道](#管道)
+    - [一行执行多个命令](#一行执行多个命令)
 
 <!-- /TOC -->
 
@@ -49,6 +51,7 @@ var2=var ue2;
 ### 变量的修改及${}详细用法
 
 ![](../../assets/linux_var1.png)
+
 ![](../../assets/linux_var.png)
 
 <hr> 
@@ -148,7 +151,8 @@ done
 
 <hr> 
 
-### 重定向、管道
+### 重定向
+
 
 一般情况下，每个 Unix/Linux 命令运行时都会打开三个文件：
 - 标准输入文件(stdin)：stdin的文件描述符为0，Unix程序默认从stdin读取数据。
@@ -158,6 +162,8 @@ done
 - （可以将stdin，stdout，stderr看作和普通文件一模一样）
 
 默认下Linux指令程序的输入从stdin读入或者指定参数读入，然后输出到stdout、stderr文件，这个三个文件一般与键盘和屏幕等外设相关联。
+
+![linux_redirect.jpg](../../assets/linux_redirect.jpg)
 
 **正常定向**
 
@@ -178,6 +184,59 @@ who
 who > temp.txt
 ```
 
-- 标准输入 `stdin`：文件描述符0，使用`<` `<<` `0<` `0<<`
-- 标准输出 `stdout`：文件描述符1，使用`>` `>>` `1>` `1>>`
-- 标准错误输出 `stderr`：文件描述符2，使用`2>` `2>>`
+- 标准输入 `stdin`：文件描述符0（文件/dev/stdin），使用`<`，`<<`， `0<`， `0<<`
+- 标准输出 `stdout`：文件描述符1（文件/dev/stdout），使用`>`， `>>`， `1>`， `1>>`
+- 标准错误输出 `stderr`：文件描述符2（文件/dev/stderr），使用`2>`， `2>>`
+
+|命令|说明|
+|:-:|:-:|
+|command > file|将stdout重定向到 file|
+|command < file|将stdin重定向到 file|
+|command >> file|将stdout以追加的方式重定向到 file|
+|<< tag|将开始标记 tag 和结束标记 tag 之间的内容作为输入。|
+|n> file|将文件描述符为 n 的文件重定向到 file|
+|n>> file|将文件描述符为 n 的文件以追加的方式重定向到 file|
+|n>&m |把往文件描述符 n 的输出重定向到文件描述符 m 上|
+|n<&m |把往文件描述符 n 的输入重定向到文件描述符 m 上|
+
+**例子**
+```shell
+ls -alF 1>/dev/null 2>&1
+
+cat > newfile << eof
+```
+
+
+<hr> 
+
+### 管道
+
+在类Unix操作系统中，管道是原始的软件管道：即是一个由标准输入输出链接起来的进程集合，所以每一个进程的输出（stdout）被直接作为下一个进程的输入（stdin）。
+
+**可见，pipe适用于，有使用stdin，stdout，stderr作为输入输出的Linux Command**
+
+
+![linux_pipe.png](../../assets/linux_pipe.png)
+
+```shell
+ps aux | grep 'node'
+l -laF | wc
+```
+
+<hr> 
+
+### 一行执行多个命令
+
+- `;`  ：不考虑命令相关性，不考虑对错，连续执行命令
+- `&&` ：前一个命令运行完毕且正确返回，则运行下一个命令，否者终止
+- `||` ：前一个命令正确，则终止，否者运行下一个命令
+
+`&&`,`||` 和编程语言中的逻辑其实是一致的
+
+```shell
+# ;
+who;who;who
+
+# &&
+test -e /root/.bashrc && cat /root/.bashrc
+```
