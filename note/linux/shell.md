@@ -1,5 +1,3 @@
-<hr> 
-
 ## SHELL
 
 系统shell程序在 `/bin` 目录下，合法的shell写在配置文件 `/etc/shells`。 
