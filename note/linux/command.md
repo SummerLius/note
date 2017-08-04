@@ -106,14 +106,23 @@ env命令作用：
 > env
 > ```
 >
+> 用作脚本第一行，指定脚本执行的解释器
+> ```shell
+> #!/usr/bin/env node
+> console.log(process.env);
+> ```
+> 
+>
 > 在当前用户环境下执行指定
 > ```shell
 > [env] node app.js
+> >process.env => {xx:yy, ...}
 > ```
 >
 > 在当前用户环境下，增加几个变量，若有冲突，则覆盖已存在的
 > ```shell
 > [env] NODE_ENV=production NODE_PATH=xxx node app.js
+> >process.env => {xx:yy, ..., NODE_ENV: 'production',...}
 > ```
 >
 > 参数 -i 或--ignore-environment，表示忽略当前环境变量;注意由于忽略当前环境变量，PATH变量也没有，node命令是找不到的，可以指定PATH或指定node全路径执行
