@@ -4,7 +4,7 @@
 
 ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很全，基本上够用，下面列出RegExp支持的情况。完整的情况可以参考，[正则表达式30分钟](http://deerchao.net/tutorials/regex/regex.htm)，[正则-维基百科](https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)，[各种语言或工具软件的不同风格的正则表达式文法规定](http://www.greenend.org.uk/rjk/tech/regexp.html)，[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp)。 
 
-<!-- TOC -->
+
 
 - [Javacript 所支持的正则表达式](#javacript-所支持的正则表达式)
     - [RegExp 特殊字符含义](#regexp-特殊字符含义)
@@ -14,7 +14,7 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
         - [分组和反向引用 (grouping, back references)](#分组和反向引用-grouping-back-references)
         - [数量词 (quantifiers)](#数量词-quantifiers)
         - [正向查找 (lookahead) (不支持反向查找 lookahead)](#正向查找-lookahead-不支持反向查找-lookahead)
-        - [或|](#或)
+        - [或|](#或|)
     - [创建正则表达式](#创建正则表达式)
     - [RegExp 实例属性](#regexp-实例属性)
     - [RegExp 实例方法](#regexp-实例方法)
@@ -23,7 +23,7 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
     - [RegExp 构造函数属性](#regexp-构造函数属性)
     - [JS正则表达式不支持的规则](#js正则表达式不支持的规则)
 
-<!-- /TOC -->
+
 
 ## RegExp 特殊字符含义
 
