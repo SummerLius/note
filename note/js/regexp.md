@@ -14,7 +14,7 @@ ECMAScript通过RegExp类型支持正则，RegExp对正则的支持也不是很�
         - [分组和反向引用 (grouping, back references)](#分组和反向引用-grouping-back-references)
         - [数量词 (quantifiers)](#数量词-quantifiers)
         - [正向查找 (lookahead) (不支持反向查找 lookahead)](#正向查找-lookahead-不支持反向查找-lookahead)
-        - [或 |](#或-)
+        - [或|](#或)
     - [创建正则表达式](#创建正则表达式)
     - [RegExp 实例属性](#regexp-实例属性)
     - [RegExp 实例方法](#regexp-实例方法)
@@ -170,7 +170,7 @@ var result2_2 = re2.exec('win2000');
 // result2_2 = [ 'win', index: 0, input: 'win2000' ]
 ```
 
-### 或 |
+### 或|
 
 `|` 会在正则表达式内进行或运算匹配，两个操作数即左边全部字符和右边全部字符；若 `|` 在圆括号 `()` 内使用，则 `|` 针对括号内的子正则表达式起作用。
 
