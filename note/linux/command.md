@@ -1,13 +1,16 @@
+
 <!-- TOC -->
 
 - [seq](#seq)
 - [pwd](#pwd)
-- [dirname、basename](#dirnamebasename)
-- [du、df](#dudf)
+- [dirname basename](#dirname-basename)
+- [du df](#du-df)
 - [openssl](#openssl)
 - [openssh](#openssh)
+- [env](#env)
 
 <!-- /TOC -->
+
 
 <hr>
 
@@ -40,7 +43,7 @@ pwd -L
 
 <hr>
 
-#### dirname、basename
+#### dirname basename
 
 路径处理
 
@@ -59,7 +62,7 @@ cd $(dirname $0) || exit 0;
 
 <hr>
 
-#### du、df
+#### du df
 
 ```shell
 df -h
@@ -88,3 +91,37 @@ OpenSSH套件包含以下工具：
 使用ssh， scp和 sftp完成远程操作 。
 使用ssh-add， ssh-keysign， ssh-keyscan和 ssh-keygen进行密钥管理 。
 服务 端由sshd， sftp-server和 ssh-agent组成。
+
+
+<hr>
+
+#### env
+
+env命令作用：
+- 显示当前用户的环境变量
+- 用来在指定环境中执行其他命令
+
+> 显示用户环境变量列表
+> ```shell
+> env
+> ```
+>
+> 在当前用户环境下执行指定
+> ```shell
+> [env] node app.js
+> ```
+>
+> 在当前用户环境下，增加几个变量，若有冲突，则覆盖已存在的
+> ```shell
+> [env] NODE_ENV=production NODE_PATH=xxx node app.js
+> ```
+>
+> 参数 -i 或--ignore-environment，表示忽略当前环境变量;注意由于忽略当前环境变量，PATH变量也没有，node命令是找不到的，可以指定PATH或指定node全路径执行
+> ```shell
+> env -i /usr/local/bin/node app.js
+> >process.env => {}
+>
+> env -i PATH=/usr/local/bin node app.js
+> >process.env => {PATH: '/usr/local/bin'}
+> ```
+>
