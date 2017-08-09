@@ -1,6 +1,29 @@
 ## mongo
+<!-- TOC -->
 
-#### mongod服务的正确关闭
+- [mongo](#mongo)
+    - [常用指令](#常用指令)
+    - [mongod服务的正确关闭](#mongod服务的正确关闭)
+
+<!-- /TOC -->
+
+
+### 常用指令
+```mongodb
+# 显示当前数据库
+show databases
+show dbs
+show collections
+show users
+
+db.help()
+db.collection.help()
+db.serverStatus()
+
+```
+
+
+### mongod服务的正确关闭
 
 ```sh
 # 登入mongo客户端，执行
