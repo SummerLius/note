@@ -87,20 +87,43 @@ p = a;
 
 ### 枚举
 
-基本语法： `enum 枚举名 {枚举列表}`
+基本语法：
+- `enum 枚举名 {枚举列表}`
+- `enum 枚举名 {Mon, Tues}`
+- `enum 枚举名 {Mon=1, Tues=2}`
+
+1. 枚举列表里面的枚举值是**常量**，不是变量
+2. 枚举列表默认系统会赋值整数，按序号,0、1、2...
 
 ```c 
+// 声明枚举变量的几种方式：var1, var2
 
-enum {Monday, Tuesday} var1, var2;
+enum {Mon, Tues} var1, var2;
 
-enum Day {Monday, Tuesday};
+enum Day {Mon, Tues} var1, var2;
+
+enum Day {Mon, Tues};
 enum Day var1, var2;
 
-typedef {Monday, Tuesday} Day;
+typedef {Mon, Tues} Day;
 Day var1, var2;
 ```
 
 ```c
+enum {
+    mon    = 1,
+    tues   = 2,
+    wednes = 3,
+    thurs  = 4,
+    fri    = 5,
+    satur  = 6,
+    sun    = 7
+};
+
+int day = mon;
+
+// 1
+printf("%d", day);
 ```
 
 
