@@ -10,6 +10,7 @@
 - [env](#env)
 - [cp](#cp)
 - [tar](#tar)
+- [uname](#uname)
 
 <!-- /TOC -->
 
@@ -218,7 +219,7 @@ cp -rf /src/ /Dest/
 
 其它压缩则需要使用对应的压缩工具：
 - .gz： gzip, gunzip
-- .bz2 bzip2, bunzip2
+- .bz2：bzip2, bunzip2
 - .Z：compress, uncompress
 - .xz：xz, unxz
 - .rar：rar, unrar
@@ -281,3 +282,20 @@ tar --xz -xf file.tar.xz
 
 将上面 -x 换成 -c参数即可
 ```
+
+<hr>
+
+#### uname
+
+Linux系统信息
+
+- -a, --all
+- -s：kernel name
+- -n：network node hostname
+- -r：kernel release
+- -v: kernel version
+- -m：machine hardware name
+- -p：processor type
+- -i：hardware platform
+- -o：operating system
+- --help：

@@ -8,7 +8,7 @@
 
 ```sh
 wget https://nodejs.org/download/release/v8.0.0/node-v8.0.0.tar.gz
-tar zxvf node-v8.0.0.tar.gz
+tar -zxf node-v8.0.0.tar.gz
 cd node-v8.0.0.tar.gz
 ./configure
 make
@@ -38,3 +38,12 @@ make install
 - `include` 目录下所有文件copy到/usr/local/include下（可选）
 - `lib` 目录下所有文件copy到/usr/local/lib下
 - `share` 目录下所有文件copy到/usr/local/share（可选）
+
+```sh
+wget https://nodejs.org/download/release/v8.2.0/node-v8.2.0-linux-x64.tar.xz
+tar -xJf node-v8.2.0-linux-x64.tar.xz
+cp -rf node-v8.2.0-linux-x64/bin/* /usr/local/bin/
+cp -rf node-v8.2.0-linux-x64/lib/* /usr/local/lib/
+
+# 就这样，done
+```
