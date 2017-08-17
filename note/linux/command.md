@@ -8,6 +8,7 @@
 - [openssl](#openssl)
 - [openssh](#openssh)
 - [env](#env)
+- [cp](#cp)
 
 <!-- /TOC -->
 
@@ -134,3 +135,69 @@ env命令作用：
 > >process.env => {PATH: '/usr/local/bin'}
 > ```
 >
+
+<hr>
+
+#### cp
+
+- -f：如果存在目标文件、文件夹不能打开，则直接删除，然后重新执行拷贝
+- -r
+- -d、-P、--no-dereference、--preserve=links：对于拷贝文件此参数会copy时会保留软链接；而拷贝整个目录时，目录下的软链接不加此参数，也会保留
+- ...
+
+**拷贝文件**
+
+文件的拷贝，默认会**覆盖**已存在的同名的文件
+
+1. 当Dest为目录则，将文件拷贝到该目录下，同名的则覆盖，Dest不存在则报错
+2. 当Dest为文件时，则将Src文件覆盖Dest文件，Dest文件名不变，只是内容覆盖。指定的Dest文件所在的目录必须存在，否者报错，Dest文件存在时，Src文件内容覆盖，不存在时，将Src文件拷贝到目的目录，并命名为Dest文件名
+
+```sh
+cp /src/a.txt /dest/
+
+cp /src/a.txt /dest/b.txt
+```
+
+**拷贝目录**
+
+拷贝目录必须将上 -r 参数，目录拷贝默认里面的软链接快捷文件也是一成不变的拷贝。
+
+假设Dest=目的地目录，Src=源目录，Dest要么不存在，存在只能为目录文件，否者报错  
+
+`cp -rf Src/ Dest/`
+
+若Dest已经存在，则将Src整个拷贝到Dest目录下，结果为Dest/src；若Dest不存在，则将Src拷贝到Dest所在的目录，然后改名为Dest
+
+```sh
+# dest 存在时
+
+#   /
+#   |--src
+#   |--dest
+
+cp -rf /src/ /Dest/
+
+#   /
+#   |--src
+#   |--dest
+#      |--src
+```
+
+```sh
+# dest 不存在时
+
+#   /
+#   |--src
+#      |--a.txt
+#      |--b.txt
+
+cp -rf /src/ /Dest/
+
+#   /
+#   |--src
+#      |--a.txt
+#      |--b.txt
+#   |--des
+#      |--a.txt
+#      |--b.txt
+```
