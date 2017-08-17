@@ -9,6 +9,7 @@
 - [openssh](#openssh)
 - [env](#env)
 - [cp](#cp)
+- [tar](#tar)
 
 <!-- /TOC -->
 
@@ -200,4 +201,83 @@ cp -rf /src/ /Dest/
 #   |--des
 #      |--a.txt
 #      |--b.txt
+```
+
+<hr>
+
+#### tar
+
+`tar [功能参数][可选参数] 文件`
+
+能处理的文件类型：
+- .tar
+- .tar.gz
+- .tar.bz2
+- .tar.Z
+- .tar.xz
+
+其它压缩则需要使用对应的压缩工具：
+- .gz： gzip, gunzip
+- .bz2 bzip2, bunzip2
+- .Z：compress, uncompress
+- .xz：xz, unxz
+- .rar：rar, unrar
+- .zip：zip, unzip
+
+功能参数：只能选一
+- -c, --create：创建打包tar文件
+- -r, --append：向tar包中增加文件
+- -t, --list：列出tar包中文件
+- -u, --update：更新tar包中某个文件
+- -x, --extract, --get：提取tar包中所有文件
+- ...
+
+```sh
+tar -cf all.tar *.jpg
+
+tar -rf all.tar *.gif
+
+tar -uf all.tar logo.gif
+
+tar -tf all.tar
+
+tar -xf all.tar
+```
+
+可选参数：
+- -f：tar包名，此参数似乎必须指定
+- -C, --directory：指定解压问文件存放目录
+- ...
+
+```sh
+tar -xf file.tar -C /temp/
+```
+
+压缩/解压缩可选参数：
+- -z, --gzip, --gunzip, --ungzip
+- -Z, --compress, --uncompress
+- -j, --bzip2
+- -J, --xz
+
+```sh
+# 解压举例
+
+tar -xzf file.tar.gz
+tar --gzip -xf file.tar.gz
+tar --gunzip -xf file.tar.gz
+tar --ungzip -xf file.tar.gz
+
+tar -xZf file.tar.Z
+tar --compress -xf file.tar.Z
+tar --uncompress -xf file.tar.Z
+
+tar -xjf file.tar.bz2
+tar --bzip2 -xf file.tar.bz2
+
+tar -xJf file.tar.xz
+tar --xz -xf file.tar.xz
+
+# 压缩举例
+
+将上面 -x 换成 -c参数即可
 ```
