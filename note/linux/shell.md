@@ -14,6 +14,7 @@
     - [重定向](#重定向)
     - [管道](#管道)
     - [一行执行多个命令](#一行执行多个命令)
+    - [shell脚本中打印一段文本](#shell脚本中打印一段文本)
 
 <!-- /TOC -->
 
@@ -85,6 +86,18 @@ case "$var" in
         程序段
         ;;
 esac
+-----------------------------------------------
+case $1 in
+    -a|A)
+        echo $1
+        ;;
+    -b|B)
+        echo $1
+        ;;
+    *)
+        echo Wrong
+        ;;
+eaac
 
 #//////////////////////////////////////////////
 # While 状态为true执行循环
@@ -236,4 +249,20 @@ who;who;who
 
 # &&
 test -e /root/.bashrc && cat /root/.bashrc
+```
+
+<hr> 
+
+### shell脚本中打印一段文本
+
+```shell
+#!/bin/sh
+
+# 脚本中支持 cat <<eof 
+cat << eof
+    Summerlius Usage
+
+    -a: a is a
+    -b: b is b
+eof
 ```
