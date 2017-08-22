@@ -10,6 +10,9 @@
 
 - [字符集和字符编码](#字符集和字符编码)
     - [ASCII字符与编码](#ascii字符与编码)
+    - ["ANSI编码"](#ansi编码)
+        - [记事本](#记事本)
+        - [那么什么是BOM？](#那么什么是bom)
     - [Unicode与UTF](#unicode与utf)
         - [Unicode](#unicode)
         - [UTF-8](#utf-8)
@@ -30,6 +33,52 @@ ascii字符分两类，对应值为0~31和127(共33个)的字符为不可显示�
 NOTE：**ascii字符集和字符编码相同，即直接将字符对应值的二进制表示存储在计算机上；故，ascii既代表字符集，也代表了字符编码**
 
 https://www.zhihu.com/question/20152853
+
+## "ANSI编码"
+
+首先 `ANSI编码` 这个说法似乎只有**Windows操作系统**才有这个概念，具体指的是 Windows code pages，会根据当前的Locale选定具体的编码，例如简中locale下是GBK或GB2312，繁中下是Big5。
+
+至于微软为什么把Windows的code pages称为ANSI，嗯~~，难以理解！！！
+
+这些ANSI，可以说是ASCII的扩展，但是这个扩展并不是全球约定统一，而是不同国家和地区指定了不同的标准，互相不兼容。
+
+一般这种扩展的ANSI对ASCII是兼容的，即0x00~0x7f编码还是一致，但是0x80~0xffff就不同了。
+
+ANSI对应不同的地区可以是：
+- GB2312、GBK、GB18030，简体中文标准
+- Big5，繁体中文标准，主要台湾地区
+- Shift_jis，日文
+- ...
+- [more MSDN](https://msdn.microsoft.com/zh-cn/library/windows/desktop/dd317756(v=vs.85).aspx)
+- [more Wiki](https://en.wikipedia.org/wiki/Windows_code_page)
+
+### 记事本
+
+![win_notebook](../../../assets/win_notebok_encode.png)
+
+Wondows上记事本程序一直为程序员所诟病，主要是其四种编码：
+- `ANSI`：记事本默认编码
+- `Unicode`：实则带BOM的小端序 UTF-16
+- `Unicode big endian`：实则带有BOM的大端序 UTF-16
+- `UTF-8`：实则带有BOM的UTF-8。
+
+### 那么什么是BOM？
+
+字节顺序标记，byte-order mark，BOM，可以区分大小端，还可以区分utf8、utf16、utf32等编码。
+
+![win_notebook](../../../assets/encoding_bom.png)
+
+其中，utf8编码最小单元为单个字节，故其不需要区分大小端，也就是utf8编码的文本可以不需要BOM。
+
+但是带bom的utf8文本，按理说任何程序都应该能识别，毕竟这是Unicode标准，但似乎一些程序并不能识别带bom的utf8文本，例如linux shell脚本、html等。
+
+所以一个utf8文本带不带bom，其本身没什么区别，区别在于**读取这个文本的程序**是否能正确识别utf8的bom，这就是我们程序员需要注意的点。
+
+> 记事本编辑的utf8文本虽然只有带bom，但是其能识别不带bom的utf8文本，能正确显示出来。
+
+> vscode、sublime、notepad等高级编辑器编辑文本时一般都有提供带bom的utf8和不带bom的utf8两种选项；Linux上编辑文件，例如vi、vim，一般都直接限制为不带bom的utf8
+
+
 
 ## Unicode与UTF
 
