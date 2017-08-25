@@ -11,6 +11,8 @@
 - [cp](#cp)
 - [tar](#tar)
 - [uname](#uname)
+- [hexdump、xxd、od](#hexdumpxxdod)
+- [sed](#sed)
 
 <!-- /TOC -->
 
@@ -299,3 +301,25 @@ Linux系统信息
 - -i：hardware platform
 - -o：operating system
 - --help：
+
+<hr>
+
+#### hexdump、xxd、od
+
+```shell
+hexdump -C file.txt
+echo "abc" | hexdump -C
+
+xxd -g1 file.txt
+echo "abc" | xxd -g1
+```
+
+Windows上如果有安装git，git bash内置有xxd、od可以直接使用
+
+<hr>
+
+#### sed
+
+流编辑器（stream editor for filtering and transforming text），接受输入流，可以来自于文件或管道。
+
+
