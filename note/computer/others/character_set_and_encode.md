@@ -118,7 +118,7 @@ Unicode字符集定义了每个字符对应的码位，具体将码位编码成�
 |字节数|码点的bit位|码点范围|字节1|字节2|字节3|字节4|
 |:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |1|7|U+0000~u+007F|0xxxxxxx||||
-|2|11|U+008F~U+07FF|110xxxxx|10xxxxxx|||
+|2|11|U+0080~U+07FF|110xxxxx|10xxxxxx|||
 |3|16|U+0800~U+FFFF|1110xxxx|10xxxxxx|10xxxxxx||
 |4|21|U+10000~U+10FFFF|11110xxx|10xxxxxx|10xxxxxx|10xxxxxx|
 

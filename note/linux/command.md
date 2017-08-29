@@ -13,6 +13,7 @@
 - [uname](#uname)
 - [hexdump、xxd、od](#hexdumpxxdod)
 - [sed](#sed)
+- [stat](#stat)
 
 <!-- /TOC -->
 
@@ -321,5 +322,13 @@ Windows上如果有安装git，git bash内置有xxd、od可以直接使用
 #### sed
 
 流编辑器（stream editor for filtering and transforming text），接受输入流，可以来自于文件或管道。
+
+<hr>
+
+#### stat
+
+查看文件相关属性信息的命令
+
+
 
 
