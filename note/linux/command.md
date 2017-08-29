@@ -330,5 +330,15 @@ Windows上如果有安装git，git bash内置有xxd、od可以直接使用
 查看文件相关属性信息的命令
 
 
+```shell
+  File: a
+  Size: 11        	Blocks: 8          IO Block: 4096   regular file
+Device: 801h/2049d	Inode: 528397      Links: 1
+Access: (0644/-rw-r--r--)  Uid: ( 1000/  summer)   Gid: ( 1000/  summer)
+Access: 2017-08-29 19:24:33.702120239 +0800
+Modify: 2017-08-29 19:24:31.830112762 +0800
+Change: 2017-08-29 19:24:31.830112762 +0800
+ Birth: -
+```
 
 
