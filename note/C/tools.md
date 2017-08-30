@@ -43,7 +43,7 @@ clean:
     rm *.o temp
 ```
 
-## pregerquisites（前置条件）
+### pregerquisites（前置条件）
 
 prerequisites通常是一组文件名，之间使用空格分隔。
 

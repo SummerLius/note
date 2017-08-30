@@ -14,6 +14,7 @@
 - [hexdump、xxd、od](#hexdumpxxdod)
 - [sed](#sed)
 - [stat](#stat)
+- [sudo](#sudo)
 
 <!-- /TOC -->
 
@@ -341,4 +342,14 @@ Change: 2017-08-29 19:24:31.830112762 +0800
  Birth: -
 ```
 
+<hr>
 
+#### sudo
+
+在ubuntu Linux下，需要操作root权限的命令时需要在前面加上sudo来改变权限，这样显得比较麻烦，不过也有解决方法：
+
+> -s, --shell: run shell as the target user
+
+`sudo -s` 或 `sudo -s -u root`
+
+该命令会以root用户启动一个shell，这样就什么操作都可以执行了。
