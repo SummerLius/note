@@ -42,8 +42,13 @@ make install
 ```sh
 wget https://nodejs.org/download/release/v8.2.0/node-v8.2.0-linux-x64.tar.xz
 tar -xJf node-v8.2.0-linux-x64.tar.xz
+
 cp -rf node-v8.2.0-linux-x64/bin/* /usr/local/bin/
 cp -rf node-v8.2.0-linux-x64/lib/* /usr/local/lib/
+
+或
+
+cp -rf node-v8.2.0-linux-x64/* /usr/local/
 
 # 就这样，done
 ```
