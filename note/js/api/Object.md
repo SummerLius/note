@@ -197,6 +197,8 @@ Object.defineProperty(a, 'attr', {
  Object.defineProperty(a, 'attr', {set(){}});
 ```
 
+> 欲想使对象某个属性为const，不可修改，可见至少将configurable和writable都设置为false。
+
 ### 属性查询和设置
 
 ### 删除属性
@@ -325,9 +327,9 @@ var obj2 = {
     - 这个后续理解
 - 可扩展性
     - 对象的可扩展性表示是否可以给对象添加新属性。所有内置对象和自定义对象都是显示可扩展的
-    - Object.preventExtensions(obj)
-    - Object.seal(obj)
-    - Object.freeeze(obj)
+    - Object.preventExtensions(obj)：禁止对象扩展性，不能添加新属性了。注意这种限制只是对象本身，并没有限制到对象的原型上，原型对象还是可以添加新属性的
+    - Object.seal(obj)：除了禁止扩展性外，还将所有自身属性设置为不可配置，即configurable设置为false
+    - Object.freeeze(obj)：除了禁止扩展性外，将自身所有属性configurable和writable设置为false
 
 
 
