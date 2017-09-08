@@ -1,8 +1,9 @@
 <!-- TOC -->
 
-- [Object对象](#object对象)
+- [Object构造函数](#object构造函数)
     - [Properties](#properties)
-    - [Methods](#methods)
+    - [Static Methods](#static-methods)
+    - [Prototype Methods](#prototype-methods)
 - [详细](#详细)
     - [创建对象](#创建对象)
         - [对象直接量](#对象直接量)
@@ -21,14 +22,16 @@
 
 <!-- /TOC -->
 
-## Object对象
+## Object构造函数
 
 ### Properties
 
 - Object.length
 - Object.prototype
+- Object.prototype.__proto__
+- Object.prototype.constructor
 
-### Methods
+### Static Methods
 
 - Object.assign()
 - Object.create()
@@ -50,10 +53,17 @@
 - Object.seal()
 - Object.setPrototypeOf()
 - Object.values()
-- Object.
-- Object.
-- Object.
-- Object.
+
+### Prototype Methods
+
+- Object.prototype.hasOwnProperty()
+- Object.prototype.isPrototypeOf()
+- Object.prototype.propertyIsEnumerable()
+- Object.prototype.toLocalString()
+- Object.prototype.toSource()
+- Object.prototype.toString()
+- Object.prototype.valueOf()
+- Object.prototype.
 
 ## 详细
 
