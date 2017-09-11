@@ -91,6 +91,8 @@ Array.from('abc12');// ['a', 'b', 'c', '1', '2']
 
 #### Array.prototype.copyWithin()
 
+- 浅复制
+
 #### Array.prototype.entries()
 
 #### Array.prototype.every()集合
