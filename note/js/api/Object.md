@@ -3,12 +3,36 @@
 - [Object构造函数](#object构造函数)
     - [Properties](#properties)
     - [Static Methods](#static-methods)
+        - [Object.assign()](#objectassign)
+        - [Object.create()](#objectcreate)
+        - [Object.is()](#objectis)
+        - [Object.keys()](#objectkeys)
+        - [Object.entries()](#objectentries)
+        - [Object.values()](#objectvalues)
+        - [Object.defineProperty()](#objectdefineproperty)
+        - [Object.defineProperties()](#objectdefineproperties)
+        - [Object.getOwnPropertyDescriptor()](#objectgetownpropertydescriptor)
+        - [Object.getOwnPropertyDescriptors()](#objectgetownpropertydescriptors)
+        - [Object.getOwnPropertyNames()](#objectgetownpropertynames)
+        - [Object.getOwnPropertySymbols()](#objectgetownpropertysymbols)
+        - [Object.getPrototypeOf()](#objectgetprototypeof)
+        - [Object.setPrototypeOf()](#objectsetprototypeof)
+        - [Object.preventExtensions()](#objectpreventextensions)
+        - [Object.freeze()](#objectfreeze)
+        - [Object.seal()](#objectseal)
+        - [Object.isExtensible()](#objectisextensible)
+        - [Object.isFrozen()](#objectisfrozen)
+        - [Object.isSealed()](#objectissealed)
     - [Prototype Methods](#prototype-methods)
+        - [Object.prototype.toString()](#objectprototypetostring)
+        - [Object.prototype.toLocaleString()](#objectprototypetolocalestring)
+        - [Object.prototype.valueOf()](#objectprototypevalueof)
+        - [Object.prototype.toSource()-✖](#objectprototypetosource-✖)
 - [详细](#详细)
     - [创建对象](#创建对象)
         - [对象直接量](#对象直接量)
         - [通过new创建对象](#通过new创建对象)
-        - [Object.create()](#objectcreate)
+        - [Object.create()](#objectcreate-1)
     - [对象属性描述符](#对象属性描述符)
         - [configurable](#configurable)
     - [属性查询和设置](#属性查询和设置)
@@ -25,45 +49,211 @@
 ## Object构造函数
 
 ### Properties
-
-- Object.length
-- Object.prototype
-- Object.prototype.__proto__
-- Object.prototype.constructor
+```javascript
+Object.length
+Object.prototype
+```
 
 ### Static Methods
 
-- Object.assign()
-- Object.create()
-- Object.defineProperty()
-- Object.defineProperties()
-- Object.entries()
-- Object.freeze()
-- Object.getOwnPropertyDescriptor()
-- Object.getOwnPropertyDescriptors()
-- Object.getOwnPropertyNames()
-- Object.getOwnPropertySymbols()
-- Object.getPrototypeOf()
-- Object.is()
-- Object.isExtensible()
-- Object.isFrozen()
-- Object.isSealed()
-- Object.keys()
-- Object.preventExtensions()
-- Object.seal()
-- Object.setPrototypeOf()
-- Object.values()
+```javascript
+Object.assign()
+Object.create()
+Object.is()
+Object.keys()
+Object.entries()
+Object.values()
+
+
+Object.defineProperty()
+Object.defineProperties()
+Object.getOwnPropertyDescriptor()
+Object.getOwnPropertyDescriptors()
+Object.getOwnPropertyNames()
+Object.getOwnPropertySymbols()
+Object.getPrototypeOf()
+Object.setPrototypeOf()
+
+Object.preventExtensions()
+Object.freeze()
+Object.seal()
+Object.isExtensible()
+Object.isFrozen()
+Object.isSealed()
+```
+
+#### Object.assign()
+
+将一个或多个源对象可枚举的属性（不包括继承），复制到目标对象。它将返回目标对象。
+
+`Object.assign(target, ...sources)`  
+
+- @return：返回目标对象target
+
+如果目标对象中的属性具有相同的键，则属性将被源中的属性覆盖。后来的源的属性将类似的覆盖早先的属性。
+
+注意：
+- Object.assign方法只会拷贝源对象**自身**并且**可枚举**的属性到目标对象上，不包括继承的属性
+- Object.assign，会跳过值为null或undefined的源对象
+- Object.assign 为浅拷贝
+
+#### Object.create()
+
+使用指定的原型对象及属性去创建一个新对象。
+
+`Object.create(proto[, propertiesObject])`  
+
+- @proto：一个对象，新创建的对象的原型
+- @propertiesObject：可选，给新创建的对象定义一些属性，该参数与Object.defineProperties()的第二个参数一样
+- @return：返回新对象
+
+```javascript
+var obj = Ojbect.create({a: 'protoValue'}, {
+        a: {
+            value: 'selfValue',
+            enumerable: true,
+            writable: true
+        }
+    }
+    );
+
+obj.__proto__a;// 'protoValue'
+obj.a;// 'selfValue'
+```
+
+#### Object.is()
+
+比较两个值是否相等
+
+`Object.is(value1, value2)`  
+
+该方法和`===`差不多，两者区别点为：
+- `===`认为　+0 和　-0 两者相同，而Object.is认为不等
+- `===`认为 NaN 和 NaN 不等，而Object.is认为相等
+
+
+#### Object.keys()
+
+返回一个由指定对象**自身可枚举**属性组成的数组，数组中属性名的排列顺序和使用`for...in`循环遍历该对象时返回的顺序一致。
+
+#### Object.entries()
+
+返回一个指定对象**自身可枚举**属性[key, value]对的数组，排列顺序和`for...in`一致
+
+```javascript
+var obj = {a: 1, c: {}, d: function(){}};
+var arr = Object.entries(obj);
+
+console.log(arr);// [['a', 1], ['c', {}], ['d', function(){}]]
+console.log(a.c === arr[1][1]); // true，引用值
+```
+
+#### Object.values()
+
+返回一个指定对象**自身可枚举**属性值的数组，顺序和`for...in`一致
+
+```javascript
+var obj = var obj = {a: 1, c: {}, d: function(){}};
+var arr = Object.values(obj);
+
+console.log(arr);// [1, {}, function(){}]
+obj.a === arr[0];// true
+obj.c === arr[1];// true
+obj.d === arr[2];// true
+```
+
+#### Object.defineProperty()
+
+#### Object.defineProperties()
+
+#### Object.getOwnPropertyDescriptor()
+
+#### Object.getOwnPropertyDescriptors()
+
+#### Object.getOwnPropertyNames()
+
+#### Object.getOwnPropertySymbols()
+
+#### Object.getPrototypeOf()
+
+#### Object.setPrototypeOf()
+
+
+
+#### Object.preventExtensions()
+
+#### Object.freeze()
+
+#### Object.seal()
+
+#### Object.isExtensible()
+
+#### Object.isFrozen()
+
+#### Object.isSealed()
+
 
 ### Prototype Methods
 
-- Object.prototype.hasOwnProperty()
-- Object.prototype.isPrototypeOf()
-- Object.prototype.propertyIsEnumerable()
-- Object.prototype.toLocalString()
-- Object.prototype.toSource()
-- Object.prototype.toString()
-- Object.prototype.valueOf()
-- Object.prototype.
+```javascript
+Object.prototype.hasOwnProperty()
+Object.prototype.isPrototypeOf()
+Object.prototype.propertyIsEnumerable()
+
+Object.prototype.toString()
+Object.prototype.toLocaleString()
+Object.prototype.valueOf()
+```
+
+#### Object.prototype.toString()
+
+返回一个表示该对象的字符串。
+
+`obj.toString()`
+
+每个对象都有一个toString()方法。默认下，toString()方法继承Object.prototype.toString()，该方法返回格式为"[object type]"，其中type为对象类型。
+
+不过很多对象都会自定义toString()方法，覆盖Object原型方法，例如Boolean、String、Function...等都会自定义该方法。
+
+#### Object.prototype.toLocaleString()
+
+该方法也返回一个该对象的字符串表示。该方法主要用于本地化相关对象覆盖。
+
+`obj.toLocaleString()`  
+
+Object.toLocaleString()，默认返回调用toString()方法的结果。
+
+也有一些对象覆盖了该原始方法，例如Array、Number、Date
+
+#### Object.prototype.valueOf()
+
+该方法返回指定对象的原始值。
+
+`obj.valueOf()`  
+
+js调用valueOf()方法来把对象转换成原始类型值（数值、字符串、布尔值）。我们一般不会自己手动调用该方法，而是当代码遇到一种需要转换成一个原始值情况的时候，js会自动调用此函数。
+
+默认下，对象会继承Object.prototype.valueOf()。每个内置对象都会覆盖该方法为了返回一个合理的值，**如果对象没有原始值，valueOf()会返回对象自身**。
+
+```javascript
+var num  = new Number(123);
+var bool = new Boolean(true);
+var str  = new String('abc');
+var obj  = {a: 1};
+var arr  = [1, 2, 3];
+var func = function() {}
+
+num.valueOf();    // 123
+bool.valueOF();   // true
+str.valueOF();    // 'abc'
+obj.valueOF();    // 无原始值，返回引用，即obj.valueOf() === obj
+arr.valueOF();    // 无原始值，返回引用，即arr.valueOf() === arr
+func.valueOF();   // 无原始值，返回引用，即func.valueOf() === func
+```
+
+#### Object.prototype.toSource()-✖
+
+浏览器和nodejs都没有提供该方法
 
 ## 详细
 
