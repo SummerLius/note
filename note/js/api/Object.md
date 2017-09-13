@@ -81,7 +81,7 @@ Object.isExtensible()
 Object.isFrozen()
 Object.isSealed()
 ```
-
+---
 #### Object.assign()
 
 将一个或多个源对象可枚举的属性（不包括继承），复制到目标对象。它将返回目标对象。
@@ -97,6 +97,7 @@ Object.isSealed()
 - Object.assign，会跳过值为null或undefined的源对象
 - Object.assign 为浅拷贝
 
+---
 #### Object.create()
 
 使用指定的原型对象及属性去创建一个新对象。
@@ -121,6 +122,7 @@ obj.__proto__a;// 'protoValue'
 obj.a;// 'selfValue'
 ```
 
+---
 #### Object.is()
 
 比较两个值是否相等
@@ -131,11 +133,12 @@ obj.a;// 'selfValue'
 - `===`认为　+0 和　-0 两者相同，而Object.is认为不等
 - `===`认为 NaN 和 NaN 不等，而Object.is认为相等
 
-
+---
 #### Object.keys()
 
 返回一个由指定对象**自身可枚举**属性组成的数组，数组中属性名的排列顺序和使用`for...in`循环遍历该对象时返回的顺序一致。
 
+---
 #### Object.entries()
 
 返回一个指定对象**自身可枚举**属性[key, value]对的数组，排列顺序和`for...in`一致
@@ -148,6 +151,7 @@ console.log(arr);// [['a', 1], ['c', {}], ['d', function(){}]]
 console.log(a.c === arr[1][1]); // true，引用值
 ```
 
+---
 #### Object.values()
 
 返回一个指定对象**自身可枚举**属性值的数组，顺序和`for...in`一致
@@ -161,7 +165,7 @@ obj.a === arr[0];// true
 obj.c === arr[1];// true
 obj.d === arr[2];// true
 ```
-
+---
 #### Object.defineProperty()
 
 #### Object.defineProperties()
@@ -205,6 +209,7 @@ Object.prototype.toLocaleString()
 Object.prototype.valueOf()
 ```
 
+---
 #### Object.prototype.toString()
 
 返回一个表示该对象的字符串。
@@ -215,6 +220,7 @@ Object.prototype.valueOf()
 
 不过很多对象都会自定义toString()方法，覆盖Object原型方法，例如Boolean、String、Function...等都会自定义该方法。
 
+---
 #### Object.prototype.toLocaleString()
 
 该方法也返回一个该对象的字符串表示。该方法主要用于本地化相关对象覆盖。
@@ -225,6 +231,7 @@ Object.toLocaleString()，默认返回调用toString()方法的结果。
 
 也有一些对象覆盖了该原始方法，例如Array、Number、Date
 
+---
 #### Object.prototype.valueOf()
 
 该方法返回指定对象的原始值。
@@ -251,6 +258,7 @@ arr.valueOF();    // 无原始值，返回引用，即arr.valueOf() === arr
 func.valueOF();   // 无原始值，返回引用，即func.valueOf() === func
 ```
 
+---
 #### Object.prototype.toSource()-✖
 
 浏览器和nodejs都没有提供该方法
