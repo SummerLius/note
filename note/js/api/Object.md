@@ -24,6 +24,9 @@
         - [Object.isFrozen()](#objectisfrozen)
         - [Object.isSealed()](#objectissealed)
     - [Prototype Methods](#prototype-methods)
+        - [Object.prototype.hasOwnProperty()](#objectprototypehasownproperty)
+        - [Object.prototype.isPrototypeOf()](#objectprototypeisprototypeof)
+        - [Object.prototype.propertyIsEnumerable()](#objectprototypepropertyisenumerable)
         - [Object.prototype.toString()](#objectprototypetostring)
         - [Object.prototype.toLocaleString()](#objectprototypetolocalestring)
         - [Object.prototype.valueOf()](#objectprototypevalueof)
@@ -208,6 +211,12 @@ Object.prototype.toString()
 Object.prototype.toLocaleString()
 Object.prototype.valueOf()
 ```
+
+#### Object.prototype.hasOwnProperty()
+
+#### Object.prototype.isPrototypeOf()
+
+#### Object.prototype.propertyIsEnumerable()
 
 ---
 #### Object.prototype.toString()
