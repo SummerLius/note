@@ -19,20 +19,38 @@ console.log(str);// => 们
 
 将字字符串转换为Buffer对象，并指定字符串的编码类型
 
-**encoding**含义：不是表示将string以此encoding编码，而是表示当前的string的已经是此编码格式了
+这里我们来理解一下这个方法：  
+
+`Buffer.from(string, encoding)`
+
+可以类比我们通过Vscode编辑器编辑文件：
+1. 通过键盘、输入法输入文本到编辑器，即string
+2. 编辑完后，然后选择指定编码类型保存，即encoding
+
+编辑时，编辑器可以显示我们输入的文本，可见此时的字符已经被编辑器默认选择一种编码类型来显示出来，此时只在内存中，未持久化到硬盘。我们可以推测是采用的utf8，毕竟较通用，然后我们编辑完保存时，选定gbk保存，那么硬盘上保存就是gbk编码后的二进制字节。
+
+举个例子：
+1. 编辑一个汉字："们"，到编辑器中，编辑器默认采用utf8编码显示，那么此时对应的在内存中"们"的二进制为`e4 bb ac`
+2. 保存时选择gbk编码（gbk的"们"对应的字节为`c3 c7`），此时编辑器知道要将先utf8的二进制转换为gbk的二进制，然后持久化到硬盘上
+3. 至于编辑器如何将utf8`e4 bb ac`转换到gbk`c3 c7`，此逻辑处理待了解
 
 ```javascript
-// 以汉字"们"为例
-// "们"的utf8编码为 -> e4 bb ac
-// "们" base64处理：
-//        1. 得到"们"utf8字节：e4 bb ac
-//        2. 将得到的字节按照base64规则处理，得到新的字节
-//        3. 新的字节也按照base64解析，例如base64字节值为57对应着字符"5"，与ascii对应不同
+/**
+ * 准备知识：
+ *      1. 汉字："们" 对应的utf8编码为 -> e4 bb ac
+ *      2. 汉字："们" utf8编码情况下，对应的标准base64编码后的文本为：5Lus
+ *
+ * 结果：
+ *      1. 可见buf_utf8和buf_base64的内容是相同的
+ *      2. 可以使用Buffer.from(xx, 'base64').toString('utf8')来对base64文本解码
+ *      3. 可以使用Buffer.from(xx, 'utf8').toString('base64')来对utf8文本进行base64编码
+ */
 
-Buffer.from('们', 'utf8');// <Buffer e4 bb ac>
+const buf_utf8 = Buffer.from('们', 'utf8');// <Buffer e4 bb ac>
 
-Buffer.from('5Lus', 'base64'); //<Buffer e4 bb ac>，可以看出存储在buffer中已解码
+const buf_base64 = Buffer.from('5Lus', 'base64'); //<Buffer e4 bb ac>，自动解码原来字节
 ```
+
 
 ### Buffer.from(object[, offsetOrEncoding[, length]])
 
