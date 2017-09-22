@@ -15,6 +15,10 @@
 - [sed](#sed)
 - [stat](#stat)
 - [sudo](#sudo)
+- [free](#free)
+- [ulimit](#ulimit)
+- [sysctl](#sysctl)
+- [ss](#ss)
 
 <!-- /TOC -->
 
@@ -353,3 +357,20 @@ Change: 2017-08-29 19:24:31.830112762 +0800
 `sudo -s` 或 `sudo -s -u root`
 
 该命令会以root用户启动一个shell，这样就什么操作都可以执行了。
+
+
+<hr>
+
+#### free
+
+<hr>
+
+#### ulimit
+
+<hr>
+
+#### sysctl
+
+<hr>
+
+#### ss
