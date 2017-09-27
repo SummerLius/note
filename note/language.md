@@ -11,4 +11,5 @@
 - go
 - scala
 - hashkell
+- rust
 - ...

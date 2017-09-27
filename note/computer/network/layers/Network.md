@@ -24,3 +24,95 @@ IP地址编址方法共经过了三个历史阶段：
 ### 分类的IP地址
 
 
+## 待处理
+
+<!-- - ip/domain/通用顶级域名、国家及地区顶级域名系统管理，根服务器系统管理 -->
+
+组织：
+- isp
+- icann
+    - interNIC
+    - iana
+        - apnic
+            - cnnic
+
+
+
+业务：
+- ip分配
+- 域名注册
+- dns服务器管理
+- 协议管理等
+- ...
+
+
+### IP分配
+
+目标：
+- 阐述一次网络请求的完整过程
+- 该过程中各个资源的管理
+
+
+用户电脑ip地址通过因特网服务商分配（isp），isp可以通过本地英特网注册机构（LIR）或国家英特网注册机构（NIR），或所属的区域注册机构（RIR）获得IP地址的分配。
+
+全世界有5个RIR：
+- `AFRINIC`：Africa Region
+- `APNIC`：Asia/Pacific Region
+- `ARIN`：Canada, USA, and some Caribbean Islands
+- `LACNIC`：Latin America and some Caribbean Islands
+- `RIPE NCC`：Europe, the Middle East, and Central Asia
+
+顶级ip资源管理机构IANA只和RIR交流，IANA将未分配的ip池给RIR机构去分配各个区域的ip。
+
+
+例如APNIC机构，负责亚太区域的IP地址的分配、管理。
+
+我国的CNNIC机构是APNIC的会员，代表中国的NIR机构，负责为国内的互联网用户提供IP地址本地化分配服务。
+
+当然作为用户，我们既可以向APNIC申请IP地址、也可以向CNNIC申请IP地址。
+
+
+现在我们可以通过机构申请到一个独一无二的ip地址，那么接下来的问题是：
+
+> isp扮演的角色，单个用户或公司单位是向isp申请ip还是向nir、rir申请ip？
+
+首先isp拥有什么
+- 向lir或nir或rir申请的批量ip地址
+- 拥有网络（通信链路和路由器等通信设备）
+
+所有一般情况下，都是用户或单位向isp申请并接入isp网络
+
+> 用户电脑拿到申请的ip后怎么使用呢？
+
+> 不同国家之间如何如何进行网络通信？
+
+不同国家之间有通过**光缆**直连的，也有通过其它国家路由中转的。
+
+例如中国和美国，通过修建海底光缆直连。
+
+如果没有直连的线路，则通过其它国家路由中转， 例如国家A、B、C，A和B直连，B和C直连，那么A想访问C中的服务器，那么可以通过B中转。
+
+如果连中转都没有，那就无法访问了，只能说明，两者不在同一网络中。
+
+> isp的接入方式有那些？
+
+网络中的端系统有PC、智能手机、服务器等，这些端系统可以接入ISP与Internet相连。
+
+接入的技术方式有：
+- DSL
+- 电缆
+- FTTH、光缆
+- WIFI
+- 蜂窝
+- ...
+
+> "网络的网络" 演化？
+
+构成Internet的“网络的网络”已经演化成一个非常复杂的结构，这种演化大部分是由经济和国家策略驱动的，而不是由性能考虑驱动的。
+
+<!-- http://tech.sina.com.cn/i/2005-07-19/1038666886.shtml
+http://www.wenku1.com/news/4815CE9A9D99ECEB.html
+https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E9%AA%A8%E5%B9%B2%E7%BD%91%E8%BF%90%E8%90%A5%E5%95%86 -->
+
+
+
