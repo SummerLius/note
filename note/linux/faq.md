@@ -1,6 +1,7 @@
 <!-- TOC -->
 
 - [运行级别runlevel是什么？](#运行级别runlevel是什么)
+- [Linux查看进程端口的占用？](#linux查看进程端口的占用)
 
 <!-- /TOC -->
 
@@ -19,3 +20,9 @@
 - 6：重启
 
 在全新的Linux systemd中使用target代替Runlevel，如multi-user.target相当于init 3，graphical.target相当于init 5，但是systemd仍然兼容运行级别Runlevel。目前绝大多数发行版已采用systemd代替UNIX System V。
+
+
+## Linux查看进程端口的占用？
+
+- lsof -i :80
+- netstat -anp | grep :80
