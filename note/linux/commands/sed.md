@@ -1,15 +1,6 @@
 
 ## sed
 
-http://blog.jobbole.com/109088/
-
-http://man.linuxde.net/sed
-
-https://www.gnu.org/software/sed/manual/
-
-
-
-
 流编辑器（stream editor for filtering and transforming text），接受输入流，可以来自于文件或管道。
 
 `sed [-hnVi] [-e<script>][-f<script文件>] [文本文件]`  
@@ -55,3 +46,9 @@ sed指令可以不指定地址，在这种情况下，脚本里的操作会应�
 
 address类型：
 - 
+
+## 临时链接
+
+- http://blog.jobbole.com/109088/
+- http://man.linuxde.net/sed
+- https://www.gnu.org/software/sed/manual/

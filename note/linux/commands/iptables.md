@@ -18,12 +18,11 @@ Debian下，就提供了这样一个工具：`iptables-persistent`，可以了�
 
 ### iptables
 
-https://segmentfault.com/a/1190000002540601
-https://wiki.debian.org/iptables
-
-
-
-
 ### iptables-save
 
 ### iptables-restore
+
+## 临时链接
+
+- https://segmentfault.com/a/1190000002540601
+- https://wiki.debian.org/iptables
