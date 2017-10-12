@@ -4,6 +4,6 @@
 - bm算法
 
 
-## 临时链接
+## 参考链接
 
 - http://wiki.jikexueyuan.com/project/kmp-algorithm/define.html
