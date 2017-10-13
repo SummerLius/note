@@ -12,13 +12,14 @@
 - [tar](#tar)
 - [uname](#uname)
 - [hexdump、xxd、od](#hexdumpxxdod)
-- [sed](#sed)
 - [stat](#stat)
 - [sudo](#sudo)
 - [free](#free)
 - [ulimit](#ulimit)
 - [sysctl](#sysctl)
 - [ss](#ss)
+- [dig](#dig)
+- [nmap](#nmap)
 
 <!-- /TOC -->
 
@@ -372,3 +373,14 @@ Change: 2017-08-29 19:24:31.830112762 +0800
 <hr>
 
 #### ss
+
+<hr>
+
+#### dig
+
+<hr>
+
+#### nmap
+
+nmap、Aircrack-NG、Wireshark
+
