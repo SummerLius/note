@@ -9,3 +9,4 @@
 
 - https://www.debian.org/doc/
 - https://www.debian.org/doc/manuals/debian-reference/
+- https://www.debian.org/releases/

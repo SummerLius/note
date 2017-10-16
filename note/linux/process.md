@@ -1,6 +1,13 @@
 
 ## Linux进程相关
 
+### 进程状态
+
+列举状态：
+- 运行态：该时刻进程占用CPU
+- 就绪态：可运行，但因为其它进程正在运行而暂时停止
+- 阻塞态：阻塞态，除非某种外部事件发生，否者进程不能运行
+
 
 ### 工作管理shell与job
 
@@ -19,9 +26,11 @@ job将shell中任务的执行环境分为foreground和background。因为一个s
 shell只能管理自己的job而不能管理其它shell的job，即使你是root权限的shell也不能将其它shell下的job拿过来运行。
 
 
+相关指令：
 - jobs
 - bg/&
 - fg
+- ctrl+z
 
 ### foreground
 
@@ -34,11 +43,11 @@ shell下执行命令，启动程序默认是foreground环境下。
 运行在background下的job虽然不能交互，即不接受stdin，但是会将stdout、stderr输出到前端显示。这样不会影响foreground下进程的交互，当时也会影响显示。所以，如果background下job如果有stdout、stderr输出的话，可以重定向到其它文件，不影响foreground环境，例如`cp xx yy 1>log.txt 2>&1 &`
 
 
-> jobs命令
-> - -l：列出background下所有job
-> - -r：仅列出正在background下run的job
-> - -s：仅列出正在background下stop的job
-
 ```sh
 
 ```
+
+
+
+- https://www.ibm.com/developerworks/cn/linux/l-cn-nohup/
+- https://www.tiobe.com/tiobe-index/
