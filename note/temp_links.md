@@ -10,3 +10,12 @@
 - https://www.debian.org/doc/
 - https://www.debian.org/doc/manuals/debian-reference/
 - https://www.debian.org/releases/
+
+## IT资讯网站
+
+- https://www.laptopmag.com
+- https://www.cnet.com/
+
+## /sys
+
+- https://www.ibm.com/developerworks/cn/linux/l-cn-sysfs/

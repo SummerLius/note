@@ -75,4 +75,12 @@ unix是多用户系统，那么每个用户通过terminal登录到主机，这�
 - https://zh.wikipedia.org/zh-cn/%E7%B5%82%E7%AB%AF
 - http://www.lijigang.com/blog/2016/02/17/shell,-terminal,-console%E5%8C%BA%E5%88%AB/
 - https://segmentfault.com/a/1190000009082089
+- https://en.wikipedia.org/wiki/Terminal
+- http://blog.csdn.net/govago/article/details/8494760
+- http://www.deansys.com/doc/ldd3/ch18.html
+- http://www.linusakesson.net/programming/tty/
+- https://wenku.baidu.com/view/50c9594f8762caaedc33d40e.html
+
+
+
 
