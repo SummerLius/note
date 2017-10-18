@@ -80,6 +80,7 @@ unix是多用户系统，那么每个用户通过terminal登录到主机，这�
 - http://www.deansys.com/doc/ldd3/ch18.html
 - http://www.linusakesson.net/programming/tty/
 - https://wenku.baidu.com/view/50c9594f8762caaedc33d40e.html
+- http://www.wowotech.net/tty_framework/tty_concept.html
 
 
 
