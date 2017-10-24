@@ -99,6 +99,15 @@ IP地址到硬件地址的解析是操纵系统自动进行的，主机的用户
 - ...
 
 
+分配查找情况：
+- iana机构ip地址和as号分配情况：
+    - https://www.iana.org/numbers
+        - https://www.iana.org/assignments/ipv4-address-space/ipv4-address-space.xml
+        - https://www.iana.org/assignments/as-numbers/as-numbers.xhtml
+- apnic的分配情况：http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest
+- 较好的whois工具，mac或linux上可以安装一个whois工具，"apt-get install whosis"，此工具可以查找任意ip
+
+
 ### IP分配
 
 目标：
