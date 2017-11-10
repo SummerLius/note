@@ -185,7 +185,9 @@ obj.d === arr[2];// true
 
 #### Object.setPrototypeOf()
 
+`Object.setPrototypeOf(obj, prototype)`  
 
+如果设置成功，则`obj.__proto__ === prototype`  
 
 #### Object.preventExtensions()
 
