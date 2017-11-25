@@ -1,15 +1,15 @@
 ## GCC
 
 源文件：main.c  
-预处理：main.i         预处理  
-编译器：main.s         编译为汇编代码  
-汇编器：main.o         将汇编代码翻译机器二进制代码  
-链接器：main  
+预处理后：main.i         预处理文件
+编译器后：main.s         编译为汇编代码文件 
+汇编器后：main.o         将汇编代码翻译机器二进制代码，可重定位目标文件  
+链接器后：main  
 
-gcc -E main.i main.c  
-gcc -S main.s main.c  
-gcc -c main.o main.c  
-gcc -o main   main.c  
+gcc -E main.c [-o main.i]  
+gcc -S main.c [-o main.s]
+gcc -c main.c [-o main.o]  
+gcc main.c [-o main.out]  
 
 gcc -Og -o main main.c  
 
