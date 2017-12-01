@@ -23,15 +23,36 @@
 2. 语法分析
 3. 语义分析
 
-ISO/IEC 9899 2011关于C的标准文档：
-- 概念（Concepts）
-- 转换（Conversions）
-- 词法元素（词汇）（Lexical elements）
-- 表达式（Expressions）
-- 申明（Declarations）
-- 语句、语句块（Statements and blocks）
-- 外部定义（External definitions）
-- 预处理指令
+ISO/IEC 9899 2011关于C的标准文档关于语法部分目录：
+- Language
+    1. 符号（Notation）
+    2. 概念（Concepts）
+    3. 转换（Conversions）
+    4. 词法元素（词汇）（Lexical elements）
+    5. 表达式（Expressions）
+    6. 常量表达式（Constant expressions）
+    7. 申明（Declarations）
+    8. 语句、语句块（Statements and blocks）
+    9. 外部定义（External definitions）
+    10. 预处理指令（Preprocessing directives）
+    11. 将来c语言趋势（Future language directions）
+- Annex A : Language syntax summary
+    1. 词法
+        1. 词法元素
+        2. 关键词
+        3. 标识符
+        4. 通用字符名
+        5. 常量
+        6. 字符串字面量
+        7. 标点符号
+        8. 头名称
+        9. 预处理numbers
+    2. 短语结构文法
+        1. 表达式
+        2. 声明
+        3. 语句
+        4. 外部定义
+    3. 预处理指令
 
 上面是大致抽象概念，下面列举下具体知识点：
 - 常量
