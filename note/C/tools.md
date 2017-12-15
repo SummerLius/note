@@ -11,7 +11,39 @@ gcc -S main.c [-o main.s]
 gcc -c main.c [-o main.o]  
 gcc main.c [-o main.out]  
 
-gcc -Og -o main main.c  
+gcc -Og -o main main.c 
+- `-Og`：编译优化选项 
+- `-v`：显示gcc的处理步骤
+- `-E`：仅预处理源文件
+- `-S`：仅预处理+编译源文件
+- `-c`：仅预处理+编译+汇编源文件，不链接
+- `-o`：指定输出文件的文件名，如果不指定的话
+- `-g`：指定使用gdb，调试使用
+- `-w、-W、-Wall`
+    - `-w`：屏蔽编译时的warning，不建议使用
+    - `-W`：显示编译时的warning，建议使用
+    - `-Wall`：同-W类似，显示编译时的所有warning，建议使用，一般 `-W -Wall` 一起使用，至于两者区别暂不做详述
+- `-I（大写i）、-l（小写L）、-L`
+    - `-I`：指定一个额外的头文件查找目录。例如`-I /home/test/include`，表示将/home/test/include目录作为第一个寻找头文件目录，寻找的顺序为：`/home/test/include` --> `/usr/include` --> `/usr/local/include`，后面目录是系统默认。
+    - `-l`：指定一个库文件，默认寻找动态链接库，加上`-static`选项表示寻找静态链接库。例如`-ltest`，表示指定libtest.so动态链接库，`-static -ltest`，表示指定libtest.a静态链接库。（也就是增加前缀和后缀的库名）
+    - `-L`：指定一个额外的库文件查找的目录。例如`-L /home/test/lib`，表示将/home/test/lib目录作为第一个寻找库文件目录，寻找的顺序为：`/home/test/lib` --> `/lib` --> `/usr/lib` --> `/usr/local/lib`
+    
+
+## ld
+
+ld：GNU链接器
+
+`ld -o <output> /lib/crt0.o hello.o -lc`
+- 解释：链接/lib/crt0.o、hello.o、和静态库libc.a三个文件，生成可执行文件output
+- `-l`（小写的L），--library=*lib_name*：指定一个库文件，例如`-ltest`，表示指定libtest.a或libtest.so文件
+    - `-Bstatic`、`-aarchive`：指定使用静态库，`-l`选项仅查找静态库"libtest.a"
+    - `-Bdynamic`、`-ashared`、`-adefault`：指定使用动态库，`-l` 选项仅查找动态库"libtest.so"
+- `-L`：指定一个额外的库文件查找的目录。例如`-L /home/test/lib`，表示将/home/test/lib目录作为第一个寻找库文件目录，寻找的顺序为：`/home/test/lib` --> `/lib` --> `/usr/lib` --> `/usr/local/lib`
+
+## ar
+
+ar：操作归档文件
+
 
 
 
