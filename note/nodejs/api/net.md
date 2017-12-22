@@ -45,7 +45,7 @@
 
 ### 方法
 
-- `new net.Server([options][, connectionListener])`：创建一个Server实例
+- `new net.Server([options][, connectionListener])`：创建一个Server实例，参数同`net.createServer([options][, connectionListener])`函数一样
 - `server.adddress()`: 
 - `server.close()`: 
 - `server.getConnections(callback)`: 
@@ -64,18 +64,6 @@
 
 - 在客户端：可以通过net.createConnection()等类似方法获得net.Socket，客户端用此和server通信
 - 在服务端：在监听net.server的'connection'事件的回调函数中获得net.Socket实例，服务端用此可以和客户端通信
-
-```javascript
-new net.Socket([options]);
-
-options默认值为：
-{
-    fd: null,
-    allowHalfOpen: false,
-    readable: false,
-    writable: false
-}
-```
 
 ### 事件
 
@@ -140,7 +128,16 @@ options默认值为：
 
 ### net.createServer()
 
-- `net.createServer([options][, connectionListener])`: 
+该方法是用于创建 `net.Server`（TCP或UNIX IPC服务） 的工厂函数
+
+- `net.createServer([options][, connectionListener])`：
+- 参数：
+    - `options`：
+        - `allowHalfOpen`：设置是否允许半开的TCP连接（half-opened TCP connection），**默认值**：false
+        - `pauseOnConnect`：设置当连接建立时，socket对象的数据通信是否暂停，**默认值**：false
+    - `connectionListener`：自动给 `net.Server` 的"connection"事件添加监听器
+
+
 
 ### net.isIp()
 
