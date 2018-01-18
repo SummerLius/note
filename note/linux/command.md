@@ -20,6 +20,7 @@
 - [ss](#ss)
 - [dig](#dig)
 - [nmap](#nmap)
+- [lsb_release](#lsb_release)
 
 <!-- /TOC -->
 
@@ -383,4 +384,8 @@ Change: 2017-08-29 19:24:31.830112762 +0800
 #### nmap
 
 nmap、Aircrack-NG、Wireshark
+
+#### lsb_release
+
+打印系统版本信息
 
