@@ -21,6 +21,7 @@
 - [dig](#dig)
 - [nmap](#nmap)
 - [lsb_release](#lsb_release)
+- [which、whereis](#whichwhereis)
 
 <!-- /TOC -->
 
@@ -388,4 +389,11 @@ nmap、Aircrack-NG、Wireshark
 #### lsb_release
 
 打印系统版本信息
+
+#### which、whereis
+
+- which：定位command
+- whereis：定位command的可执行二进制文件、源文件、man手册文件
+
+whereis的功能更全一点
 

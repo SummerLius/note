@@ -25,8 +25,8 @@
 ### Dockerfile最佳实践
 
 给个其他人博客地址：
-- https://deepzz.com/post/dockerfile-best-practices.html
-- https://blog.fundebug.com/2017/05/15/write-excellent-dockerfile/
+- [地址1](https://deepzz.com/post/dockerfile-best-practices.html)
+- [地址2](https://blog.fundebug.com/2017/05/15/write-excellent-dockerfile/)
 
 
 
@@ -69,6 +69,27 @@
 - 使用scratch镜像创建一个简单的镜像，在Dockerfile中指定FROM scratch
 
 ### 多阶段构建镜像
+
+- [官网地址](https://docs.docker.com/engine/userguide/eng-image/multistage-build/#use-multi-stage-builds)
+- [其它博客1](https://segmentfault.com/a/1190000009069842)
+- [其它博客2](http://blog.csdn.net/fundebug/article/details/71084336)
+
+Multi-stage builds是Docker 17.05或更高版本提供的新特性。
+
+方便优化Dockerfile，使其易读、易维护。
+
+- 多阶段构建前了解
+    - 构建镜像最大的挑战之一就是保持镜像尺寸小。每个Dockerfile指令会给镜像添加一层，我们需要在每一层（每个指令）清除我们不需要的文件。
+    - 欲要构建真正高效的镜像，可能需要会使用shell技巧和其它逻辑处理，来使镜像层次尽可能的少，使每一层不产生冗余文件，仅生成必需的依赖文件。
+    <!--
+      通常情况下，我们给开发环境维护一个Dockerfile，里面可以包含各种需要的依赖、构建等文件；然后给正式环境又维护一个精简瘦身的 Dockerfile，里面仅含有运行应用需要的依赖文件。
+      但是维护维护两份Dockerfile不是很理想，`Dockerfile.build` `Dockerfile`。
+     -->
+- 使用多阶段构建
+    - 该特性，使你可以多次使用 `FROM` 指令。
+    - 每次`from`指令可以引入不同的镜像，并且每次他们在新阶段上构建（？这里不是很理解）
+    - 你可以选择性的将文件从一个镜像阶段赋值到另外一个镜像阶段，同时在最后一个镜像阶段不会保留前面镜像阶段的文件，除非手动copy --from
+    - 假如一个Dockerfile文件，引入两个From指令，前者`From golang as builder`，后者`FROM alpine：latest`，最后一个FROM生成最终镜像，并且不会包含前者FROM产生的文件，后者From可以使用copy --from=builder 指令来获取前者From中的有用的文件。这样多阶段build可以完成复杂的逻辑，并且最后镜像不会臃肿。
 
 ### Dockerfile手册
 
