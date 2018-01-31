@@ -15,6 +15,7 @@
                 - [script](#script)
                 - [style](#style)
             - [body](#body)
+            - [](#)
 
 <!-- /TOC -->
 
@@ -161,6 +162,61 @@ HTML 是一种用来描述网页的语言。这种语言编写的代码会被浏
 
 ##### meta
 
+- 位置：要求仅head元素内
+- 元数据通常以名称/值的形式成对传递
+- 如果没有提供name属性，那么名称/值中的名称会采用http-equiv属性的值（？）
+- 空元素，不成对
+- 属性：（详情点击下面链接）
+    - charset
+        - *character_set*
+        - 定义文档的字符编码
+        - HTML5新属性
+    - content
+        - *some_text*
+        - 定义与http-equiv或name属性相关的元信息
+    - http-equiv
+        - 把content属性关联到HTTP头部。
+        - 理解：服务器通过HTTP协议把html返回给browser，Response中有服务端设置响应头给browser做处理。同时也可以在html中设置标签http-equivalent，相当于设置Response的http头，也会传给browser做处理
+        - "content-type"
+        - "expires"
+        - "refresh"
+        - "set-cookie"
+        - ...
+    - name
+        - 把content属性关联到一个名称
+        - "author"
+        - "description"
+        - "keywords"
+        - "generator"
+        - "revised"
+        - others
+        - ...
+    - scheme
+        - *some_text*
+        - HTML5好像不支持这个了？
+        - 定义用于翻译content属性值的格式
+
+[详细点击进入菜鸟](http://www.runoob.com/tags/tag-meta.html)  
+[详细点击进入w3c](http://www.w3school.com.cn/tags/tag_meta.asp)  
+[详细点击进入MSN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta)
+
+```html
+<head>
+    <meta charset="utf8"/>
+
+    <meta name="author" content="summer"/>
+    <meta name="keywords" content="JS,HTTP,CSS"/>
+    <meta name="description" content="This is a HTML description!!"/>
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="" content=""/>
+    <meta http-equiv="" content=""/>
+    <meta http-equiv="" content=""/>
+    <meta http-equiv="" content=""/>
+</head>
+```
+
 ##### title
 
 - 指定网页在浏览器标签页上的标题
@@ -170,7 +226,11 @@ HTML 是一种用来描述网页的语言。这种语言编写的代码会被浏
 
 ##### script
 
-- 该标签作用形同此名，脚本
+- 标签位置：似乎HTML文档任意位置，没有局限在head里面
+- 该标签作用形同此名: "脚本"，故该标签可以定义脚本语句或引入脚本文件
+- 必选属性：type（mime-type）
+
+[详细点击进入](http://www.w3school.com.cn/tags/tag_script.asp)
 
 ##### style
 
@@ -180,12 +240,14 @@ HTML 是一种用来描述网页的语言。这种语言编写的代码会被浏
 - 该标签type属性是必需的，且仅有唯一值"text/css"
 - media属性可选，值有多种，主要为样式表规定不同的媒介类型
 
-[详细点击进入w3c](http://www.w3school.com.cn/tags/tag_style.asp)
+[详细点击进入](http://www.w3school.com.cn/tags/tag_style.asp)
 
 #### body
 
-- `<body>`：
+- `<body>`
+    - `<>`
 
+#####
 
 
 
