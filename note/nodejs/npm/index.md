@@ -7,6 +7,7 @@
     - [API文档](#api文档)
     - [npm相关文件](#npm相关文件)
     - [Misc](#misc)
+    - [参考](#参考)
 
 <!-- /TOC -->
 
@@ -117,3 +118,11 @@ npm使用的相关文件系统结构
     - [npm-scope](#)
     - [removing-npm](#)
     - [semver](#)
+
+## 参考
+
+- https://docs.npmjs.com/
+- https://www.npmjs.com.cn/
+- https://segmentfault.com/a/1190000007665813
+- http://www.ruanyifeng.com/blog/2016/01/npm-install.html
+- https://segmentfault.com/a/1190000009709213
