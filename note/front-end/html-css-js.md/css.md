@@ -401,8 +401,31 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 这个过程的核心是选择器及其相关声明的特殊性、继承机制。
 
 
+## CSS属性
 
+### 定位属性
 
+- `display`
+    - 作用：设置元素如何显示
+    - 值选项：
+        - none：使元素不显示
+        - block：使元素显示为块级元素，前后会带有换行符
+        - inline：默认。使元素显示为内联元素，前后没有换行符
+        - table：使元素以块级元素显示，类似table元素
+        - list-item：
+        - run-in：
+        - ...
+- `visibility`
+    - 作用：设置元素是否可见
+    - 区别：注意`visibility:hidden` 和 `display:none` 区别，前者元素还在渲染树上占一个位置，可以看作仅透明；而后者是直接没有在渲染树上，不会占位置
+    - 值选项：
+        - visible：显示，默认
+        - hidden：隐藏
+        - collapse：
+        - inherit
+- `position`
+    - 作用：设置元素的定位类型
+    - 说明：
 
 
 ## 参考
