@@ -1,0 +1,19 @@
+# 浏览器
+
+## 浏览器渲染原理
+
+- 浏览器会解析三个东西
+    1. 一个是html/svg/xhtml，事实上，webkit有三个C++的类对应这三类文档。解析这三种文件会产生一个DOM Tree。
+    2. CSS，解析CSS会产生CSS规则树
+    3. Javascript，脚本，主要通过 DOM API 和 CSSOM API 来操作 DOM Tree 和 CSS Rule Tree。
+- 解析完成后，浏览器引擎会通过 DOM Tree 和 CSS Rule Tree 来构造 Rendering Tree 渲染树。注意：
+    1. 渲染树部等同于dom树，因为一些像Header或display:none的东西就没必要放在渲染树上了。
+    2. CSS rule tree主要完成匹配并把CSS Rule附加上rendering tree上的每个element。也就是dom节点。
+    3. 然后，计算每个element的位置，这又叫layout和reflow过程。
+- 最后通过调用操作系统Native GUI的API绘制。 
+
+基本流程：
+1. 构建dom树/css规则树
+2. 构建render树
+3. 布局render树 
+4. 绘制render树

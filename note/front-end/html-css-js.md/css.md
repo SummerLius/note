@@ -450,13 +450,20 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
         - inherit
 - `position`
     - 作用：设置元素的定位类型，与left、right、top、bottom一起起作用
-    - 说明：
+    - 说明：建立元素布局所用的定位机制，任何元素都可以定位，不过absolute或fixed元素会生成一个块级框，而不论元素本身是什么类型。relative定位元素会相对于它在正常流中的默认位置偏移。
     - 值选项：
-        - static：默认
+        - static：
+            - 默认。元素正常布局,即元素在文档常规流中当前布局位置。此时top、right、bottom、left、z-index属性无效。
         - absolute：
+            - 不为该元素在正常文档流中预留位置。
+            - 通过相对于该元素最近的非static定位的祖先元素偏移，如果沿着父元素依次向上，只要发现是非static定位，则对其偏移，否则直到根元素html
         - fixed：
+            - 不为该元素在正常文档流中预留位置。
+            - 且相对与屏幕视口位置偏移。
         - relative：
         - inherit：
+    - 注意：
+        - 定位相对偏移时，fixed、absolute、relative，如果没有指定top、right、bottom、left值，但是浏览器可能会根据元素当前的位置来绘制，不会默认top、right等这些值为0，这点需要注意，例如如果定位设置为fixed，按理说相对屏幕偏移，应该在最左上方，当实际可能不是，除非开发者指定top:0、right:0等属性
 - `left`
     - 作用：规定元素的左边缘。定义了定位元素左外边距与其包含块左边界之间的偏移。
     - 值选项：

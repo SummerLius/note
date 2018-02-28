@@ -16,3 +16,5 @@
     - []()
     - []()
     - []()
+- [酷壳：浏览器的渲染原理简介](https://coolshell.cn/articles/9666.html)
+- [深入解析浏览器的幕后工作原理](https://www.cnblogs.com/lhb25/p/how-browsers-work.html)
