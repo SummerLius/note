@@ -25,9 +25,14 @@
     - [CSS声明](#css声明)
         - [尺寸属性](#尺寸属性)
         - [定位声明](#定位声明)
-        - [CSS 文本声明](#css-文本声明)
+        - [文本声明](#文本声明)
+        - [背景属性](#背景属性)
     - [//////////////////////////////////////](#)
     - [单位](#单位)
+    - [//////////////////////////////////////](#-1)
+    - [w3c官网css2.2标准](#w3c官网css22标准)
+        - [第八章 box model](#第八章-box-model)
+        - [第九章 visual formatting model](#第九章-visual-formatting-model)
     - [参考](#参考)
 
 <!-- /TOC -->
@@ -508,7 +513,7 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 - ``
 - ``
 
-### CSS 文本声明
+### 文本声明
 
 - `line-height`：
     - 作用：设置行高
@@ -523,6 +528,19 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
         - %：基于当前字体尺寸百分比行间距
         - inherit：
 
+### 背景属性
+
+- `background-color`
+    - 作用：设置元素的背景颜色
+    - 说明：
+        - 范围：content-area、padding、border，不包括margin
+        - margin总是透明背景
+    - 值选项：
+        - *color_name*：
+        - *hex_number*：
+        - *rgb_number*：
+        - *transparent*：默认值，透明
+        - *inherit*：
 
 ## //////////////////////////////////////
 
@@ -539,6 +557,49 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
     - rgb(x%, x%, x%)
     - #rrggbb
 
+## //////////////////////////////////////
+
+## w3c官网css2.2标准
+
+### 第八章 box model
+
+### 第九章 visual formatting model
+
+1. 简介
+    - 可视化格式模型下，根据盒模型box model，dom-tree上的每个元素产生0至多个box，这些boxs的布局通过一下几个方面控制：
+        1. box尺寸和类型
+        2. 定位方案（正常流，浮动，绝对定位）
+        3. dom-tree上元素的相互关系
+        4. 外部信息（例如，视口尺寸，图片的固定尺寸等等）
+    - 
+2. 视口 viewport
+3. 包含块 containing blocks
+    - 在css2.2中，许多盒子的位置和大小是相对于称为**包含块**的矩形盒的边缘计算的。一般而言，当前的box充当后代box的包含块。
+    - 每个box相对于其包含块被赋予一个位置，但是它的尺寸显示不受包含块的限制，它可能溢出
+4. 控制box生成
+5. 块级元素和块级盒
+    - 块级元素会生成块级主盒（block-level principal box）
+    - 使元素生成块级的 display为：block、list-item、table
+    - 块级盒（block-level box）参与进BFC
+    - 块级盒还是块容器盒，除了table box、或替换元素的主盒
+    - 一个block container box，期内要么只包含块级盒，要么建立一个IFC内联格式上下文，该ifc内只包含内联盒子
+    - 主盒为块容器盒的元素，是**块容器元素**
+    - 重点：
+        - 块级元素，即对应display为block、list-item、table的元素，肯定对应是 block-level box
+        - block-level box 不一定是 block container box
+        - block container box 不一定是 block-level box
+        - block box：既是block-level box，也是block container box
+        - 举例：
+            - display:inlie-block的元素是container box，不是block-level box
+6. 匿名block boxes
+    - 亟待整理
+7. 内联级别元素和内联盒
+    - 内联级元素，不构成新内容块，其内容按行分布
+    - 使元素为内联级：display：inline、inline-table、inline-block
+    - 内联级元素生成内联级盒（inline-level boxes），这些boxes参与内联格式化上下文ifc
+    - inline box，既是内联级别的，其contents也参与其内的ifc（内联格式化上下文）。
+    - display值为inline的非替换元素，会生成inline box
+    - 不是inline boxes的inline-level boxes称为**atomic inline-level boxex**，因为它们参与它们的ifc，作为单个不透明的box。（例如替换的inline-level元素，inline-block元素，inline-table元素）
 
 
 
@@ -561,3 +622,4 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 - 《css权威指南》
 - [CDN参考：值与单位](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Introduction_to_CSS/Values_and_units)
 - [深入理解CSS中的长度单位](https://www.cnblogs.com/xiaohuochai/p/5485683.html)
+- [w3c css2.2标准](https://www.w3.org/TR/CSS22)
