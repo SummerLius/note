@@ -41,6 +41,11 @@
     - [w3c官网css2.2标准](#w3c官网css22标准)
         - [第八章 box model](#第八章-box-model)
         - [第九章 visual formatting model](#第九章-visual-formatting-model)
+    - [w3c官网css3-box标准：CSS basic box model](#w3c官网css3-box标准css-basic-box-model)
+        - [第四章 Types of boxes](#第四章-types-of-boxes)
+        - [第五章 The padding properties](#第五章-the-padding-properties)
+        - [第十章 Floating boxes](#第十章-floating-boxes)
+        - [第十一章 Overflow](#第十一章-overflow)
     - [参考](#参考)
 
 <!-- /TOC -->
@@ -427,7 +432,7 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 - `height`：
     - 作用：设置元素高度，具体来讲是**元素内容区**高度，整个元素高度还包括margin、border、padding
     - 值选项：
-        - auto：默认
+        - auto：默认，浏览器默认将内容区高度设置包含内容的高度
         - length：
         - %：基于包含它的块级对象百分比高度
         - inherit
@@ -439,6 +444,12 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 - `min-height`
     - 作用：给元素高度设置一个最低限制，**不允许负值**
 - `width`
+    - 作用：设置元素内容区宽度，内容区外边还有padding、border、margin
+    - 值选项：
+        - auto：默认。对于块级元素，浏览器设置该元素width，默认使其占满父元素宽度。
+        - length
+        - %：定义基于包含块（父元素）宽度的百分比
+        - inherit：
 - `max-width`
 - `min-width`
 
@@ -586,7 +597,13 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 - **块级元素**
 - **水平格式化**
 - **水平属性**
-    - 盒子模型中，width、height、margin、padding声明中仅有，width和水平margin可以设置值为：auto，其它不可以。
+    - 只有margin可以为负值，width、height、border、padding不可以为负值
+- **负外边距**
+- **百分数**
+- **替换元素**
+- **垂直格式化**
+- **垂直属性**
+- **合并垂直外边距**
 
 
 ### 第八章 内边距、边框和外边距
@@ -599,45 +616,186 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 
 ## w3c官网css2.2标准
 
+- 地址：https://www.w3.org/TR/CSS22/visuren.html
+
 ### 第八章 box model
 
 ### 第九章 visual formatting model
 
-1. 简介
-    - 可视化格式模型下，根据盒模型box model，dom-tree上的每个元素产生0至多个box，这些boxs的布局通过一下几个方面控制：
+1. **简介**
+    1. 可视化格式模型下，根据盒模型box model，dom-tree上的每个元素产生0至多个box，这些boxs的布局通过一下几个方面控制：
         1. box尺寸和类型
         2. 定位方案（正常流，浮动，绝对定位）
         3. dom-tree上元素的相互关系
         4. 外部信息（例如，视口尺寸，图片的固定尺寸等等）
-    - 
-2. 视口 viewport
-3. 包含块 containing blocks
-    - 在css2.2中，许多盒子的位置和大小是相对于称为**包含块**的矩形盒的边缘计算的。一般而言，当前的box充当后代box的包含块。
-    - 每个box相对于其包含块被赋予一个位置，但是它的尺寸显示不受包含块的限制，它可能溢出
-4. 控制box生成
-5. 块级元素和块级盒
-    - 块级元素会生成块级主盒（block-level principal box）
-    - 使元素生成块级的 display为：block、list-item、table
-    - 块级盒（block-level box）参与进BFC
-    - 块级盒还是块容器盒，除了table box、或替换元素的主盒
-    - 一个block container box，期内要么只包含块级盒，要么建立一个IFC内联格式上下文，该ifc内只包含内联盒子
-    - 主盒为块容器盒的元素，是**块容器元素**
-    - 重点：
-        - 块级元素，即对应display为block、list-item、table的元素，肯定对应是 block-level box
-        - block-level box 不一定是 block container box
-        - block container box 不一定是 block-level box
-        - block box：既是block-level box，也是block container box
-        - 举例：
-            - display:inlie-block的元素是container box，不是block-level box
-6. 匿名block boxes
-    - 亟待整理
-7. 内联级别元素和内联盒
-    - 内联级元素，不构成新内容块，其内容按行分布
-    - 使元素为内联级：display：inline、inline-table、inline-block
-    - 内联级元素生成内联级盒（inline-level boxes），这些boxes参与内联格式化上下文ifc
-    - inline box，既是内联级别的，其contents也参与其内的ifc（内联格式化上下文）。
-    - display值为inline的非替换元素，会生成inline box
-    - 不是inline boxes的inline-level boxes称为**atomic inline-level boxex**，因为它们参与它们的ifc，作为单个不透明的box。（例如替换的inline-level元素，inline-block元素，inline-table元素）
+    2. 视口 viewport
+    3. 包含块 containing blocks
+        - 在css2.2中，许多盒子的位置和大小是相对于称为**包含块**的矩形盒的边缘计算的。一般而言，当前的box充当后代box的包含块。
+        - 每个box相对于其包含块被赋予一个位置，但是它的尺寸显示不受包含块的限制，它可能溢出
+2. **控制box生成**
+    1. 块级元素和块级盒
+        - 块级元素会生成块级主盒（block-level principal box）
+        - 使元素生成块级的 display为：block、list-item、table
+        - 块级盒（block-level box）参与进BFC
+        - 一般情况下，块级box是块容器box，除了一些特例，例如table box、或替换元素的主盒
+        - 一个block container box，期内要么只包含块级盒，要么建立一个IFC内联格式上下文，该ifc内只包含内联盒子
+        - 主盒为块容器盒的元素，是**块容器元素**
+        - 重点：
+            - 块级元素，即对应display为block、list-item、table的元素，肯定对应是 block-level box
+            - block-level box 不一定是 block container box
+            - block container box 不一定是 block-level box
+            - block box：既是block-level box，也是block container box
+            - 举例：
+                - display:inlie-block的元素是container box，不是block-level box
+    2. 匿名block boxes
+        - 亟待整理
+    3. 内联级别元素和内联盒
+        - 内联级元素，不构成新内容块，其内容按行分布
+        - 使元素为内联级：display：inline、inline-table、inline-block
+        - 内联级元素生成内联级盒（inline-level boxes），这些boxes参与内联格式化上下文ifc
+        - inline box，既是内联级别的，其contents也参与其内的ifc（内联格式化上下文）。
+        - **display值为inline的非替换元素**，会生成inline box
+        - 不是inline boxes的inline-level boxes称为**atomic inline-level boxes**，因为它们参与它们的ifc，作为单个不透明的box。（例如替换的inline-level元素，inline-block元素，inline-table元素）
+    4. 匿名inline boxes
+        - 亟待整理
+    5. Run-in boxes
+        - 详情见[see CSS basic box model](https://www.w3.org/TR/css3-box/)
+    6. Display属性
+        - 值选项：
+            - inline
+                - 使元素产生一个或多个inline boxes
+            - block
+                - 使元素生成一个principal block box
+            - inline-block
+                - 使元素生成一个principal inline-level block container。该元素内部表现的像block box，外部元素本身表现的像atomic inline-level box。
+            - list-item
+                - 该元素生成一个principal block box 和一个marker box。
+            - none
+            - table
+            - ...
+3. **定位方案**
+    1. 介绍：在CSS2.2标准内，一个box根据三种定位方案来布局
+        - Normal flow：
+            - block formatting of block-level boxes
+            - inline formatting of inline-level boxes
+            - relative positioning of block-level and inline-level boxes
+        - Floats：
+            - 在浮动模式下，box首先根据当前的正常流进行布局，然后把box脱出正常流，然后向左右浮动
+        - Absolute positioning：
+            - 据对定位模式下，box完全直接从正常流中脱出，即正常流中不会为该元素预留位置
+        - 浮动、绝对定位或根元素可以称为：**out of flow**，其它的称为：**in-flow**。
+    2. 通过 position 属性来选择一个定位方案
+        - 值选项：
+            - static：**默认值**。box根据正常流布局，top、right、bottom、left属性无效。
+            - relative：待整理
+            - absolute：待整理
+            - fixed：待整理  
+    3. Box偏移：top right bottom left
+        - **positioned element**：先共同申明下，positioned元素表示其position属性不是static
+        - positioned元素会生成positioned boxes，其会根据四个属性布局：top、right、bottom、left
+        - **top**：待整理
+        - **right**：待整理
+        - **bottom**：待整理
+        - **left**：待整理
+4. **正常流 Normal flow**
+    1. 介绍：正常流中的box属于一个格式化上下文，formatting context，可能是table、block、inline格式化上下文，可能在未来会增加更多的类型上下文
+        - block-level boxes参与block formatting context
+        - inline-level boxes参与inline formatting context
+        - table formatting context在其它章节描述，此处不做介绍
+        - 目前大多数情况下，正常流属于BFC
+    2. BFC
+        - 在bfc中，boxes从包含块的顶部开始，垂直的，一个接着一个的布局。
+        - 上下两个box的间隔是通过margin属性决定，注意上下相邻的box的margin会发生折叠
+        - **那些元素在它们内容里面会建立新的BFC**
+            - floats
+            - absolute positioned
+            - block containers that are not block boxes，例如inline-block、table-cell等等
+            - blocs boxes with 'overflow' other than 'visible'
+    3. IFC
+        - 太多，亟待整理
+    4. 相对定位
+        - 一旦一个box根据正常流布局或浮动，它可以相对于这个位置来移动，这被称为**相对定位**。
+        - 以这种方式偏移的box对后面的box没有影响，正常流会保留box的正常的位置，box动态更改偏移属性后，后面的box不会重新定位布局。这意味着，相对定位可能会导致**box重叠**。
+        - 但是如果，相对定位导致'overflow:auto'或'overflow:scroll'溢出，则UA必须允许用户访问此内容（在其偏移位置），该内容通过创建滚动条可能会影响布局
+        - 相对定位的box保持其在正常流中的尺寸，包括换行符和原来为期保留的空间。
+        - 水平移动
+            - 如果left和right属性值都是auto，即它们的初始值，那么实际UA使用的的值为0（即，box保持原始位置）
+            - 如果left为auto，而right给定确定值，则left实际值为：-right，反之亦然
+            - 如果left、right给定了确切值，那么该定位被过度约束了，其中一个会被忽略掉。如果，包含块的direction属性为ltr，则left胜出；反之right胜出。
+        - 垂直移动
+            - 如果top和bottom都是auto，则实际值为0，即box保持原位置
+            - 如果top为auto，bottom为确切值，则top实际值为：-bottom，反之亦然
+            - 如果top和bottom都不是auto，均有确切值，则top直接胜出，bottom忽略
+5. **浮动 Floats**
+    1. 介绍：float是一个在当前行上向左或向右浮动的box。最有趣的特征是content会沿着float box的边沿、侧面流动（当然，可以使用clear属性禁止该特征）。内容沿着左浮动框的右侧向下流动，沿着右浮动框的左侧向下流动。以下是浮动定位和内容流的介绍：
+        - 浮动的box向左或右移动，直到其外边缘接触到包含块边缘或另一个浮动块的外边缘。如果存在一个line box线框，浮动框的外部顶部与当前线框的顶部对齐。
+        - 如果当前位置没有足够的水平空间给浮动box，那么它会向下移动，直到找到合适位置
+        - 由于浮动框不在正常流中，所以浮动box之前之后创建的的位于正常流中的块元素垂直流动，仿佛视浮动box不存在一样。但是根据需要，需要缩短当前的和随后创建在浮动box旁边的线框line boxes，以便给浮动box腾出空间，这样就营造出content沿着浮动box侧面流动的现象。
+        - 当满足以下四个条件的垂直位置时，线框line box会与浮动box相邻：
+            1. 在相框顶部或以下
+            2. 在线框底部或上方
+            3. 在浮动box的top margin下方
+            4. 在浮动box的bottom margin上方
+        - 如果缩短了的线框太小而不能包含任何内容，则线框只能向下移动并重新计算宽度，直到位置合适或不存在浮动box。
+        - 表格、块级替换元素或会在正常流中建立自己内部新的BFC的这几类元素的边框，不得与位于同一BFC中的浮动box的margin重叠（这个有待测试）。
+    2. 浮动定位：float属性
+        - 适用元素：除了绝对定位的absolutely positioned（待确定）
+        - 值选项：
+            - none：默认值，不浮动
+            - left：
+            - right：
+        - 以下是控制浮动行为的准确规则：
+            1. 左浮动框的左外边缘可能不在其包含块的左边缘的左边。类似的规则使用与右浮动元素。
+            2. 如果文档前面存在左浮动box，则后续的左浮动box置于，前面的浮动box的右边或下面。
+            3. xxx
+            4. xxx
+            5. 浮动box的外部顶部不得高于源文档中早期元素生成的任何block或浮动box的外部顶部
+            6. 浮动box的外部顶部可能不会高于源文档中早期元素生成的任何线框line boxes的顶部
+            7. xxx
+            8. 浮动box尽可能置于高的位置
+            9. xxx
+    3. 控制float旁边的流：clear属性
+    4. **float具体处理，还是有待理解、测试，读标准后一知半解**
+6. **绝对定位 Absolute positioning**
+    1. 介绍
+        - 在绝对定位模型中，box**相对于其包含块**精确偏移。
+        - 其完全脱离出正常流，和其它元素互相不影响。其内容也不会像float那样会和相邻的线框有影响，而是完全脱离，可能会遮蔽正常流上的，具体是否遮蔽取决于堆叠级别。
+        - 一个绝对定位的box建立一个新的包含块给其后代元素。
+        - 绝对定位通过position指定，有两种值：absolute和fixed
+    2. Fixed定位
+        - 固定定位是绝对定位的子类别。唯一的区别是，对于固定定位的box，其包含块是`viewport`建立的（可以说是相对于viewport偏移）。
+        - 对于连续媒体，当文档滚动时，fixed盒子不会移动。在这一点上，它们和fixed背景图片类似。
+        - 对于分页媒体，fixed定位的盒在每一页上重复出现。
+7. **属性display、position、float之间关系**
+    1. 介绍：这三个css属性影响box的生成和布局：
+        1. 如果display为none，那么元素不生成box，因此position和float也不会生效。
+        2. 否则，如果position值为absolute或fixed，此时float和display值不会生效，float值强制置为none，display根据下表来设置。盒的位置由top、right、bottom、left以及盒的包含块来决定。
+        3. 否则，如果float值不为none，那么box是浮动的，display根据下表设置
+        4. 否则，如果元素是根元素，display根据下表来设置，但指定值为list-item应该变成计算值为block还是list-item，在2.2中未明确定义
+        5. 否则，其它display属性值（计算值）就用指定值
+        6. |指定值|计算值|
+           |:--:|:--:|
+           |inline-table|table|
+           |inline,inline-block,table-*|block|
+           |其它|与指定值相同|           
+8. **比较：正常流、浮动、绝对定位**
+    1. 介绍：
+
+
+## w3c官网css3-box标准：CSS basic box model
+
+- 地址：https://www.w3.org/TR/css3-box/
+
+### 第四章 Types of boxes
+
+### 第五章 The padding properties
+
+### 第十章 Floating boxes
+
+### 第十一章 Overflow
+
+
+
 
 
 

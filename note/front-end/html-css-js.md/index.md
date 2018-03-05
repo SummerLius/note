@@ -19,3 +19,7 @@
 - [酷壳：浏览器的渲染原理简介](https://coolshell.cn/articles/9666.html)
 - [深入解析浏览器的幕后工作原理](https://www.cnblogs.com/lhb25/p/how-browsers-work.html)
 - [[翻译]关于Vertical-Align你需要知道的事情](https://segmentfault.com/a/1190000002668492)
+- [CSS基本术语](https://zhuanlan.zhihu.com/p/20844838)
+- [一个CSS参考手册网址](http://css.doyoe.com/)
+- [一个网友对css2.1标准的翻译，仅供参考](http://www.ayqy.net/doc/css2-1/cover.html#minitoc)
+- [CSS tricks](https://css-tricks.com/)
