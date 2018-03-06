@@ -525,7 +525,13 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
         - scroll：内容会被修剪，当可以通过滚动条查看其余内容（不管是否修剪，强制会出现滚动条）
         - auto：如果内容被修剪时，才会出现滚动条
         - inherit：
-- ``
+- `z-index`
+    - 作用：
+        - 设置当前元素的堆叠顺序
+        - 设置当前元素是否建立新的堆叠上下文
+    - 适用元素：
+        - 仅适用与定位元素，即position值不为static的元素，即relative、absolute、fixed
+    - 值选项：
 - ``
 - ``
 - ``
@@ -712,6 +718,7 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
             - block containers that are not block boxes，例如inline-block、table-cell等等
             - blocs boxes with 'overflow' other than 'visible'
     3. IFC
+        - [见中文翻译](http://www.ayqy.net/doc/css2-1/visuren.html#inline-formatting)
         - 太多，亟待整理
     4. 相对定位
         - 一旦一个box根据正常流布局或浮动，它可以相对于这个位置来移动，这被称为**相对定位**。
@@ -780,7 +787,15 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
            |其它|与指定值相同|           
 8. **比较：正常流、浮动、绝对定位**
     1. 介绍：
-
+9. **分层展示**
+    1. 指定堆叠层级：z-index属性
+    2. 有待整理
+    3. 网友博客
+        - [z-index的工作原理](https://www.w3cplus.com/css/how-z-index-works.html)
+        - [关于z-index 那些你不知道的事](https://webdesign.tutsplus.com/zh-hans/articles/what-you-may-not-know-about-the-z-index-property--webdesign-16892)
+        - [深入理解CSS中的层叠上下文和层叠顺序](http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/)
+        - [解决和分析CSS中z-index属性无效的问题-十有三博客](http://shiyousan.com/post/635861461562038949)
+        - [理解CSS的 z-index属性](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Understanding_z_index)
 
 ## w3c官网css3-box标准：CSS basic box model
 
