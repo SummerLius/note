@@ -39,8 +39,16 @@
         - [第十章 浮动和定位](#第十章-浮动和定位)
     - [//////////////////////////////////////](#-2)
     - [w3c官网css2.2标准](#w3c官网css22标准)
-        - [第八章 box model](#第八章-box-model)
-        - [第九章 visual formatting model](#第九章-visual-formatting-model)
+        - [第八章 盒模型](#第八章-盒模型)
+        - [第九章 视觉格式化模型](#第九章-视觉格式化模型)
+        - [第十章 视觉格式化模型细节](#第十章-视觉格式化模型细节)
+        - [第十一章 可视化效果](#第十一章-可视化效果)
+        - [第十二章 内容生成，自动编号与列表](#第十二章-内容生成自动编号与列表)
+        - [第十四章 颜色与背景](#第十四章-颜色与背景)
+        - [第十五章 字体](#第十五章-字体)
+        - [第十六章 文本](#第十六章-文本)
+        - [第十七章 表格](#第十七章-表格)
+        - [第十八章 用户界面](#第十八章-用户界面)
     - [w3c官网css3-box标准：CSS basic box model](#w3c官网css3-box标准css-basic-box-model)
         - [第四章 Types of boxes](#第四章-types-of-boxes)
         - [第五章 The padding properties](#第五章-the-padding-properties)
@@ -624,9 +632,9 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 
 - 地址：https://www.w3.org/TR/CSS22/visuren.html
 
-### 第八章 box model
+### 第八章 盒模型
 
-### 第九章 visual formatting model
+### 第九章 视觉格式化模型
 
 1. **简介**
     1. 可视化格式模型下，根据盒模型box model，dom-tree上的每个元素产生0至多个box，这些boxs的布局通过一下几个方面控制：
@@ -639,7 +647,23 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
         - 在css2.2中，许多盒子的位置和大小是相对于称为**包含块**的矩形盒的边缘计算的。一般而言，当前的box充当后代box的包含块。
         - 每个box相对于其包含块被赋予一个位置，但是它的尺寸显示不受包含块的限制，它可能溢出
 2. **控制box生成**
-    1. 块级元素和块级盒
+    1. 块级元素与块盒
+        1. 术语：
+            1. 块级盒：block-level box
+            2. 块容器盒：block container box
+            3. 块盒：block box
+            4. 块：block 在上面三个术语没有歧义的场景下，可以简称为“块”
+        2. 介绍：
+            - **块级元素**（lock-level elements）是源文档中那些被格式化成视觉上的块的元素（例如，段落）。display属性的下列值能让一个元素变成块级的：block、list-item和table。
+            - 块级盒是参与块格式化上下文BFC的盒。每个块级元素生成一个主块级盒（principal block-level box），用来包含后代盒及生成的内容，并且任何定位方案都与该盒有关。
+            - 有些块级元素可能会生成除主盒外的额外的盒：list-item元素。这些额外的盒根据主盒来放置。
+            - **除了表格盒（table box）和替换元素外**，块级盒也是块容器盒。一个块容器盒，里面要么只包含块级盒，要么只包含行内盒，即要么是BFC，要么是IFC，只能其一。
+            - 不是所以的块容器盒都是块级盒：非替换的行内块，非替换的表格单元，是块容器，但不是块级盒，例如display:inline-block。
+            - 关系：
+                - 块容器盒 不一定是 块级盒，例如display:inline-block
+                - 块级盒 不一定是 块容器盒，例如表格盒、替换元素（待确定）
+                - 块盒两者都是
+    <!-- 1. 块级元素和块级盒
         - 块级元素会生成块级主盒（block-level principal box）
         - 使元素生成块级的 display为：block、list-item、table
         - 块级盒（block-level box）参与进BFC
@@ -652,32 +676,53 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
             - block container box 不一定是 block-level box
             - block box：既是block-level box，也是block container box
             - 举例：
-                - display:inlie-block的元素是container box，不是block-level box
-    2. 匿名block boxes
+                - display:inlie-block的元素是container box，不是block-level box -->
+    2. 匿名块盒
         - 亟待整理
-    3. 内联级别元素和内联盒
-        - 内联级元素，不构成新内容块，其内容按行分布
+    3. 内联级元素和内联盒
+        1. 术语
+            - 内联、行内：inline
+            - 内联/行内级盒：inline-level box
+            - 行内盒：inline box
+            - 原子行内级盒：atomic inline-level box
+        2. 介绍
+            - **内联/行内级元素**（Inline-level elements）是源文档中那些不会形成新内容块的元素，内容分布于多行（例如，段落中的一部分文本，行内图片等）。
+            - display属性的下列值可以让一个元素变成行内级：inline、inline-table、inline-block。
+            - 行内级元素生成行内级盒（inline-level box），即参与行内格式化上下文IFC的盒
+            - 行内盒（inline box）是一种行内级盒，其内容参与了它的包含行内格式上下文IFC。
+            - dispaly值为inline的非替换元素会生成一个**行内盒**，例如一个span元素。
+            - 不属于行内盒的行内级盒被称为原子行内级盒（例如，行内级替换元素img，inline-block元素，inline-table元素等），因为它们作为单一的不透明盒参与其行内格式化上下文。
+            - 小节一下：
+                - 行内级盒大概分为两类：
+                    1. 行内盒：display值为inline的非替换元素生成，例如span、a等
+                    2. 原子行内级盒：非行内盒，例如img、dispaly:inline-block等
+                - 异同点：
+                    1. 对外肯定都是表示“行内”的特性
+                    2. 对内，行内盒里面也是“行”特性，widht、height等属性都不生效，而原子行内级盒里面则是“块”的特性，width、height、padding、maring等属性会生效
+                    3. 等等
+        <!-- - 内联级元素，不构成新内容块，其内容按行分布
         - 使元素为内联级：display：inline、inline-table、inline-block
         - 内联级元素生成内联级盒（inline-level boxes），这些boxes参与内联格式化上下文ifc
         - inline box，既是内联级别的，其contents也参与其内的ifc（内联格式化上下文）。
         - **display值为inline的非替换元素**，会生成inline box
-        - 不是inline boxes的inline-level boxes称为**atomic inline-level boxes**，因为它们参与它们的ifc，作为单个不透明的box。（例如替换的inline-level元素，inline-block元素，inline-table元素）
-    4. 匿名inline boxes
+        - 不是inline boxes的inline-level boxes称为**atomic inline-level boxes**，因为它们参与它们的ifc，作为单个不透明的box。（例如替换的inline-level元素，inline-block元素，inline-table元素） -->
+    4. 匿名行内盒
         - 亟待整理
     5. Run-in boxes
         - 详情见[see CSS basic box model](https://www.w3.org/TR/css3-box/)
     6. Display属性
         - 值选项：
             - inline
-                - 使元素产生一个或多个inline boxes
+                - 该值会让元素生成一个或多个行内盒（可能要区分替换和非替换元素）
             - block
-                - 使元素生成一个principal block box
+                - 该值让元素生成一个块盒
             - inline-block
-                - 使元素生成一个principal inline-level block container。该元素内部表现的像block box，外部元素本身表现的像atomic inline-level box。
+                - 该值会让元素生成一个行内级块容器（inline-level block container）。一个inline-block的内部会被格式化成一个块盒（block box），而该元素本身会被格式化成一个原子行内级盒。
             - list-item
-                - 该元素生成一个principal block box 和一个marker box。
+                - 该值会让元素生成一个主块盒和一个标记盒。关于列表级列表格式化更多信息，查看[列表](#)章节
             - none
-            - table
+            - table-*、inline-table
+                - 这些值会让元素表现的像个表格元素一样，更多table讨论见[表格](#)章节
             - ...
 3. **定位方案**
     1. 介绍：在CSS2.2标准内，一个box根据三种定位方案来布局
@@ -688,23 +733,25 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
         - Floats：
             - 在浮动模式下，box首先根据当前的正常流进行布局，然后把box脱出正常流，然后向左右浮动
         - Absolute positioning：
-            - 据对定位模式下，box完全直接从正常流中脱出，即正常流中不会为该元素预留位置
+            - 据对定位模式下，box完全直接从正常流中脱出，即正常流中不会为该元素预留位置，并根据包含块确定位置
         - 浮动、绝对定位或根元素可以称为：**out of flow**，其它的称为：**in-flow**。
     2. 通过 position 属性来选择一个定位方案
         - 值选项：
             - static：**默认值**。box根据正常流布局，top、right、bottom、left属性无效。
-            - relative：待整理
-            - absolute：待整理
-            - fixed：待整理  
+            - relative：盒的位置是根据正常流（或浮动定位也可以使用relative）计算的，然后盒相对于流中的正常、原先位置偏移（不是根据其包含块偏移）。注意，table-*等display的元素上position：relative效果是未定义的，不同浏览器可能效果不同
+            - absolute：相对与盒子包含块（containing block）偏移，根据top、right、bottom、left属性。虽然绝对定位的盒有margin，但是它们不会与任何其它外边距折叠。
+            - fixed：盒的位置基本上使用absolute模型计算，除了其包含块是固定的，例如对于连续媒体来说是viewport。
+        - UA可以把根元素的position视为static
     3. Box偏移：top right bottom left
         - **positioned element**：先共同申明下，positioned元素表示其position属性不是static
         - positioned元素会生成positioned boxes，其会根据四个属性布局：top、right、bottom、left
-        - **top**：待整理
-        - **right**：待整理
-        - **bottom**：待整理
-        - **left**：待整理
+        - **top**：默认auto
+        - **right**：默认auto
+        - **bottom**：默认auto
+        - **left**：默认auto
+        - top、right、bottom、left：对于同一个元素，一对中只能有一个生效
 4. **正常流 Normal flow**
-    1. 介绍：正常流中的box属于一个格式化上下文，formatting context，可能是table、block、inline格式化上下文，可能在未来会增加更多的类型上下文
+    1. 介绍：正常流中的box属于一个格式化上下文，formatting context，可能是table、block或inline格式化上下文之一，可能在未来会增加更多的类型上下文
         - block-level boxes参与block formatting context
         - inline-level boxes参与inline formatting context
         - table formatting context在其它章节描述，此处不做介绍
@@ -717,6 +764,7 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
             - absolute positioned
             - block containers that are not block boxes，例如inline-block、table-cell等等
             - blocs boxes with 'overflow' other than 'visible'
+            - 浮动，绝对定位的元素，非块盒的块容器（例如inline-blocks，table-cells和table-captions），以及’overflow’不为’visible’的块盒会为其内容建立新的块格式化上下文
     3. IFC
         - [见中文翻译](http://www.ayqy.net/doc/css2-1/visuren.html#inline-formatting)
         - 太多，亟待整理
@@ -777,14 +825,17 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
     1. 介绍：这三个css属性影响box的生成和布局：
         1. 如果display为none，那么元素不生成box，因此position和float也不会生效。
         2. 否则，如果position值为absolute或fixed，此时float和display值不会生效，float值强制置为none，display根据下表来设置。盒的位置由top、right、bottom、left以及盒的包含块来决定。
-        3. 否则，如果float值不为none，那么box是浮动的，display根据下表设置
+        3. 否则，如果float值不为none，那么box是浮动的，display根据下表设置，此时position为static、relative都可以生效
         4. 否则，如果元素是根元素，display根据下表来设置，但指定值为list-item应该变成计算值为block还是list-item，在2.2中未明确定义
         5. 否则，其它display属性值（计算值）就用指定值
         6. |指定值|计算值|
            |:--:|:--:|
            |inline-table|table|
            |inline,inline-block,table-*|block|
-           |其它|与指定值相同|           
+           |其它|与指定值相同| 
+    2. **小节**：
+        - 定位优先级：元素不存在 > 绝对定位 > 浮动 > 正常流
+        - 三种定位方案是不共存的，即通过display、position、float属性设置，最后只能确定其中的一种方案，确定的规则，即按照上面的定位优先级来
 8. **比较：正常流、浮动、绝对定位**
     1. 介绍：
 9. **分层展示**
@@ -796,6 +847,64 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
         - [深入理解CSS中的层叠上下文和层叠顺序](http://www.zhangxinxu.com/wordpress/2016/01/understand-css-stacking-context-order-z-index/)
         - [解决和分析CSS中z-index属性无效的问题-十有三博客](http://shiyousan.com/post/635861461562038949)
         - [理解CSS的 z-index属性](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Understanding_z_index)
+
+### 第十章 视觉格式化模型细节
+
+1. **“包含块” 的定义**
+    1. 介绍：元素生成的box的位置和大小有时是根据一个特点的矩形计算的，叫做该元素的的**包含块（containing block）**。具体的定义如下：
+        1. 根元素所在的包含块是一个称为初始包含块的矩形（initial containing block）。对于连续媒体，尺寸取自视口viewport的尺寸，并且被固定在画布开始的位置；初始化块的direction属性与根元素相同。
+        2. 对于其它元素，如果该元素的position属性是relative或static，包含块由其最近的块容器祖先盒的内容边界形成。（待确定是否是祖先元素的content edge!?）
+        3. 如果元素position为fixed，包含块由连续媒体的视口或分页媒体的页区建立
+        4. 如果元素position为absolute，包含块由最近position为absolute、relative、fixed的祖先建立，即非static
+            1. 如果该祖先是一个行内元素，包含块就是围绕着为该元素生成的第一个和最后一个行内盒的内边距框的边界框。在css2.2中，如果该行内元素被跨行分隔了，那么该包含块是未定义的。
+            2. 否则，包含块由该祖先内边距边界（padding edge）形成（待确定是否是祖先元素的padding edge!?）
+        - 如果没有这样的祖先，包含块就是初始包含块
+2. **内容宽度：width属性**
+3. **计算width和margin**
+4. **最小、最大宽度：min-width与max-width**
+5. **内容高度：height属性**
+6. **计算height与margin**
+7. **最小、最大高度：min-height与max-height**
+8. **行高的计算：line-height与vertical-align属性**
+    - 详细：
+        - [中文css2.1标准文档](http://www.ayqy.net/doc/css2-1/visudet.html#line-height)
+    - 感想：有点意思
+        1. 对于一个行框/线框，也就是该行所有行内级盒的父元素，其基准线的确认问题！？？
+            - 如果里面含有，文本或行内盒之类的，很明显其基准线按照 `x` 来
+            - 否则，若不含有文本或行内盒之类的，即行框仅含有原子行内级盒时，其行框基准线不确定了：
+                1. **假装存在一个`x`，并以其为baseline**：ie9及其以下，其它浏览器的旧版本
+                2. **以行框下外边距边界为baseline**：ie10及其以上，其它浏览器的最新版本
+                3. 小节：如果要考虑兼容问题采用1方案，如果不需要考虑兼容采用2，例如公司内部项目一般不需要考虑兼容
+        2. 至于行框内的行内盒和原子行内级盒的基准线，就按照标准文档说的
+            - inline-table盒的baseline是表格的第一行的baseline
+            - inline-block盒的baseline是它的最后一个常规流中的行框的baseline，除非它没有流内行框或者其overflow属性的计算值不为visible，此时的baseline是下外边距边界。
+    <!-- 1. 介绍
+        - 如ifc章节中所述，UA把行内级盒排列在一个行框的垂直堆叠里。行框的高度由下列规则决定：
+            1. 计算行框中每个行内级盒的高度时，对于原子行内级盒（行内级替换元素、inline-block元素、inline-table元素），这个值就是其外边距margin的高度；对于行内盒，这个值就是其line-height。
+            2. 行内级盒是根据其vertical-align属性垂直对齐的。 -->
+
+### 第十一章 可视化效果
+
+### 第十二章 内容生成，自动编号与列表
+
+### 第十四章 颜色与背景
+
+### 第十五章 字体
+
+### 第十六章 文本
+
+### 第十七章 表格
+
+### 第十八章 用户界面
+
+
+
+
+
+
+
+
+
 
 ## w3c官网css3-box标准：CSS basic box model
 
