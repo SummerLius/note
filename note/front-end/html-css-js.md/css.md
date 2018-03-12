@@ -23,6 +23,7 @@
         - [层叠](#层叠)
         - [小节](#小节)
     - [CSS声明](#css声明)
+        - [列表属性](#列表属性)
         - [尺寸属性](#尺寸属性)
         - [定位声明](#定位声明)
         - [文本声明](#文本声明)
@@ -435,6 +436,13 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 
 ## CSS声明
 
+### 列表属性
+
+- `list-style`
+- `list-style-image`
+- `list-style-position`
+- `list-style-type`
+
 ### 尺寸属性
 
 - `height`：
@@ -466,13 +474,30 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 - `display`
     - 作用：设置元素如何显示
     - 值选项：
-        - none：使元素不显示
-        - block：使元素显示为块级元素，前后会带有换行符
-        - inline：默认。使元素显示为内联元素，前后没有换行符
-        - table：使元素以块级元素显示，类似table元素
-        - list-item：
-        - run-in：
-        - ...
+        - 基本值（css1）：
+            - none：使元素不显示
+            - block：使元素显示为块级元素，前后会带有换行符
+            - inline：默认。使元素显示为内联元素，前后没有换行符
+            - list-item：
+        - 扩展值（css2.1）
+            - inline-block：
+        - 表格模型值（css2.1）
+            - inline-table
+            - table
+            - table-caption
+            - table-cell
+            - table-column
+            - table-column-group
+            - table-footer-group
+            - table-header-group
+            - table-row
+            - table-row-table
+        - 其它值（css3）
+            - flex
+            - inline-flex
+            - grid
+            - inline-grid
+            - ...
 - `visibility`
     - 作用：设置元素是否可见
     - 区别：注意`visibility:hidden` 和 `display:none` 区别，前者元素还在渲染树上占一个位置，可以看作仅透明；而后者是直接没有在渲染树上，不会占位置
