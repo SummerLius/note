@@ -6,8 +6,11 @@
     - [display：inline block inline-block的区别，以及float](#displayinline-block-inline-block的区别以及float)
     - [替换元素和非替换元素](#替换元素和非替换元素)
     - [各种元素width height margin padding特性](#各种元素width-height-margin-padding特性)
-    - [清除浮动？](#清除浮动)
-    - [html标签默认对应的display属性值？](#html标签默认对应的display属性值)
+    - [清除浮动](#清除浮动)
+    - [html标签默认对应的display属性值](#html标签默认对应的display属性值)
+    - [web单页面应用与多页面应用的区别，以及应用场景的不同](#web单页面应用与多页面应用的区别以及应用场景的不同)
+    - [mvc、mvp、mvvm等模型区别](#mvcmvpmvvm等模型区别)
+    - [word-break与word-wrap区别](#word-break与word-wrap区别)
 
 <!-- /TOC -->
 
@@ -83,7 +86,7 @@ float设置后特性：
     - padding左右作用，上下不起作用
     - margin左右作用，上下不起作用
 
-## 清除浮动？
+## 清除浮动
 
 - 网上博客
     - http://www.daqianduan.com/3606.html
@@ -97,7 +100,7 @@ float设置后特性：
 2. 使用:after，clear:both
     - 注意:after仅兼容到ie8，::after仅兼容到ie9
 
-## html标签默认对应的display属性值？
+## html标签默认对应的display属性值
 
 首先display的可选值有：
 - 基本值（css1）：
@@ -151,10 +154,28 @@ float设置后特性：
 - 表单
 - 其它
     - `<img>`：inline
-    - ``：
+    - `<span>`：inline
     - ``：
     - ``：
     - ``：
 
+## web单页面应用与多页面应用的区别，以及应用场景的不同
+
+临时记录，后续整理
+- [react.js,angular.js,vue.js学习哪个好？](https://www.zhihu.com/question/39943474)
+- [SPA单页应用模式目前挺热，很多项目网站都在用，为何去哪儿百度淘宝等完全有能力支持的技术团队却没采用？](https://www.zhihu.com/question/31782625?sort=created)
+- [简书： 单页应用 VS 多页应用](https://www.jianshu.com/p/035bc1d53810)
+- [多页和单页应用模式区别](http://blog.csdn.net/u013291076/article/details/53667382)
+- [徐峰：构建单页Web应用](https://github.com/xufei/blog/issues/5)
+
+## mvc、mvp、mvvm等模型区别
+
+待整理
+
+## word-break与word-wrap区别
+
+待整理：
+- `word-break: break-all`
+- `word-wrap: break-word`
 
 
