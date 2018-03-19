@@ -11,6 +11,7 @@
     - [web单页面应用与多页面应用的区别，以及应用场景的不同](#web单页面应用与多页面应用的区别以及应用场景的不同)
     - [mvc、mvp、mvvm等模型区别](#mvcmvpmvvm等模型区别)
     - [word-break与word-wrap区别](#word-break与word-wrap区别)
+    - [margin负值应用](#margin负值应用)
 
 <!-- /TOC -->
 
@@ -177,5 +178,9 @@ float设置后特性：
 待整理：
 - `word-break: break-all`
 - `word-wrap: break-word`
+
+## margin负值应用
+
+- https://www.w3cplus.com/css/the-definitive-guide-to-using-negative-margins.html
 
 

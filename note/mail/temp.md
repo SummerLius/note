@@ -12,6 +12,7 @@
 - []()
 - []()
 - RBL查询网址
+    - https://www.dnsbl.info/dnsbl-list.php
     - https://whatismyipaddress.com/blacklist-check
     - https://www.whatismyip.com/blacklist-check/
     - https://mxtoolbox.com/blacklists.aspx
@@ -20,3 +21,14 @@
     - https://www.rblmon.com/subscription/
     - https://rblwatcher.com/
     - [趋势科技](https://www.ers.trendmicro.com/)
+
+其它
+- http://support.huawei.com/huaweiconnect/enterprise/zh/thread-294455.html
+- http://blog.csdn.net/u011628250/article/details/73526390
+- http://www.ruanyifeng.com/blog/2016/06/dns.html
+
+rfc
+- https://www.rfc-editor.org/rfc-index.html
+- https://tools.ietf.org/rfc/index
+- https://tools.ietf.org/html/rfc6471
+
