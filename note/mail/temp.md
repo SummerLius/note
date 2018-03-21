@@ -50,7 +50,7 @@ rfc
         1. 对spamhaus dnsbl的使用是非商业的
         2. 电子邮件流量，每天少于10 0000个smtp连接
         3. 每天的dnsbl的查询量，每天少于30 0000次查询
-2. [anti-spam.org.cn]()
+2. [中国反垃圾邮件联盟](http://www.anti-spam.org.cn/)
     - dnsbl地址：
         1. cbl.anti-spam.org.cn
         2. cdl.anti-spam.org.cn
@@ -84,5 +84,20 @@ rfc
     ```
     nslookup 2.0.0.127.bl.spamcop.net
     ```
-5. 待续...
+5. [sorbs](http://www.sorbs.net/general/using.shtml)
+    - dnsbl地址：
+        - 该机构dnsbl细化了很多，详情见地址：http://www.sorbs.net/general/using.shtml
+        - 这里给出一个主要的：dnsbl.sorbs.net
+6. [uribl](http://uribl.com/usage.shtml)
+    - dnsbl地址：
+        - 多个dnsbl详情见：http://uribl.com/usage.shtml
+        - 这里给出一个：multi.uribl.com
+7. [surbl](http://www.surbl.org)
+    - dnsbl地址：
+        - multi.surbl.org
+    - [dnsbl说明](http://www.surbl.org/lists)
+    - [使用该dnsbl政策](http://www.surbl.org/usage-policy)
+8. [njabl](http://www.njabl.org/)
+    - 这个的官网访问不了，可能网络被墙了
+- 待续...
 
