@@ -39,7 +39,7 @@ rfc
     - 公开的组织：像spamhaus、等
     - 系统服务商、企业自己的黑名单等：像趋势科技等
 
-1. [spamhaus]()
+1. [spamhaus](https://www.spamhaus.org/)
     - dnsbl地址：
         1. sbl.spamhaus.org.cn
         2. xbl.spamhaus.org.cn
@@ -50,6 +50,9 @@ rfc
         1. 对spamhaus dnsbl的使用是非商业的
         2. 电子邮件流量，每天少于10 0000个smtp连接
         3. 每天的dnsbl的查询量，每天少于30 0000次查询
+    - 申诉地址：
+        1. https://www.spamhaus.org/lookup/（在网站上先查询，如果在黑名单中，会在查询结果中给出 “申诉的指引”）
+        2. https://www.spamhaus.org/query/ip/127.0.0.2
 2. [中国反垃圾邮件联盟](http://www.anti-spam.org.cn/)
     - dnsbl地址：
         1. cbl.anti-spam.org.cn
@@ -63,6 +66,8 @@ rfc
     CBL+	cblplus.anti-spam.org.cn	2.0.0.127.cblplus.anti-spam.org.cn.	127.0.8.6
     CBL-	cblless.anti-spam.org.cn	2.0.0.127.cblless.anti-spam.org.cn.	127.0.8.5
     ```
+    - 申诉地址：
+        1. http://www.anti-spam.org.cn/appeal.action
 3. 趋势科技
     - dnsbl地址：具体地址有待确定，不知道有没有提供
         1. rbl
@@ -84,19 +89,27 @@ rfc
     ```
     nslookup 2.0.0.127.bl.spamcop.net
     ```
+    - 申诉地址：
+        1. https://www.spamcop.net/bl.shtml（在网站上先查询，如果在黑名单中，会在查询结果中给出 “申诉的指引”）
 5. [sorbs](http://www.sorbs.net/general/using.shtml)
     - dnsbl地址：
         - 该机构dnsbl细化了很多，详情见地址：http://www.sorbs.net/general/using.shtml
         - 这里给出一个主要的：dnsbl.sorbs.net
+    - 申诉地址：
+        1. http://www.sorbs.net/lookup.shtml（这里给出查询地址，具体申诉我还未搞清楚）
 6. [uribl](http://uribl.com/usage.shtml)
     - dnsbl地址：
         - 多个dnsbl详情见：http://uribl.com/usage.shtml
         - 这里给出一个：multi.uribl.com
+    - 申诉地址：
+        1. https://admin.uribl.com/?section=lookup;（在网站上先查询，如果在黑名单中，会在查询结果中给出 “申诉的指引”）
 7. [surbl](http://www.surbl.org)
     - dnsbl地址：
         - multi.surbl.org
     - [dnsbl说明](http://www.surbl.org/lists)
     - [使用该dnsbl政策](http://www.surbl.org/usage-policy)
+    - 申诉地址：
+        1. http://www.surbl.org/surbl-analysis（在网站上先查询，如果在黑名单中，会在查询结果中给出 “申诉的指引”）
 8. [njabl](http://www.njabl.org/)
     - 这个的官网访问不了，可能网络被墙了
 - 待续...
