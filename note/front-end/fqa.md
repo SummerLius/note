@@ -12,6 +12,8 @@
     - [mvc、mvp、mvvm等模型区别](#mvcmvpmvvm等模型区别)
     - [word-break与word-wrap区别](#word-break与word-wrap区别)
     - [margin负值应用](#margin负值应用)
+    - [框架、框架模式、架构、设计模式](#框架框架模式架构设计模式)
+    - [mvc、mvp、mvvm框架模式](#mvcmvpmvvm框架模式)
 
 <!-- /TOC -->
 
@@ -182,5 +184,35 @@ float设置后特性：
 ## margin负值应用
 
 - https://www.w3cplus.com/css/the-definitive-guide-to-using-negative-margins.html
+
+## 框架、框架模式、架构、设计模式
+
+以下仅简单的理解，非权威：
+- `框架`：是具有实体的一套代码等，例如vue
+- `框架模式`：是一套抽象的框架设计的模式，例如vue.js框架是按照mvvm模式来设计的，框架模式有mvc、mvp、mvvm......
+    - > `框架模式`不是一门写代码的学问，而是一门管理与组织代码的学问。其本质是一种软件开发模型。与`设计模式`不同，设计模式是在解决一类问题时总结抽象出的公共方法，它们与某种具体的技术栈无关。一种框架模式往往使用了多种设计模式，切记不要搞混。
+- `架构`：架构是一个项目体系完整的蓝图，涉及到前端、客户端、后台服务等全部
+- `设计模式`：也是模式，故也是一套抽象的设计理念。但感觉其比 “框架模式” 要具体一点，例如“框架模式” 是指导框架的设计，而 “设计模式” 可能是指导框架里面一个业务逻辑的设计。当然关于设计模式目前没做深入的理解，可能理解有些出入，仅供参考。
+
+
+> 具体说法不一定，也有说mvc是软件架构。
+
+> 感觉，详细的知识可以看一下，“框架/架构” 相关的书籍
+
+## mvc、mvp、mvvm框架模式
+
+- mvc
+    - Model-View-Controller
+- mvp
+    - Model-View-Presenter
+- mvvm
+    - Model-View-ViewModel
+- 参考
+    - http://web.jobbole.com/89314/
+    - http://www.cnblogs.com/indream/p/3602348.html
+    - https://www.cnblogs.com/onepixel/p/6034307.html
+
+
+
 
 
