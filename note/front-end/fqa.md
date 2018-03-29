@@ -14,6 +14,7 @@
     - [margin负值应用](#margin负值应用)
     - [框架、框架模式、架构、设计模式](#框架框架模式架构设计模式)
     - [mvc、mvp、mvvm框架模式](#mvcmvpmvvm框架模式)
+    - [node-sass、gulp-sass等不同node版本安装](#node-sassgulp-sass等不同node版本安装)
 
 <!-- /TOC -->
 
@@ -211,6 +212,14 @@ float设置后特性：
     - http://web.jobbole.com/89314/
     - http://www.cnblogs.com/indream/p/3602348.html
     - https://www.cnblogs.com/onepixel/p/6034307.html
+
+## node-sass、gulp-sass等不同node版本安装
+
+查看node-sass包针对不同node版本产生的问题
+- node8.4.0 ==> node-sass@/vender/win32-64-57
+- node6.9.4 ==> node-sass@/vender/win32-64-48
+- node7.6.0 ==> node-sass@/vender/win32-64-51
+- 知道了这个，对于前端使用的打包、编译等工程化的处理就不需要安装多个node版本来兼容了，只需要安装一个即可，只是node-sass/vender文件要注意
 
 
 
