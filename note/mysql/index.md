@@ -3,7 +3,11 @@
 ```sql
 # 创建用户并赋予全部权限
 grant all privileges on *.* to root@localhost identified by 'my_password';
+
 flush privileges;
+
+
+grant all privileges on mail_monitor.* to 'mail_monitor'@'%' identified by 'dy2980Mail_monitor';
 ```
 
 ### 引擎
@@ -37,3 +41,6 @@ CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] db_name
 ### 附录
 
 - `\G` 的用法：使mysql的查询结果按列打印
+
+
+
