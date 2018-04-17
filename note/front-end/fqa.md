@@ -15,6 +15,8 @@
     - [框架、框架模式、架构、设计模式](#框架框架模式架构设计模式)
     - [mvc、mvp、mvvm框架模式](#mvcmvpmvvm框架模式)
     - [node-sass、gulp-sass等不同node版本安装](#node-sassgulp-sass等不同node版本安装)
+    - [块级盒和行内级盒](#块级盒和行内级盒)
+    - [深入理解BFC和Margin Collapse](#深入理解bfc和margin-collapse)
 
 <!-- /TOC -->
 
@@ -157,11 +159,20 @@ float设置后特性：
     - `<command>`：该标签目前兼容不佳，暂不做了解
 - 表单
 - 其它
-    - `<img>`：inline
-    - `<span>`：inline
-    - ``：
-    - ``：
-    - ``：
+    - `<img>`: inline
+    - `<video>`: inline
+    - `<span>`: inline
+    - `<input>`:
+        - type=text: inline-block
+        - type=submit: inline-block
+        - type=file: inline-block
+        - ...
+        - 绝大部分type均是inline-block，基本上均是inline-*
+        - ...
+        - type=date: inline-flex
+        - ...
+    - `<textarea>`: inline-block
+    - ``: 
 
 ## web单页面应用与多页面应用的区别，以及应用场景的不同
 
@@ -220,6 +231,44 @@ float设置后特性：
 - node6.9.4 ==> node-sass@/vender/win32-64-48
 - node7.6.0 ==> node-sass@/vender/win32-64-51
 - 知道了这个，对于前端使用的打包、编译等工程化的处理就不需要安装多个node版本来兼容了，只需要安装一个即可，只是node-sass/vender文件要注意
+
+## 块级盒和行内级盒
+
+1. 块级盒
+    - 块级元素：是源文档中那些被格式化成视觉上的块的元素（例如，段落）
+    - 每个块级元素生成一个主块级盒（principal block-level box），用来包含后代盒及生成的内容，并且任何定位方案都与该盒有关。有些块级元素可能会生成除主盒外的额外的盒：list-item元素，这些额外的盒根据主盒来放置。
+    - 块级盒是参与块格式化上下文BFC的盒
+    - 块级盒与块容器盒关系：
+        1. 除了表格盒与替换元素外，一个块级盒也是块容器盒
+        2. 不是所有的块容器盒都是块级盒：非替换的行内块（inline-block）与非替换的表格单元是块级容器，但不是块级盒。
+        3. 作为块级容器的块级盒也叫块盒
+    - 术语：
+        - 块级盒：block-level box
+        - 块容器盒：block container box
+        - 块盒：block box
+        - 块：block 在上面三个术语没有歧义的场景下，可以简称为“块”
+2. 行内级盒
+    - 行内级元素：源文档中那些不会形成新内容块的元素
+    - 行内级元素生成行内级盒
+    - 行内级盒，是参与行格式化上下文ifc的盒
+    - 行内级盒分类：
+        1. 行内盒：dispaly属性为inline的非替换元素，例如a、span等
+            - 行内盒元素，其widht、height、padding/margin-top/bottom等属性都不生效，仅padding/maring-left/right生效
+        2. 原子行内级盒：非行内盒，即为原子行内级盒，例如img、display为inline-block、inline-table的元素等
+            - 原子行内级盒元素，其width、height、padding、margin属性正常生效
+            - > 虽然标准里面没有，但是要注意：原子行内级盒，其里面也是有区别的，例如非替换的inline-block含有块容器盒，里面有bfc环境，而img元素里面不含块容器盒，里面没有bfc环境
+    - 术语
+        - 内联、行内：inline
+        - 内联/行内级盒：inline-level box
+        - 行内盒：inline box
+        - 原子行内级盒：atomic inline-level box
+3. 小节
+    - 块级盒和行内级盒中，均有“块容器盒”
+
+## 深入理解BFC和Margin Collapse
+
+- 或查看自己整理的笔记
+- https://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html
 
 
 
