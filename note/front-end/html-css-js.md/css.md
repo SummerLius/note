@@ -1036,3 +1036,4 @@ div#sidebar *[href] { color: silver; } /* 0.1.1.1 */
 - [CDN参考：值与单位](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/Introduction_to_CSS/Values_and_units)
 - [深入理解CSS中的长度单位](https://www.cnblogs.com/xiaohuochai/p/5485683.html)
 - [w3c css2.2标准](https://www.w3.org/TR/CSS22)
+- [w3c css.2.1 标准 中文](http://www.ayqy.net/doc/css2-1/cover.html#minitoc)
