@@ -16,7 +16,9 @@
     - [mvc、mvp、mvvm框架模式](#mvcmvpmvvm框架模式)
     - [node-sass、gulp-sass等不同node版本安装](#node-sassgulp-sass等不同node版本安装)
     - [块级盒和行内级盒](#块级盒和行内级盒)
-    - [深入理解BFC和Margin Collapse](#深入理解bfc和margin-collapse)
+    - [深入理解BFC和外边距合并、折叠以及解决方法](#深入理解bfc和外边距合并折叠以及解决方法)
+    - [子元素自适应占满父元素的高度](#子元素自适应占满父元素的高度)
+    - [标签可以继承的属性](#标签可以继承的属性)
 
 <!-- /TOC -->
 
@@ -265,11 +267,61 @@ float设置后特性：
 3. 小节
     - 块级盒和行内级盒中，均有“块容器盒”
 
-## 深入理解BFC和Margin Collapse
+## 深入理解BFC和外边距合并、折叠以及解决方法
 
-- 或查看自己整理的笔记
+
+- 或查看自己整理的笔记，见font-end/html-css-js/css.md文档
 - https://www.w3cplus.com/css/understanding-bfc-and-margin-collapse.html
 
+
+**解决方法**：
+1. 【首要方法】避免margin相邻的情况，可以从设计上面解决这个问题，（制定前端规范）
+    - 尽量使用同一方向的margin，例如仅设置margin-top或margin-bottom
+    - 或者使用padding、border等来代替margin的使用
+2. 【次要方法】如果是已经margin相邻了，那么就破坏这种相邻（adjoining）的认定规则。具体的规则可以查看上面的笔记或链接。
+    - 相邻的判定：
+        1. 我们知道相邻情况有四种，垂直相邻：`兄弟`、`父与长子`、`父（height=auto）与幼子`、`空内容元素`
+        2. 对元素的要求：`块级`、`处于同一BFC`、`margin之间相连中间没有间隔`
+    - 破坏规则方法：
+        1. 块级破坏
+            - 使一方块级元素的display改为inline-block，同时width设置为100%，适用于兄弟和父子情况（更改display不是很好，破坏了可读性）
+            - ...
+        2. BFC破坏
+            - 更改一方的BFC，例如float/absolute postion/overflow（not visible）/ block containers that are not block boxes（eg. inline-block），主要适用于父子情况
+        3. 隔点东西
+            - 设置padding、border使父子的margin隔开
+            - 隔点元素，适用于兄弟或父子
+                - 例如像这样：`<div style="font-size:0;height:0;visibility:hidden">xxx</div>`，注意要使用visibility:hidden而不是display:none，因为前者在文档中存在，而后则在文档中不存在
+                - 注意：**完全空内容的元素 会忽略或合并掉而不起作用**，例如空元素`<div style="padding:0;margin:0;"></div>`是不会起作用的，
+
+
+## 子元素自适应占满父元素的高度
+
+
+- 基本格式：
+    ```html
+    <!-- 基本格式 -->
+    <div style="overflow: hidden;">
+        <div style="height:300px;margin-bottom:-10000px;padding-bottom:10000px;"></div>
+        <div></div>
+    </div>
+    ```
+- 目的：
+    - 由于padding设置的很高，所以无论父元素的height是auto还是固定值，其看起来总会占满整个父元素，达到自适应父元素高度的布局效果
+- 基本原理：
+    - 首先设置了margin和padding的这个div，对其他元素来说其大小只是height的值，浏览器也按照其height尺寸依次布局，因为从布局的角度来看他的margin-bottom和padding-bottom抵消了
+    - 虽然，从布局上其box模型大小就是height，但是从肉眼上看（如果给它设置了background的话；注意padding也会受背景影响），是能看到height+padding的，而此时其它元素是按照其只有height的尺寸来布局，所以padding部分是会遮住其它元素的
+    - 所以，需要用一个父元素包裹，并给父元素设置overflow:hidden，使其padding部分的显示，被父元素拦截下来
+ 
+
+## 标签可以继承的属性
+
+- 规律：
+    - 
+- 可继承：
+    - word-break
+- 不可继承：
+    - 
 
 
 

@@ -35,5 +35,6 @@
     - [caniuse](https://caniuse.com/)
     - [devdocs](http://devdocs.io/)
     - [HBuilder](http://www.dcloud.io/)
+    - [thimble Mozilla](https://thimble.mozilla.org)
 - 前端工程
     - [fouber/blog](https://github.com/fouber/blog/issues/10)
