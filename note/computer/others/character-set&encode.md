@@ -20,6 +20,7 @@
     - [理解网络、系统等间的字符传输关于编码解码的理解](#理解网络系统等间的字符传输关于编码解码的理解)
     - [base64编码作用并与ASCII、utf8、gbk等的区别?](#base64编码作用并与asciiutf8gbk等的区别)
     - [附录](#附录)
+        - [链接](#链接)
         - [ASCII码表](#ascii码表)
 
 <!-- /TOC -->
@@ -187,6 +188,11 @@ base64最大的好处是将一段完全不可读不可显示的二进制（如im
 ![ASCII码表](../../../assets/base64.png)
 
 ## 附录
+
+### 链接
+
+- https://unicode-table.com/cn/
+- http://unicode.org/
 
 ### ASCII码表
 ![ASCII码表](../../../assets/ascii_code_table.png)

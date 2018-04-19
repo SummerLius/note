@@ -3,6 +3,8 @@
 - [ECMACcript 7th](#ecmaccript-7th)
     - [概述](#概述)
     - [标准目录](#标准目录)
+    - [标准章节](#标准章节)
+        - [第六章](#第六章)
     - [理解抽象](#理解抽象)
 
 <!-- /TOC -->
@@ -115,6 +117,29 @@
             - 参考书目/文献
 [](#)
 
+## 标准章节
+
+### 第六章
+
+- 章名
+    - ECMAScript Data Types and Values
+- 前言 
+    - Types 被细分为ECMAScript语言类型和规范类型
+1. [ECMAScript Language Types](#)
+    1. `Undefined`
+        - 该类型下只有一个值：**undefined**，故`undefined === undefined`
+        - 任何没有被赋值的变量，其默认值就是：undefined
+    2. `Null`
+        - 该类型下只有一个值：**null**，故`null === null`
+    3. `Boolean`
+        - 该类型表示一个逻辑实体有两种值：**true** 或 **false**
+    4. `String`
+    5. `Symbol`
+    6. `Number`
+    7. `Object`
+2. [ECMAScript Specification Types](#)
+
 ## 理解抽象
+
 
 

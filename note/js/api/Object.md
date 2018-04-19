@@ -337,12 +337,42 @@ var realEmpty = Object.create(null);
 ### 对象属性描述符
 
 对象的属性存在的控制特性：
-- configurable：该值为true时，才有权限更改该属性描述符或使用delete删除该属性。**默认false**。
-- enumerable：该值为true时，此属性才能出现在对象的枚举属性中。**默认false**。
-- value：该属性对应的值，可以是任何有效的js值，数值、对象、函数等。**默认undefined**。
-- writable：该值为true时，此属性才能够被**赋值运算符**改变。**默认false**。
-- get：给属性提供getter方法。该方法返回值被用作属性的值。**默认undefined**。
-- set：给属性提供setter方法。该方法接受唯一参数，并将参数分配给该属性。**默认undefined**。
+- configurable：该值为true时，才有权限更改该属性描述符或使用delete删除该属性。
+- enumerable：该值为true时，此属性才能出现在对象的枚举属性中。
+- value：该属性对应的值，可以是任何有效的js值，数值、对象、函数等。
+- writable：该值为true时，此属性才能够被**赋值运算符**改变。
+- get：给属性提供getter方法。该方法返回值被用作属性的值。
+- set：给属性提供setter方法。该方法接受唯一参数，并将参数分配给该属性。
+
+```javascript
+// 属性默认值查看
+
+// 设置3个属性：attr1 attr2 attr3
+let obj = {attr1: 1};
+Object.defineProperty(obj, 'attr2', {});
+Object.defineProperty(obj, 'attr3', { get(){return 1;} });
+
+// 查看属性描述符
+Object.getOwnPropertyDescriptors(obj);
+
+// 结果
+{ attr1:
+   { value: 1,
+     writable: true,
+     enumerable: true,
+     configurable: true },
+  attr2:
+   { value: undefined,
+     writable: false,
+     enumerable: false,
+     configurable: false },
+  attr3:
+   { get: [Function: get],
+     set: undefined,
+     enumerable: false,
+     configurable: false } }
+
+```
 
 #### configurable
 
