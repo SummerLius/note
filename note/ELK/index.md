@@ -29,6 +29,46 @@
     5. [X-Pack](https://www.elastic.co/cn/products/x-pack)
         - 作用：
 
+## Elasticsearch参考文档
+
+**[ES参考](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)**
+1. [Getting Started](#)
+    1. [基本概念](#)
+    2. [安装](#)
+    3. [探查你的集群](#)
+    4. [修改你的数据](#)
+    5. [探查你的数据](#)
+    6. [总结](#)
+2. [Set up Elasticsearch](#)
+    1. [安装ES](#)
+    2. [配置ES](#)
+    3. [重要的ES配置](#)
+    4. [重要的系统配置](#)
+    5. [引导程序检查（Bootstrap Checks）](#)
+    6. [停止ES](#)
+3. ...
+4. ...
+
+### ES安装
+
+1. 安装Java 8 jre
+    - 安装指南：https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html
+    - 两个java环境源：
+        1. sunJDK
+            ```
+            直接去oracle官网下jdk/jre的二进制包 或 配置apt source通过apt-get来下载安装
+            ```
+        2. openJDK
+            ```sh
+            直接去openJDK网站下载jdk/jre的二进制包 或 apt-get install openjdk-8-jre
+            ```
+
+
+
+
+
+
+
 ## 参考
 
 - [Elasticsearch: 权威指南](https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html)
