@@ -32,27 +32,191 @@
 ## Elasticsearch参考文档
 
 **[ES参考](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)**
-1. [Getting Started](#)
+- [入门指南](#)
     1. [基本概念](#)
+        - Near Realtime (NRT)
+        - Cluster
+        - Node
+        - Index
+        - Type (Deprecated in 6.0.0)
+        - Document
+        - Shards & Replicas
     2. [安装](#)
     3. [探查你的集群](#)
+        -  前言：现在我们已经让我们的node或cluster跑起来了，下一步就是理解如何和它交流。幸运的是，ES提供了非常强大的REST API给我们来和ES交流使用。API提供的功能有以下：
+            1. 检查、查看ES的集群、节点和索引的健康、状态、统计数据。
+            2. 管理ES的集群、节点和索引数据、元数据。
+            3. 对索引，执行CRUD（增加、读取、更新、删除）和搜索操作
+            4. 执行高级的搜索操作，例如分页、排序、过滤、脚本处理、聚合等等其它操作
+            5. ...
+        1. [集群健康状态](#)
+        2. [显示所有索引](#)
+        3. [创建一个索引](#)
+        4. [查询一个文档](#)
+        5. [删除一个索引](#)
     4. [修改你的数据](#)
+        1. [更新文档](#)
+        2. [删除文档](#)
+        3. [成批处理](#)
     5. [探查你的数据](#)
+        1. [搜索API](#)
+        2. [介绍查询语言](#)
+        3. [执行搜索](#)
+        4. [执行过滤](#)
+        5. [执行聚合](#)
     6. [总结](#)
-2. [Set up Elasticsearch](#)
+- [设置 Elasticsearch](#)
     1. [安装ES](#)
+        1. 使用二进制压缩包
+        2. 使用 Debian Packages
+        3. 使用 RPM
+        4. 使用 Windows MSI 安装程序
+        5. 使用 Docker 安装
     2. [配置ES](#)
+        1. [设置 JVM 选项](#)
+            - 你应该很好频率的改动 JVM 选项。如果要改，最有可能是修改 `heap size` 设置。
+            - 通过 "jvm.options" 配置文件是修改 JVM 设置选项较好的方式。
+            - jvm.options 配置文件默认的位置为：
+                1. 通过tar或zip压缩包安装：config/jvm.options
+                2. 通过Debian或RPM包管理器安装：/etc/elasticsearch/jvm.options
+            - jvm.options配置文件是行界定的，遵循以下语法：
+                1. 只含有空白的行会被忽略
+                2. 以 `#` 开头的行被当作注释忽略掉
+                3. 以 `-` 开头的行会被当作jvm选项，不管安装的jvm是什么版本
+                3. 以 `number:-` 开头的行会被当作jvm选项，如果安装的jvm版本和`number`相同的话
+                4. 以 `number-:` 开头的行会被当作jvm选项，如果安装的jvm版本 >= `number`的话
+                5. 以 `number-number:` 开头的行会被当作jvm选项，如果安装的jvm版本在这个两个`number`范围中
+                6. 非以上格式的行，均会被拒绝
+            - 你可以自定义jvm flags在jvm.options配置文件中，并在你的版本控制系统中检查该配置文件
+            - 除了通过jvm.options配置文件指定jvm选项，还可以通过设置 `ES_JAVA_OPTS` 环境变量。例如：
+                ```
+                export ES_JAVA_OPTS="$ES_JAVA_OPTS -Djava.io.tmpdir=/path/to/temp/dir" ./bin/elasticsearch
+                ```
+        2. [安全设置](#)
+            - 一些设置是敏感的，仅依赖文件系统的权限机制去保护其值是不够的。在这种情况下，Elasticsearch提供了一个 keystore 秘钥文件和 elasticsearch-keystore 工具来管理在keystore中的设置
+            - > 注意：下面的所有命令的执行用户，应该和启动ES的用户一致
+            - > 注意：只有部分设置项能从keystore中读取。可以查看文档，了解那些配置项被keystore所支持
+            - > 注意：对于keystore中的修改，只有在重启ES后，才会生效
+            - > 注意：当前ES keystore仅提供秘钥模糊处理，在未来版本，会添加密码保护
+            - 创建keystore文件：
+                1. 命令：bin/elasticsearch-keystore create
+                2. 生成的 elasticsearch.keystore 文件会和 elasticsearch.yml 放在一起
+            - 显示keystore文件中的所有设置：
+                1. 命令：bin/elasticsearch-keystore list
+            - 添加字符串设置
+                1. 敏感的字符串设置，例如云插件的授权认证，可以添加在里面：bin/elasticsearch-keystore add the.setting.name.to.set，然后该命令会提示输入值，是交互式的
+                2. 不想交互的输入值，可以使用 "--stdin"，从stdin写入值
+                    ```
+                    cat /file/containing/setting/value | bin/elasticsearch-keystore add --stdin the.setting.name.to.set
+                    ```
+            - 删除设置：
+                1. 命令：bin/elasticsearch-keystore remove the.setting.name.to.remove
+            - 该命令详细的使用可以使用命令去看：bin/elasticsearch-keystore --help （我猜）
+        3. [日志配置](#)
+            - 暂略，后续整理...
+            - 主要操作 log4j2.properties 文件
     3. [重要的ES配置](#)
+        1. [*path.data* 和 *path.logs*](#)
+            - 如果你是以 zip 或 tar.gz 包文件安装，ES软件输出的data和logs目录也在解压出来的目录下。在正式环境下，最好不要使用这种路径，推荐的路径为：
+                1. logs: /var/log/elasticsearch
+                2. data: /var/data/elasticsearch
+            - 如果以RPM或Debian包管理器安装ES软件，其已经使用了自定义的data和logs的路径
+            - "path.data" 可以指定多个路径，每个路径下都会存储数据（但是同一个分片下的数据，会被放到同一个path下，不会拆分）
+                ```
+                path:
+                    data:
+                        - /mnt/es_1
+                        - /mnt/es_2
+                        - /mnt/es_3
+                ```
+        2. [*cluster.name*](#)
+            - 一个node只能加入一个cluster，在这个cluster中，所有的node都使用这个相同的 *cluster.name* 名字
+            - 默认的名字是 *elasticsearch*，但是你应该改为一个更适合的名字，例如：`cluster.name: logging-prod`
+            - 确认在其它的环境中没有再使用这个相同的 *cluster.name* 名字，否则node会提示加入错误的cluter而终止
+        3. [*node.name*](#)
+            - 默认，ES会使用UUID的前7个字符作为node的ID
+            - 注意，node ID是持久化的，不会因为ES重启而改变，因此默认的node name也不会改变
+            - 最好，你也把 *node.name* 改为一个更有意义的名字，例如：`node.name: prod-data-1`，如果一台机器只运行一个ES实例的话，也可以把服务器的HOSTNAME作为node.name：`node.name: ${HOSTNAME}`
+        4. [*network.host*](#)
+            - 默认，es仅绑定回环地址：127.0.0.1
+            - 为了和其它服务器上的node交流和组成一个聚群，你的node需要绑定非回环地址，例如：`network.host: 192.168.1.10`
+            - 注意：如果你提供一个自定以的 *network.host* 值，ES会认为你以production模式启动（否则为development模式），然后ES会将一些ES启动时的系统检查要求，从warn级别升级到exception级别，即要求会严格一点。
+        5. [Discovery 设置](#)
+            - ES使用一个称为 “Zen Discovery”的定制的发现机制来实现node-to-node集群和主节点选举。
+            - 在正式使用之前，这里有两个重要的discover设置项应该被配置
+                1. discover.zen.ping.unicast.hosts
+                    - 如果配置任何网络设置项的话，ES会绑定localhost地址，然后会扫描端口9300~9305，去尝试和本机运行的其它ES节点连接。在没有任何配置的情况下，这提供了一个自动集群化的体验。
+                    - 但是如果本机的ES node要和其它服务器上的ES node建立联系的话，则必须提供一份像下面的配置
+                        ```
+                        discover.zen.ping.unicast.hosts:
+                            - 192.168.1.10:9300
+                            - 192.168.1.11 
+                            - seeds.mydomain.com 
+                        ```
+                    - 给出的配置中，如果仅ip，没指定port，则默认会使用 *transport.profiles.default.port*，如果前者没有指定，则使用 *transport.tcp.port*
+                    - 给出的配置中，如果是域名的话：A hostname that resolves to multiple IP addresses will try all resolved addresses.
+                2. descovery.zen.minimum_master_nodes
+                    - 为了阻止数据丢失，设置 *descovery.zen.minimum_master_nodes* 是必要的，这样每一个有资格选举为master的节点知道所有这种节点的最小数目，以便组成集群
+                    - 如果没有配置该选项，一个集群可能由于网络不好，从而致使一个集群被划分为两个集群，从而致使数据丢失。[更多关于此的讨论，请点击](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html#split-brain)
+                    - 为了避免集群的分裂，该设置项应该被设置为一个合适的值：`(master_eligible_nodes / 2) + 1`，例如，加入有3个有资格称为master的节点，此时该值应该设置为：`(3 / 2) + 1 or 2`，即`discovery.zen.minimum_master_nodes: 2`
+        6. [设置heap大小](#)
+            - 暂略...
+        7. [JVM help dump path](#)
+            - 目的：配置jvm崩溃时的异常文件输出路径
+            - 通过RPM和Debian包管理其安装的ES，会自动将其JVM的oom异常文件保存到/var/lib/elasticsearch。
+            - 手动更改，在jvm.options文件中配置：-XX:HeapDumpPath=/var/lib/elasticsearch
+            - 注意，通过二进制包安装的ES，没有配置heap dump路径，JVM会将异常文件输出到ES运行的工作目录。最好配置，不使用默认的。
+        8. [GC logging](#)
+            - ES默认开启了GC日志。
+            - 这些也可以在jvm.potions文件中配置，默认的gc日志位置和ES的logs一样（这个有待测试、观察）
     4. [重要的系统配置](#)
+        1. [系统设置项配置](#)
+            - 到哪里配置系统设置，取决于你使用什么方式安装，以及你使用的什么操作系统
+            - 当使用二进制包安装时，系统配置可以使用以下两种方式：
+                1. 临时：`ulimit`
+                2. 持久：`/etc/security/limits.conf`
+            - 当使用RPM或Debian包管理器安装时，多数系统设置项可以在 “system configuration file” 文件中设置。
+            - ulimit
+                1. 在linux系统上，ulimit命令可以临时更改资源限制。ulimit资源限制的修改通常以root身份去设置，然后在切换到运行ES的用户执行ES。例如以下：
+                    ```
+                    su
+                    ulimit -n 65536
+                    su elasticsearch
+                    ```
+                2. ulimit命令修改的结果仅会在当前session中有效，所以是暂时、临时的，不是持久的
+            - /etc/security/limits.conf
+                1. 在linux系统上，可以编辑 /etc/security/limits.conf 文件来持久化设置某个用户的limits。
+                2. 该文件的设置方法，可以打开该文件，里面的注释部分有讲解，这里给出个例子：`elasticsearch - nofile 65536`
+                3. 该文件的改变，之后在
+            - Sysconfig file
+            - Systemd configuration
+        2. [](#)
+        3. [](#)
+        4. [](#)
+        5. [](#)
+        6. [](#)
     5. [引导程序检查（Bootstrap Checks）](#)
+        1. [](#)
+        2. ...
     6. [停止ES](#)
-3. ...
-4. ...
+- [版本重大更改](#)
+    1. [6.0](#)
+    2. [6.1](#)
+    3. [6.2](#)
+- ...
+- ...
+
+    <!--
+        1. [](#)
+        2. [](#)
+        3. [](#)
+        4. [](#)
+        5. [](#) 
+    -->
 
 ### ES安装
 
 1. 安装Java 8 jre
-    - 安装指南：https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html
     - 两个java环境源：
         1. sunJDK
             ```
@@ -62,6 +226,7 @@
             ```sh
             直接去openJDK网站下载jdk/jre的二进制包 或 apt-get install openjdk-8-jre
             ```
+2. 安装ES
 
 
 
