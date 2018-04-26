@@ -53,9 +53,16 @@
 
 ```sh
 ssh -l username 10.0.0.0 -p 22
+
+或
+
+ssh -p user@hostname
+
+具体用法可以查看 man ssh
 ```
 
 ### 秘钥登录
+
 
 ```sh
 # 1. 如果不带任何参数，默认会生成一对公钥/秘钥在home目录下，~/.ssh/，id_rsa和id_rsa.pub
@@ -80,5 +87,11 @@ PermitEmptyPasswords no
 # 4. 重启ssh服务
 service sshd restart
 
-# 5. 将秘钥放置在客户端，客户端利用一些ssh客户端登录，例如xshell   
+# 5. 将秘钥放置在客户端，客户端利用一些ssh客户端登录，例如xshell
+#    注意客户端处，id_rsa的权限设置高一点，例如700
+ssh -i /root/.ssh/id_rsa root@hostname
 ```
+
+## 链接
+
+- [密钥登陆linux设置](https://blog.csdn.net/nahancy/article/details/79059135)
