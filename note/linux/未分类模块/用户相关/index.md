@@ -15,6 +15,12 @@
 
 ## 相关概念
 
+### linux系统介绍
+
+linux 是多用户多任务系统，允许多个同于远程登录系统。
+
+### 用户种类
+
 ## 相关文件
 
 - /etc/passwd
@@ -95,3 +101,4 @@ ssh -i /root/.ssh/id_rsa root@hostname
 ## 链接
 
 - [密钥登陆linux设置](https://blog.csdn.net/nahancy/article/details/79059135)
+- https://www.cnblogs.com/licheng/p/6103992.html
