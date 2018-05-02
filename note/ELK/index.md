@@ -1,3 +1,14 @@
+<!-- TOC -->
+
+- [ELK](#elk)
+    - [概要](#概要)
+    - [Elasticsearch参考文档](#elasticsearch参考文档)
+        - [ES安装](#es安装)
+    - [Kibana用户指南](#kibana用户指南)
+    - [参考](#参考)
+
+<!-- /TOC -->
+
 # ELK
 
 ## 概要
@@ -72,6 +83,10 @@
         3. 使用 RPM
         4. 使用 Windows MSI 安装程序
         5. 使用 Docker 安装
+            - 镜像类型
+                - basic：默认，预安装了x-pack和免费的licence，可以使用x-pack的基本功能
+                - platinum：预安装了x-pack和30天期限的licence，可以使用x-pack全部功能
+                - oss：没有安装x-pack
     2. [配置ES](#)
         1. [设置 JVM 选项](#)
             - 你应该很好频率的改动 JVM 选项。如果要改，最有可能是修改 `heap size` 设置。
@@ -247,6 +262,37 @@
 
 
 
+
+## Kibana用户指南
+
+- [介绍](#)
+- [装配Kibana](#)
+    1. [安装Kibana](#)
+        - ".tar.gz" 二进制包安装
+        - Debian包管理器安装
+        - RPM包管理器安装
+        - 在Windows上安装
+    2. [配置Kibana](#)
+        1. 配置Kibana
+            - kibana从启动处读取 *kibana.yml* 配置文件。默认kibana是绑定 *localhost:5601* 运行的。根据需要你也可以配置的 *kibana.yml* 文件，可以开启SSL和设置其它的选项。
+            - Kibana配置文件设置：
+                - `console.enabled`
+                - `...`
+        2. 安全设置
+    3. [Docker运行Kibana](#)
+        1. 镜像类型
+        2. 拉取镜像
+        3. 配置Kibana
+    4. [访问Kibana](#)
+    5. [连接Kibana和Elasticsearch](#)
+    6. [Using Kibana with Tribe nodes](#)
+    7. [在正式环境使用Kibana](#)
+    8. [升级Kibana](#)
+- [装配X-Pack](#)
+- [版本重要改变](#)
+- [X-Pack重要改变](#)
+- [新手入门](#)
+- ...
 
 
 
