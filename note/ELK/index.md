@@ -5,6 +5,7 @@
     - [Elasticsearch参考文档](#elasticsearch参考文档)
         - [ES安装](#es安装)
     - [Kibana用户指南](#kibana用户指南)
+    - [Metricbeat参考文档](#metricbeat参考文档)
     - [参考](#参考)
 
 <!-- /TOC -->
@@ -235,6 +236,47 @@
     1. [6.0](#)
     2. [6.1](#)
     3. [6.2](#)
+- [API 约定](#)
+- [索引 API](#)
+    1. Index 管理
+        1. create
+            ```json
+            PUT twitter
+            {
+                "settings": {
+                    "index": {
+                        "number_of_shards": 5,
+                        "number_of_replicas": 1
+                    }
+                },
+                "mapping": {
+                    "type1": {
+                        "properties": {
+                            "field1": {"type": "text"}
+                        }
+                    }
+                },
+                "aliases": {
+                    "alias_1": {},
+                    "alias_2": {
+                        "filter": {
+                            "term": {"user": "kimchy"}
+                        },
+                        "routing": "kimchy"
+                    }
+                },
+
+
+                
+            }
+            ```
+        2. ...
+    2. Mapping 管理
+    3. Alias 管理
+    4. Index 设置
+    5. 监控
+    6. 状态管理
+- [Mapping](#)
 - ...
 - ...
 
@@ -294,6 +336,27 @@
 - [新手入门](#)
 - ...
 
+## Metricbeat参考文档
+
+- [概要](#)
+- [新手入门](#)
+    1. [安装](#)
+    2. [配置](#)
+    3. [在ES中加载索引模版](#)
+    4. [设置Kibana中的dashboards](#)
+    5. [启动Metricbeat](#)
+    6. [在dashboards中查看样例](#)
+    7. [Repositories for APT and YUM](#)
+- [设置和运行Metricbeat](#)
+    1. [Directory layout](#)
+    2. [Secrets keystore](#)
+    3. [Command reference](#)
+    4. [在docker上运行Metricbeat](#)
+    5. [在k8s上运行Metricbeat](#)
+- [配置Metricbeat](#)
+- [模块](#)
+- ...
+
 
 
 
@@ -308,3 +371,6 @@
 - https://www.elastic.co/guide/cn/elasticsearch/guide/current/index.html
 - https://www.elastic.co/guide/index.html
 - https://www.elastic.co/cn/products
+- [Elasticsearch 5.0 中文](http://cwiki.apachecn.org/pages/viewpage.action?pageId=4260360)
+- [Kibana 5.2 中文](http://cwiki.apachecn.org/display/Kibana)
+- [Elasticsearch 机制与架构](https://www.easyice.cn/archives/177)
