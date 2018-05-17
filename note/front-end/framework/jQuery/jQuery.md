@@ -16,6 +16,7 @@
     - [数据](#数据)
     - [DOM元素](#dom元素)
     - [核心](#核心)
+- [参考](#参考)
 
 <!-- /TOC -->
 
@@ -111,5 +112,10 @@ $(selector).mouseover(function);
 ### DOM元素
 
 ### 核心
+
+## 参考
+
+- [w3school jQuery](http://www.w3school.com.cn/jquery/index.asp)
+- [jQuery123](https://www.jquery123.com/)
 
 
