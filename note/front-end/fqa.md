@@ -19,6 +19,7 @@
     - [深入理解BFC和外边距合并、折叠以及解决方法](#深入理解bfc和外边距合并折叠以及解决方法)
     - [子元素自适应占满父元素的高度](#子元素自适应占满父元素的高度)
     - [标签可以继承的属性](#标签可以继承的属性)
+    - [CSS @规则](#css-规则)
 
 <!-- /TOC -->
 
@@ -322,6 +323,146 @@ float设置后特性：
     - word-break
 - 不可继承：
     - 
+
+## CSS @规则
+
+[MDN 参考地址](https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule)
+
+<!-- 规则:
+- 嵌套@规则：是嵌套语句的子集，不仅可以作为样式表里面的一个语句，也可以用在条件规则组里。
+- 条件规则组：
+    1. 每条@规则都有不同的语法，不过一些@规则可以归为一类：**条件规则组**
+    2. 这些语句使用相同的语法，它们都嵌套语句，它们都表达：它们所指的条件总等效于true或false，如果为true，那么它们里面的语句生效。 -->
+
+@规则列表：
+- `@charset`：
+    1. 作用：定义样式表中使用的字符集。
+    2. 它必须是样式表的第一个元素，而前面不得有任何字符。
+    3. 因为它不是一个嵌套语句，所以不能在@规则条件组中使用。
+    4. 如果由多个@charset规则被声明，只有第一个会被使用。
+    5. 此@charset在某些CSS属性中，使用非ASCII字符时，非常有用，例如 content 属性
+    6. 在样式表中有多种方法去声明字符编码，浏览器会按照以下顺序尝试下边的方法，一旦找到就停止并得出结果：
+        1. 文件开头的 `Unicode byte-order` 字符值
+        2. 由Content-Type: HTTP header 中的 charset 属性给出的值
+        3. CSS @charset 规则
+        4. 假设文档是UTF-8
+        ```css
+        @charset "UTF-8";
+        @charset "utf-8";
+        @charset "iso-8859-15";
+        ```
+- `@import`：
+    1. 作用：告诉CSS引擎引入一个外部样式表
+    2. @import规则必须先于所有其他类型的规则，@charset规则除外
+    3. 其不是嵌套语句，@import不能在条件组规则中使用
+    4. 用户代理可以避免为不支持的媒体类型检索资源，作者可以指定依赖媒体@import规则
+    5. 这些条件导入在URI之后指定逗号分隔的媒体查询。在没有任何媒体查询的情况下，导入是无条件的。指定所有的媒体具有相同的效果。
+        ```css
+        @import url;
+        @import url list-of-media-queries;
+        ```
+    6. url：表示要引入资源位置的地址。这个URL可以是绝对路径或相对路径。
+    7. list-of-media-queries：是一个逗号分隔的 媒体查询 条件列表，决定通过URL引入的CSS规则在什么条件下应用。如果浏览器不支持列表中的任何一条媒体查询条件，就不会引入URL指明的CSS文件。
+        ```css
+        @import [ <string> | <url> ] [ <media-query-list> ]?;
+        where 
+        <media-query-list> = <media-query>#
+        
+        where 
+        <media-query> = <media-condition> | [ not | only ]? <media-type> [ and <media-condition-without-or> ]?
+        
+        where 
+        <media-condition> = <media-not> | <media-and> | <media-or> | <media-in-parens>
+        <media-type> = <ident>
+        <media-condition-without-or> = <media-not> | <media-and> | <media-in-parens>
+        
+        where 
+        <media-not> = not <media-in-parens>
+        <media-and> = <media-in-parens> [ and <media-in-parens> ]+
+        <media-or> = <media-in-parens> [ or <media-in-parens> ]+
+        <media-in-parens> = ( <media-condition> ) | <media-feature> | <general-enclosed>
+        
+        where 
+        <media-feature> = ( [ <mf-plain> | <mf-boolean> | <mf-range> ] )
+        <general-enclosed> = [ <function-token> <any-value> ) ] | ( <ident> <any-value> )
+        
+        where 
+        <mf-plain> = <mf-name> : <mf-value>
+        <mf-boolean> = <mf-name>
+        <mf-range> = <mf-name> [ '<' | '>' ]? '='? <mf-value> | <mf-value> [ '<' | '>' ]? '='? <mf-name> | <mf-value> '<' '='? <mf-name> '<' '='? <mf-value> | <mf-value> '>' '='? <mf-name> '>' '='?         <mf-value>
+        
+        where 
+        <mf-name> = <ident>
+        <mf-value> = <number> | <dimension> | <ident> | <ratio>
+        ```
+        ```css
+        @import url("fineprint.css") print;
+        @import url("bluish.css") projection, tv;
+        @import 'custom.css';
+        @import url("chrome://communicator/skin/");
+        @import "common.css" screen, projection;
+        @import url('landscape.css') screen and (orientation:landscape);
+        ```
+- `@namespace`：
+- 嵌套规则
+    - `@media`
+        1. @media规则可以根据一个或多个基于设备类型、具体特点和环境的媒体查询来应用样式
+        2. 在CSS中，@media规则可以置于样式表代码的顶层，或位于其他任何@条件规则组内。
+            ```css
+            /* Media query */
+            @media screen and (min-width: 900px) {
+              html {
+                font-size: 100px;
+              }
+            }
+            
+            /* Nested media query */
+            @supports (display: flex) {
+              @media screen and (min-width: 900px) {
+                article {
+                  display: flex;
+                }
+              }
+            }
+            ```
+        3. 除了在css @media规则中使用外，媒体查询也可应用于html标签`<link>`以将样式表应用限于某个特定媒体
+            ```html
+            <!-- Media-dependent style sheet included in HTML -->
+            <link rel="stylesheet" media="screen and (min-width: 900px)" href="widescreen-styles.css" />
+            ```
+        4. 媒体类型：
+            - all：适用所有设备
+            - print：
+            - screen：彩色的电脑屏幕
+            - speech：
+            - 废弃的媒体类型，css2.1和媒体查询3定义了几种额外的媒体类型，（tty，tv、projection、handled，braille，embossed，aural），但它们在媒体查询4中被废弃因而不应被适用
+        5. 媒体特性：
+            - ...
+    - `@page`
+        1. 暂忽略
+    - `@font-face`
+        1. 作用：它允许网页开发者为其网页指定在线字体。通过这种作者自备字体的方式，@font-face可以消除对用户电脑字体的依赖。
+        2. @font-face不仅可以放在CSS的最顶层，也可以放在@条件规则组中
+        3. 语法
+            ```css
+            @font-face {
+              [ font-family: <family-name>; ] ||
+              [ src: [ <url> [ format(<string>#) ]? | <font-face-name> ]#; ] ||
+              [ unicode-range: <urange>#; ] ||
+              [ font-variant: <font-variant>; ] ||
+              [ font-feature-settings: normal | <feature-tag-value>#; ] ||
+              [ font-variation-settings: normal | [ <string> <number>] # ||
+              [ font-stretch: <font-stretch>; ] ||
+              [ font-weight: <weight>; ] ||
+              [ font-style: <style>; ]
+            }
+            where 
+            <family-name> = <string> | <custom-ident>+
+            <feature-tag-value> = <string> [ <integer> | on | off ]?
+            ```
+    - `@keyframes`
+    - `@supports`
+    - `@document`
 
 
 
