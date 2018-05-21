@@ -35,15 +35,15 @@
     2. 工具
         1. Devtools
         2. webpack模版
-        3. Vue Loader
+        3. [Vue Loader](https://vue-loader-v14.vuejs.org/zh-cn/)
     3. 核心插件
-        1. Vue Router
-        2. Vuex
+        1. [Vue Router](https://router.vuejs.org/zh-cn/)
+        2. [Vuex](https://vuex.vuejs.org/zh-cn/)
         3. [Vue 服务端渲染](https://cn.vuejs.org/v2/guide/ssr.html#SSR-%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97)
     4. 信息
     5. 资源列表
-        1. 官方仓库
-        2. Vue优选
-        3. Vue资源
+        1. [官方仓库](https://github.com/vuejs)
+        2. [Vue优选](https://curated.vuejs.org/)
+        3. [Vue资源](https://github.com/vuejs/awesome-vue)
     6. 其它
-        1. nuxt.js
+        1. [nuxt.js](https://zh.nuxtjs.org/)
