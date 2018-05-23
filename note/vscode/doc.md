@@ -264,4 +264,6 @@
 临时快捷记录：
 - `alt+up/down`：移动当前行
 - f1 = ctrl + shift + p
-- sync settings 扩展：abb352597af1c4ae7cc95259e87a70a5d99b58d3
+- sync settings 扩展：
+    - token: abb352597af1c4ae7cc95259e87a70a5d99b58d3
+    - token: 870950f43b79e2005127e7cd39c9bfb13cdbdceb
