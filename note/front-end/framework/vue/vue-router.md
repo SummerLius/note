@@ -2,6 +2,7 @@
 
 - [Vue-router](#vue-router)
     - [安装](#安装)
+    - [介绍](#介绍)
     - [基础](#基础)
         - [开始](#开始)
         - [动态路由匹配](#动态路由匹配)
@@ -20,28 +21,32 @@
         - [滚动行为](#滚动行为)
         - [赖加载](#赖加载)
     - [API文档](#api文档)
-        - [Router构造配置](#router构造配置)
-            - [routes](#routes)
-            - [mode](#mode)
-            - [base](#base)
-            - [linkActiveClass](#linkactiveclass)
-            - [linkExactActiveClass](#linkexactactiveclass)
-            - [scrollBehavior](#scrollbehavior)
-            - [parseQuery/stringifyQuery](#parsequerystringifyquery)
-            - [fallback](#fallback)
-        - [Router实例](#router实例)
-            - [Properties](#properties)
-            - [Methods](#methods)
-        - [路由信息对象](#路由信息对象)
+        - [<router-link>](#router-link)
+        - [<router-link> Props](#router-link-props)
+        - [Router构造选项](#router构造选项)
+        - [Router实例属性](#router实例属性)
+        - [Router实例方法](#router实例方法)
+        - [路由对象](#路由对象)
         - [对组件注入](#对组件注入)
-        - [router-link](#router-link)
-        - [router-view](#router-view)
 
 <!-- /TOC -->
 
 # Vue-router
 
 ## 安装
+
+## 介绍
+
+Vue Router 是 Vue.js 官方的路由管理器。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌。包含的功能有：
+- 嵌套的路由/视图表
+- 模块化的、基于组件的路由配置
+- 路由参数、查询、通配符
+- 基于 Vue.js 过渡系统的视图过渡效果
+- 细粒度的导航控制
+- 带有自动激活的 CSS class 的链接
+- HTML5 历史模式或 hash 模式，在 IE9 中自动降级
+- 自定义的滚动条行为
+现在开始起步或尝试一下我们的[示例](https://github.com/vuejs/vue-router/tree/dev/examples)吧 (查看仓库的 README.md 来运行它们)。
 
 ## 基础
 
@@ -443,6 +448,8 @@
 
 ### HTML5 History 模式
 
+- ...待整理...
+
 ## 进阶
 
 ### 导航守卫
@@ -454,25 +461,12 @@
 
 ## API文档
 
-### Router构造配置
-
-#### routes
-#### mode
-#### base
-#### linkActiveClass
-#### linkExactActiveClass
-#### scrollBehavior
-#### parseQuery/stringifyQuery
-#### fallback
-
-### Router实例
-
-#### Properties
-#### Methods
-
-### 路由信息对象
+### <router-link>
+### <router-link> Props 
+### Router构造选项
+### Router实例属性
+### Router实例方法
+### 路由对象
 ### 对组件注入
-### router-link
-### router-view
 
 
