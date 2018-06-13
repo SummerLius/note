@@ -93,6 +93,9 @@ du -h -d 2 /xxx
 
 [OpenSSL](https://www.openssl.org/)是一个开源项目，为传输层安全（TLS）和安全套接字层（SSL）协议提供了强大的商业级和全功能工具包。它也是通用加密库。
 
+- 其本身也是linux命令
+- [文档](https://www.openssl.org/docs/manpages.html)
+
 
 <hr>
 
