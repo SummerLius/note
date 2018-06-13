@@ -102,9 +102,9 @@ du -h -d 2 /xxx
 
 OpenSSH套件包含以下工具：
 
-使用ssh， scp和 sftp完成远程操作 。
-使用ssh-add， ssh-keysign， ssh-keyscan和 ssh-keygen进行密钥管理 。
-服务 端由sshd， sftp-server和 ssh-agent组成。
+- 使用ssh， scp和 sftp完成远程操作 。
+- 使用ssh-add， ssh-keysign， ssh-keyscan和 ssh-keygen进行密钥管理 。
+- 服务 端由sshd， sftp-server和 ssh-agent组成。
 
 
 <hr>
