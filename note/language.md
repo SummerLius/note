@@ -4,11 +4,15 @@
 - java
 - javascript
 - python
+    - [官网](https://www.python.org/)
 - c#
 - ruby
 - erlang
 - php
 - go
+    - [官网](https://golang.org/)
+    - [go中文社区](https://studygolang.com/)
+    - [GitHub地址](https://github.com/golang/go)
 - scala
 - hashkell
 - rust
