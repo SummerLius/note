@@ -98,6 +98,8 @@
 
 ### Nodejs 事件循环、Timers、process.nextTick()
 
+[这里有翻译](https://segmentfault.com/a/1190000012258592)
+
 - 什么是事件循环event loop
     1. 事件循环的主要作用是 通过将操作卸载到系统内核上去处理，从而允许Nodejs执行非阻塞I/O操作，尽管js的执行是单线程的。
 - 事件循环解释
