@@ -60,48 +60,69 @@
         3. 静态语义规则
     6. [ECMAScript Data Types and Values](#)
         - p55
+        - ES数据类型和值
         1. ECMAScript 语言类型
         2. ECMAScript 规范类型
     7. [Abstract Operations](#)
         - p76
+        - 抽象操作
     8. [Executable Code and Execution Contexts](#)
         - p96
+        - 执行代码和执行上下文
     9. [Ordinary and Exotic Objects Behaviours](#)
         - p119
+        - 普通和其它对象行为
     10. [ECMAScript Language: Source Code](#)
         - p158
+        - ES语言：源代码
     11. [ECMAScript Language: Lexical Grammar](#)
         - p160
+        - ES语言：词法
     12. [ECMAScript Language: Expressions](#)
         - p178
+        - ES语言：表达式
     13. [ECMAScript Language: Statements and Declarations](#)
         - p226
+        - ES语言：语句和声明
     14. [ECMAScript Language: Functions and Classes](#)
         - p275
+        - ES语言：函数和类
     15. [ECMAScript Language: Scripts and Modules](#)
         - p304
+        - ES语言：脚本和模块
     16. [Error Handling and Language Extensions](#)
         - p329
+        - ES语言：错误处理和语言扩展
     17. [ECMAScript Standard Built-in Objects](#)
         - p331
+        - ES标准内建对象
     18. [The Global Object](#)
         - p332
+        - 全局对象
     19. [Fundamental Objects](#)
         - p344
+        - 基本对象
     20. [Numbers and Dates](#)
         - p362
+        - 数字和日期
     21. [Text Processing](#)
         - p394
+        - 文本处理
     22. [Indexed Collections](#)
         - p436
+        - 索引集合
     23. [Keyed Collection](#)
         - p478
+        - 键集合
     24. [Structured Data](#)
         - p494
+        - 结构化数据
     25. [Control Abstraction Objects](#)
         - p510
+        - 控制抽象对象
     26. [Reflection](#)
         - p527
+        - 反射
     27. 附录
         - [Annex A: (informative) Grammar Summary](#)
             - page533
@@ -157,7 +178,9 @@
         - ECMAScript 处理字符串值时，其将序列中的每个元素解释成一个UTF-16编码单元。然而，es并没有对字符串序列的编码单元有什么限制或要求，所以被翻译/解释成的UTF-16编码单元序列可能是不规范的（不过这部分，我暂时不用关心）。
         - ...
     5. `Symbol`
+        - 待了解...
     6. `Number`
+        - 
     7. `Object`
 2. [ECMAScript Specification Types](#)
 

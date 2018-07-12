@@ -22,6 +22,7 @@
 - [nmap](#nmap)
 - [lsb_release](#lsb_release)
 - [which、whereis](#whichwhereis)
+- [locale](#locale)
 
 <!-- /TOC -->
 
@@ -399,4 +400,8 @@ nmap、Aircrack-NG、Wireshark
 - whereis：定位command的可执行二进制文件、源文件、man手册文件
 
 whereis的功能更全一点
+
+#### locale
+
+查看当前系统默认语言、编码
 
