@@ -1,4 +1,16 @@
-## MySQL
+# MySQL
+
+## 文档地址
+
+- [MySQL 文档](https://dev.mysql.com/doc/)
+- [MySQL 8.0](https://dev.mysql.com/doc/refman/8.0/en/introduction.html)
+- [MySQL 5.7](https://dev.mysql.com/doc/refman/5.7/en/introduction.html)
+- [MySQL 5.6](https://dev.mysql.com/doc/refman/5.6/en/introduction.html)
+- [MySQL 5.5](https://dev.mysql.com/doc/refman/5.5/en/introduction.html)
+
+
+
+## 其它 
 
 ```sql
 # 创建用户并赋予全部权限
