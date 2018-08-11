@@ -849,8 +849,60 @@
         // 编译后css代码
         ```
 - Duplication Detection
+    - 重复检测
+    - 当前没有重复检测。例如
+        ```less
+        // 原less代码
+        .alert-info,
+        .widget {
+          /* declarations */
+        }
+        
+        .alert:extend(.alert-info, .widget) {}
+
+        // 编译后的css代码
+        .alert-info,
+        .widget,
+        .alert,
+        .alert {
+          /* declarations */
+        }
+        ```
 - Use Cases for Extend
+    - 继承（Extend）使用案例
 - Classic Use Case
+    - 经典用例
+    - 经典用例可以避免添加基类。例如，如果你有
+        ```css
+        .animal {
+          background-color: black;
+          color: white;
+        }
+        ```
+    - 并且您希望拥有一个覆盖背景颜色的动物子类型，那么您有两个选择，首先更改您的HTML
+        ```html
+        <a class="animal bear">Bear</a>
+        ```
+        ```css
+        .animal {
+          background-color: black;
+          color: white;
+        }
+        .bear {
+          background-color: brown;
+        }
+        ```
+    - 或者简化了html并使用了更少的继承Extend。例如
+        ```less
+        .animal {
+          background-color: black;
+          color: white;
+        }
+        .bear {
+          &:extend(.animal);
+          background-color: brown;
+        }
+        ```
 - Reducing CSS Size
 - Combining Styles / A More Advanced Mixin
 
