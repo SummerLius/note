@@ -904,42 +904,576 @@
         }
         ```
 - Reducing CSS Size
+    - 缩小css尺寸
+    - Mixins将所有属性复制到选择器中，这可能导致不必要的重复。
+    - 因此，你可以使用Extends而不是Mixins将选择器移动到你希望使用的属性，从而减少生成的CSS
+    - 例如，使用Mixins
+        ```less
+        // 原less代码
+        .my-inline-block() {
+            display: inline-block;
+          font-size: 0;
+        }
+        .thing1 {
+          .my-inline-block;
+        }
+        .thing2 {
+          .my-inline-block;
+        }
+        
+        // 编译后的css代码
+        .thing1 {
+          display: inline-block;
+          font-size: 0;
+        }
+        .thing2 {
+          display: inline-block;
+          font-size: 0;
+        }
+        ```
+    - 例如，使用功能Extends
+        ```less
+        // 原less代码
+        .my-inline-block {
+          display: inline-block;
+          font-size: 0;
+        }
+        .thing1 {
+          &:extend(.my-inline-block);
+        }
+        .thing2 {
+          &:extend(.my-inline-block);
+        }
+
+        // 编译后css代码
+        .my-inline-block,
+        .thing1,
+        .thing2 {
+          display: inline-block;
+          font-size: 0;
+        }
+        ```
 - Combining Styles / A More Advanced Mixin
+    - 另一个用例是mixin的替代方案 - 因为mixins只能用于简单的选择器，如果你有两个不同的html块，但需要将相同的样式应用于两者，你可以使用extends来关联两个区域
+    - 例如：
+        ```less
+        // 原less代码
+        li.list > a {
+          // list styles
+        }
+        button.list-style {
+          &:extend(li.list > a); // use the same list styles
+        }
+        ```
 
 ### 混入
 
+- 混入
+    - 混合现有style的属性
+    - 您可以混合使用类选择器和id选择器，例如
+        ```less
+        // 原less代码
+        .a, #b {
+          color: red;
+        }
+        .mixin-class {
+          .a();
+        }
+        .mixin-id {
+          #b();
+        }
+
+        // 编译后css代码
+        .a, #b {
+          color: red;
+        }
+        .mixin-class {
+          color: red;
+        }
+        .mixin-id {
+          color: red;
+        }
+        ```
+    - 请注意，当您调用mixin时，括号是可选的。
+        ```less
+        // these two statements do the same thing:
+        .a(); 
+        .a;
+        ```
 - Not Outputting the Mixin
+    - 不输出Mixin
+    - 如果你想创建一个mixin，但是你不想输出mixin，你可以在它后面添加括号
+    - 例如：
+        ```less
+        // 原less代码
+        .my-mixin {
+          color: black;
+        }
+        .my-other-mixin() {
+          background: white;
+        }
+        .class {
+          .my-mixin;
+          .my-other-mixin;
+        }
+        
+        // 编译后css代码
+        .my-mixin {
+          color: black;
+        }
+        .class {
+          color: black;
+          background: white;
+        }
+        ```
 - Selectors in Mixins
+    - Mixins中的选择器
+    - Mixins可以不仅包含属性，也可以包含选择器
+        ```less
+        // 原less代码
+        .my-hover-mixin() {
+          &:hover {
+            border: 1px solid red;
+          }
+        }
+        button {
+          .my-hover-mixin();
+        }
+        
+        // 编译后css代码
+        button:hover {
+          border: 1px solid red;
+        }
+        ```
 - Namespaces
-- Guarded Namespaces
+    - 如果要在更复杂的选择器中混合属性，可以堆叠多个id或类。
+        ```less
+        // 原less代码
+        #outer {
+          .inner {
+            color: red;
+          }
+        }
+        
+        .c {
+          #outer > .inner;
+        }
+        ```
+    - 并且 `>` 和 `空格` 是可选的
+        ```less
+        // all do the same thing
+        #outer > .inner;
+        #outer > .inner();
+        #outer .inner;
+        #outer .inner();
+        #outer.inner;
+        #outer.inner();
+        ```
+    - 其中一种用法称为命名空间。您可以将您的mixins放在一个id选择器下，这样可以确保它不会与另一个库冲突。
+    - 例如：
+        ```less
+        #my-library {
+          .my-mixin() {
+            color: black;
+          }
+        }
+        // which can be used like this
+        .class {
+          #my-library > .my-mixin();
+        }
+        ```
+- Guarded Namespaces（这个目前还没看懂！！！！！！！！）
+    - 受保护的命名空间
+    - 如果名称空间具有保护，则仅在guard条件返回true时才使用由其定义的mixins。
+    - 命名空间guard的评估方式与mixin的guard完全相同，因此接下来的两个mixin以相同的方式工作：
+        ```less
+        #namespace when (@mode=huge) {
+          .mixin() { /* */ }
+        }
+        
+        #namespace {
+          .mixin() when (@mode=huge) { /* */ }
+        }
+        ```
+    - 所有嵌套命名空间和mixin的 `default` 函数具有相同的值。
+    - 以下mixin从未被评估过，其中一名guards是false：
+        ```less
+        #sp_1 when (default()) {
+          #sp_2 when (default()) {
+            .mixin() when not(default()) { /* */ }
+          }
+        }
+        ```
 - The `!important` keyword
+    - 在mixin调用之后使用`!important`关键字，那么所有属性将标记为`!important`，例如：
+        ```less
+        // 原less代码
+        .foo (@bg: #f5f5f5, @color: #900) {
+          background: @bg;
+          color: @color;
+        }
+        .unimportant {
+          .foo();
+        }
+        .important {
+          .foo() !important;
+        }
+        
+        // 编译后css代码
+        .unimportant {
+          background: #f5f5f5;
+          color: #900;
+        }
+        .important {
+          background: #f5f5f5 !important;
+          color: #900 !important;
+        }
+        ```
 
 ### 参数混入
 
+- 参数混入
+    - 如何传递参数给Mixins
+    - Mixins也可以接受参数，这些参数是混合在一起传递给选择器块的变量
+    - 例如：
+        ```less
+        // 原less代码
+        .border-radius(@radius) {
+          -webkit-border-radius: @radius;
+             -moz-border-radius: @radius;
+                  border-radius: @radius;
+        }
+        ```
+    - 以下是我们如何将其混合到各种规则集中
+        ```less
+        // 原less代码
+        #header {
+          .border-radius(4px);
+        }
+        .button {
+          .border-radius(6px);
+        }
+        ```
+    - 参数mixins也可以为其参数设置默认值：
+        ```less
+        // 原less代码
+        .border-radius(@radius: 5px) {
+          -webkit-border-radius: @radius;
+             -moz-border-radius: @radius;
+                  border-radius: @radius;
+        }
+
+        // 调用，默认radius为5px
+        #header {
+          .border-radius;
+        }
+        ```
+    - 您还可以使用不带参数的参数化mixins。如果要从CSS输出中隐藏规则集，但希望将其属性包含在其他规则集中，则此选项非常有用。
+    - 如果mixins不带参数或者使用默认参数，则可以隐藏。
+        ```less
+        // 原less代码
+        .wrap() {
+          text-wrap: wrap;
+          white-space: -moz-pre-wrap;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+        }
+        
+        pre { .wrap }
+        
+        // 编译后css代码
+        pre {
+          text-wrap: wrap;
+          white-space: -moz-pre-wrap;
+          white-space: pre-wrap;
+          word-wrap: break-word;
+        }
+        ```
 - Mixins with Multiple Parameters
+    - 多参数的Mixins
+    - 参数可以是分号`;`或逗号`,`分隔。建议使用分号。
+    - 符号逗号具有双重含义：它可以解释为mixin参数分隔符或css列表分隔符。
+    - 使用逗号作为mixin分隔符使得无法将逗号分隔列表创建为参数。另一方面，如果编译器在mixins调用或声明中看到至少一个分号，则它假定参数由分号分隔，并且所有逗号都属于css列表：
+        - 两个参数，每个参数包含以逗号分隔的列表：`.name(1, 2, 3; something, else)`
+        - 三个参数，每个包含一个数字：`.name(1, 2, 3)`
+        - 一个参数：`.name(1, 2, 3;)`
+        - 逗号分隔的默认值：`.name(@param1: red, blue;)`
+    - 定义具有相同名称和参数数量的多个mixin是合法的。Less将使用所有可应用的属性。如果你使用带有一个参数的mixin，例如 `.mixin(green);`，然后将使用具有一个强制参数的所有mixin的属性
+        ```less
+        // 原less代码
+        .mixin(@color) {
+          color-1: @color;
+        }
+        .mixin(@color; @padding: 2) {
+          color-2: @color;
+          padding-2: @padding;
+        }
+        .mixin(@color; @padding; @margin: 2) {
+          color-3: @color;
+          padding-3: @padding;
+          margin: @margin @margin @margin @margin;
+        }
+        .some .selector div {
+          .mixin(#008000);
+        }
+        
+        // 编译后css代码
+        .some .selector div {
+          color-1: #008000;
+          color-2: #008000;
+          padding-2: 2;
+        }
+        ```
 - Named Parameters
+    - mixin可以通过其名称而不仅仅是位置来提供参数值。任何参数都可以通过其名称引用，并且它们不必具有任何特殊顺序：
+        ```less
+        // 原less代码
+        .mixin(@color: black; @margin: 10px; @padding: 20px) {
+          color: @color;
+          margin: @margin;
+          padding: @padding;
+        }
+        .class1 {
+          .mixin(@margin: 20px; @color: #33acfe);
+        }
+        .class2 {
+          .mixin(#efca44; @padding: 40px);
+        }
+        
+        // 编译后css代码
+        .class1 {
+          color: #33acfe;
+          margin: 20px;
+          padding: 20px;
+        }
+        .class2 {
+          color: #efca44;
+          margin: 10px;
+          padding: 40px;
+        }
+        ```
 - The `@arguments` Variable
+    - `@arguments` 在mixins中有一个特殊含义，它包含调用mixin时传递的所有参数。如果您不想处理单个参数，这非常有用：
+        ```less
+        // 原less代码
+        .box-shadow(@x: 0; @y: 0; @blur: 1px; @color: #000) {
+          -webkit-box-shadow: @arguments;
+             -moz-box-shadow: @arguments;
+                  box-shadow: @arguments;
+        }
+        .big-block {
+          .box-shadow(2px; 5px);
+        }
+        
+        // 编译后css代码
+        .big-block {
+          -webkit-box-shadow: 2px 5px 1px #000;
+             -moz-box-shadow: 2px 5px 1px #000;
+                  box-shadow: 2px 5px 1px #000;
+        }
+        ```
 - Advanced Arguments and the `@rest` Variable
+    - 高级参数和`@rest`变量
+    - 如果你希望mixin采用可变数量的参数，你可以使用符号：`...`。在变量名之后使用它将把这些参数分配给变量。
+        ```less
+        // 原less代码
+        .mixin(...) {        // matches 0-N arguments
+        .mixin() {           // matches exactly 0 arguments
+        .mixin(@a: 1) {      // matches 0-1 arguments
+        .mixin(@a: 1; ...) { // matches 0-N arguments
+        .mixin(@a; ...) {    // matches 1-N arguments
+
+        .mixin(@a; @rest...) {
+           // @rest is bound to arguments after @a
+           // @arguments is bound to all arguments
+        }
+        ```
 - Pattern-matching
+    - 有时，您可能希望根据传递给它的参数更改mixin的行为。让我们从基本的东西开始：
+        ```less
+        .mixin(@s; @color) { ... }
+
+        .class {
+          .mixin(@switch; #888);
+        }
+        ``` 
+    - 现在，我们想基于`@switch`的值，来使`.mixin`的行为不同，那么可以这样定义`.mixin`：
+        ```less
+        // 原less代码
+        .mixin(dark; @color) {
+          color: darken(@color, 10%);
+        }
+        .mixin(light; @color) {
+          color: lighten(@color, 10%);
+        }
+        .mixin(@_; @color) {
+          display: block;
+        }
+
+        @switch: light;
+
+        .class {
+          .mixin(@switch; #888);
+        }
+
+        // 编译后css代码
+        .class {
+          color: #a2a2a2;
+          display: block;
+        }
+        ```
+    - 上述代码流程：
+        1. 第一个mixin定义不匹配，因为它期望dark作为第一个参数。
+        2. 第二个mixin定义匹配，因为它预期light
+        3. 第三个mixin定义匹配，因为它期望任何值。
+    - 只有匹配的mixin才会被应用。变量为任何值，都可以匹配。非变量匹配时，则必须值是一致的。
+    - 我们还可以根据参数个数来匹配：
+        ```less
+        .mixin(@a) {
+          color: @a;
+        }
+        .mixin(@a; @b) {
+          color: fade(@a; @b);
+        }
+        ```
+    - 现在如果我们用一个参数调用.mixin，我们将得到第一个定义的输出，但如果我们用两个参数调用它，我们将得到第二个定义，即@a淡化为@b。
 
 ### Mixins as Functions
 
 - Mixins as Functions
+- 作为函数的mixins，返回变量或mixins
+- 在mixin中定义的变量和mixin是可见的，并且可以在可调用范围内使用。
+- 只有一个例外，如果调用者包含一个具有相同名称的变量（包括由另一个mixin调用定义的变量），则不会复制变量。只有受调用者本地范围中存在的变量才受到保护。从父作用域继承的变量将被重写。
+- 例如：
+    ```less
+    // 原less代码
+    .mixin() {
+      @width:  100%;
+      @height: 200px;
+    }
+    
+    .caller {
+      .mixin();
+      width:  @width;
+      height: @height;
+    }
+
+    // 编译后css代码
+    .caller {
+      width:  100%;
+      height: 200px;
+    }
+    ```
+- 因此，mixin中定义的变量可以作为其返回值。这允许我们创建一个几乎可以像函数一样使用的mixin。
+- 例如：
+    ```less
+    // 原less代码
+    .average(@x, @y) {
+      @average: ((@x + @y) / 2);
+    }
+    
+    div {
+      .average(16px, 50px); // "call" the mixin
+      padding: @average;    // use its "return" value
+    }
+
+    // 编译后css代码
+    div {
+      padding: 33px;
+    }
+    ```
+- 直接在调用者范围中定义的变量不能被覆盖。但是，调用者父作用域中定义的变量不受保护，将被覆盖：
+- 例如：
+    ```less
+    // 原less代码
+    .mixin() {
+      @size: in-mixin;
+      @definedOnlyInMixin: in-mixin;
+    }
+    
+    .class {
+      margin: @size @definedOnlyInMixin;
+      .mixin();
+    }
+    
+    @size: globaly-defined-value; // callers parent scope - no  protection
+
+    // 编译后css代码
+    .class {
+      margin: in-mixin in-mixin;
+    }
+    ```
+- 最后，mixin中定义的mixin也作为返回值
+    ```less
+    // 原less代码
+    .unlock(@value) { // outer mixin
+      .doSomething() { // nested mixin
+        declaration: @value;
+      }
+    }
+    
+    #namespace {
+      .unlock(5); // unlock doSomething mixin
+      .doSomething(); //nested mixin was copied here and is usable
+    }
+
+    // 编译后css代码
+    #namespace {
+      declaration: 5;
+    }
+    ```
 
 ### Passing Rulesets to Mixins
 
 - Passing Rulesets to Mixins
+- 将规则集传递给Mixins
+- 
 - Scoping
 
 ### 导入命令
 
 - 导入命令
+    - 从其他样式表导入样式
+    - 在标准CSS中，`@import` at-rules必须在所有其他类型的规则之前。但Less.js并不关心你放置`@import`语句的位置。
+    - 例如：
+        ```less
+        // 原less代码
+        .foo {
+          background: #900;
+        }
+        @import "this-is-valid.less";
+        ```
 - File Extensions
+    - 根据文件扩展名，less可以区别对待`@import`
+        1. 如果文件具有.css扩展名，则将其视为CSS，并将@import语句保留为原样（请参阅下面的：inline options）。
+        2. 如果它有任何其他扩展名，它将被视为less并导入。
+        3. 如果它没有扩展名，则会附加.less，它将作为导入的Less文件包含在内。
+    - 例如：
+        ```less
+        // 原less代码
+        @import "foo";      // foo.less is imported
+        @import "foo.less"; // foo.less is imported
+        @import "foo.php";  // foo.php imported as a less file
+        @import "foo.css";  // statement left in place, as-is
+        ```
+    - 可以使用以下options覆盖此行为。
 
 
 ### 导入选项
 
 - 导入选项
+    - less为css的`@import`规则提供了几个扩展，以提供比外部文件更多的灵活性。
+    - 语法：`@import (keyword) "filename";`
+    - 以下import directives已经被实现：
+        1. `reference`：使用Less文件但不输出
+        2. `inline`：在输出中包含源文件但不处理它
+        3. `less`：无论文件扩展名是什么，都将文件视为Less文件
+        4. `css`：无论文件扩展名是什么，都将文件视为CSS文件
+        5. `once`：仅包含文件一次（这是默认行为）
+        6. `multiple`：多次包含该文件
+        7. `optional`：在找不到文件时继续编译
+    - 每个`@import`允许多个关键字，您必须使用逗号分隔关键字
+    - 例如：`@import (optional, reference) "foo.less";`
 - reference
 - reference example
 - inline
@@ -952,31 +1486,414 @@
 ### Mixin Guards
 
 - Mixin Guards
-- Guard Comparison Operators
-- Guard Logical Operators
-- Type Checking Functions
-- Conditional Mixins
+    - 条件混合
+    - 当你想要匹配表达式，而不是简单的值或数量，Guards很有用。如果你熟悉函数式编程，则可能已经遇到过它们。
+    - 为了尽可能接近css声明性质，Less选择通过 **guarded mixins** 来实现条件执行，这是@media查询功能规范的一部分。
+    - 让我们从一个例子开始：
+        ```less
+        // 原生less代码
+        .mixin (@a) when (lightness(@a) >= 50%) {
+          background-color: black;
+        }
+        .mixin (@a) when (lightness(@a) < 50%) {
+          background-color: white;
+        }
+        .mixin (@a) {
+          color: @a;
+        }
+        ```
+    - 这里代码关键部分是是`when`关键字，它引入了一个保护序列（这里只有一个保护）。现在，如果我们运行以下代码：
+        ```less
+        // 原生less代码
+        .class1 { .mixin(#ddd) }
+        .class2 { .mixin(#555) }
 
+        // 编译后css代码
+        .class1 {
+          background-color: black;
+          color: #ddd;
+        }
+        .class2 {
+          background-color: white;
+          color: #555;
+        }
+        ```
+- Guard Comparison Operators
+    - guards中可用的比较运算符完整的列表是：`>`，`>=`，`=`，`=<`，`<`。
+    - 此外，关键词 `true` 是唯一的truthy值，使这两个mixins相等。
+        ```less
+        // 原生less代码
+        .truth (@a) when (@a) { ... }
+        .truth (@a) when (@a = true) { ... }
+        ```
+    - 除关键字`true`之外的任何值都为`false`
+        ```less
+        .class {
+          .truth(40); // Will not match any of the above definitions.
+        }
+        ```
+    - 请注意，您还可以相互比较参数，或使用非参数：
+        ```less
+        // 原生less代码
+        @media: mobile;
+
+        .mixin (@a) when (@media = mobile) { ... }
+        .mixin (@a) when (@media = desktop) { ... }
+        
+        .max (@a; @b) when (@a > @b) { width: @a }
+        .max (@a; @b) when (@a < @b) { width: @b }
+        ```
+- Guard Logical Operators
+    - 您可以将逻辑运算符与guards一起使用。语法基于CSS媒体查询。
+    - 使用 `and` 关键字组合guards：
+        ```less
+        // 原生less代码
+        .mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }
+        ```
+    - 你可以通过逗号分隔guards来模拟 `or` 运算符。如果任何guards计算为真，则认为是匹配：
+        ```less
+        // 原生less代码
+        .mixin (@a) when (@a > 10), (@a < -10) { ... }
+        ``` 
+    - 使用 `not` 关键字否定条件：
+        ```less
+        // 原生less代码
+        .mixin (@b) when not (@b > 0) { ... }
+        ```
+- Type Checking Functions
+    - 最后，如果要根据值类型匹配mixins，可以使用is函数：
+        ```less
+        .mixin (@a; @b: 0) when (isnumber(@b)) { ... }
+        .mixin (@a; @b: black) when (iscolor(@b)) { ... }
+        ```
+    - 以下是基本类型检查功能:
+        - iscolor
+        - isnumber
+        - isstring
+        - iskeyword
+        - isurl
+    - 如果您想检查某个值是否在某个特定单位中而不是数字，您可以使用以下方法之一：
+        - ispixel
+        - ispercentage
+        - isem
+        - isunit
+- Conditional Mixins
+    - 此外，default函数可用于根据其他混合匹配进行混合匹配，您可以使用它来创建类似于else或default语句的“条件混合”（分别为if和case结构）：
+        ```less
+        // 原生less代码
+        .mixin (@a) when (@a > 0) { ...  }
+        .mixin (@a) when (default()) { ... } // matches only if first mixin         does not, i.e. when @a <= 0
+        ```
 ### CSS Guards
 
 - CSS Guards
+    - guards也可以应用于css选择器，这是用于声明mixin然后立即调用它的语法糖。
+    - 例如，在1.5.0之前你必须这样做：
+        ```less
+        // 原less代码
+        .my-optional-style() when (@my-option = true) {
+          button {
+            color: white;
+          }
+        }
+        .my-optional-style();
+        ```
+    - 现在，您可以将guards直接应用于样式。
+        ```less
+        // 原less代码
+        button when (@my-option = true) {
+          color: white;
+        }
+        ```
+    - 您还可以通过将此功能与`&`功能相结合来实现`if`类型语句，从而允许您对多个guards进行分组。
+        ```less
+        // 原less代码
+        & when (@my-option = true) {
+          button {
+            color: white;
+          }
+          a {
+            color: blue;
+          }
+        }
+        ```
 
 ### 循环
 
 - 循环
+    - 在Less中，mixin可以调用它自己，这种递归的mixins，当和[Guard Expressions](#)和[Pattern Matching](#)绑定时，其可以用来创建循环结构
+    - 例如：
+        ```less
+        // 原less代码
+        .loop(@counter) when (@counter > 0) {
+          .loop((@counter - 1));    // next iteration
+          width: (10px * @counter); // code for each iteration
+        }
+        
+        div {
+          .loop(5); // launch the loop
+        }
+
+        
+        // 编译后css代码
+        div {
+          width: 10px;
+          width: 20px;
+          width: 30px;
+          width: 40px;
+          width: 50px;
+        }
+        ```
+    - 使用递归循环生成CSS网格类的一般示例：
+        ```less
+        // 原less代码
+        .generate-columns(4);
+
+        .generate-columns(@n, @i: 1) when (@i =< @n) {
+          .column-@{i} {
+            width: (@i * 100% / @n);
+          }
+          .generate-columns(@n, (@i + 1));
+        }
+
+        // 编译后 css代码
+        .column-1 {
+          width: 25%;
+        }
+        .column-2 {
+          width: 50%;
+        }
+        .column-3 {
+          width: 75%;
+        }
+        .column-4 {
+          width: 100%;
+        }
+        ```
 
 ### 合并
 
 - 合并
+    - 并功能允许将多个属性中的值聚合到单个属性下的逗号或空格分隔列表中。 merge对于背景和变换等属性很有用。
 - Comma
+    - 使用逗号附加属性值
+        ```less
+        // 原less代码
+        .mixin() {
+          box-shadow+: inset 0 0 10px #555;
+        }
+        .myclass {
+          .mixin();
+          box-shadow+: 0 0 20px black;
+        }
+
+        // 编译的css代码
+        .myclass {
+          box-shadow: inset 0 0 10px #555, 0 0 20px black;
+        }
+        ```
 - Space
+    - 使用空格附加属性值
+        ```less
+        // 原less代码
+        .mixin() {
+          transform+_: scale(2);
+        }
+        .myclass {
+          .mixin();
+          transform+_: rotate(15deg);
+        }
+
+        // 编译的css代码
+        .myclass {
+          transform: scale(2) rotate(15deg);
+        }
+        ```
+- 为了避免任何无意的连接，merge需要在每个连接挂起声明上使用显式的 `+` 或 `+_` 标志。
 
 ### 父选择器
 
 - 父选择器
+    - 使用`&`引用父选择器
+    - `&`运算符表示嵌套规则的父选择器
+        ```less
+        // 原less代码
+        a {
+          color: blue;
+          &:hover {
+            color: green;
+          }
+        }
+        
+        // 编译的css代码
+        a {
+          color: blue;
+        }
+        
+        a:hover {
+          color: green;
+        }
+        ```
+    - “父选择器”运算符具有多种用途。例如，`&`的另一个典型用法是产生重复的类名：
+        ```less
+        // 原less代码
+        .button {
+          &-ok {
+            background-image: url("ok.png");
+          }
+          &-cancel {
+            background-image: url("cancel.png");
+          }
+        
+          &-custom {
+            background-image: url("custom.png");
+          }
+        }
+        
+        // 编译的css代码
+        .button-ok {
+          background-image: url("ok.png");
+        }
+        .button-cancel {
+          background-image: url("cancel.png");
+        }
+        .button-custom {
+          background-image: url("custom.png");
+        }
+        ```
 - Multiple `&`
+    - `&` 可能会在选择器中出现多次。这使得可以重复引用父选择器而不重复其名称。
+        ```less
+        // 原less代码
+        .link {
+          & + & {
+            color: red;
+          }
+        
+          & & {
+            color: green;
+          }
+        
+          && {
+            color: blue;
+          }
+        
+          &, &ish {
+            color: cyan;
+          }
+        }
+
+        // 编译的css代码
+        .link + .link {
+          color: red;
+        }
+        .link .link {
+          color: green;
+        }
+        .link.link {
+          color: blue;
+        }
+        .link, .linkish {
+          color: cyan;
+        }
+        ```
+    - 请注意`&`表示所有父选择器（不仅仅是最近的祖先），因此以下示例：
+        ```less
+        // 原less代码
+        .grand {
+          .parent {
+            & > & {
+              color: red;
+            }
+        
+            & & {
+              color: green;
+            }
+        
+            && {
+              color: blue;
+            }
+        
+            &, &ish {
+              color: cyan;
+            }
+          }
+        }
+
+        // 编译的css代码
+        .grand .parent > .grand .parent {
+          color: red;
+        }
+        .grand .parent .grand .parent {
+          color: green;
+        }
+        .grand .parent.grand .parent {
+          color: blue;
+        }
+        .grand .parent,
+        .grand .parentish {
+          color: cyan;
+        }
+        ```
 - Changing Selector Order
+    - 更改选择器顺序
+    - 将选择器添加到继承的（父）选择器可能很有用。这可以通过在当前选择器来完成后面放置`&`来处理。
+        ```less
+        // 原less代码
+        .header {
+          .menu {
+            border-radius: 5px;
+            .no-borderradius & {
+              background-image: url('images/button-background.png');
+            }
+          }
+        }
+        
+        // 编译的css代码
+        .header .menu {
+          border-radius: 5px;
+        }
+        .no-borderradius .header .menu {
+          background-image: url('images/button-background.png');
+        }
+        ```
 - Combinatorial Explosion
+    - `&`还可用于生成逗号分隔列表中每个可能的选择器排列：
+        ```less
+        // 原less代码
+        p, a, ul, li {
+          border-top: 2px dotted #366;
+          & + & {
+            border-top: 0;
+          }
+        }
+
+        // 编译后css代码
+        p,
+        a,
+        ul,
+        li {
+          border-top: 2px dotted #366;
+        }
+        p + p,
+        p + a,
+        p + ul,
+        p + li,
+        a + p,
+        a + a,
+        a + ul,
+        a + li,
+        ul + p,
+        ul + a,
+        ul + ul,
+        ul + li,
+        li + p,
+        li + a,
+        li + ul,
+        li + li {
+          border-top: 0;
+        }
+        ```
 
 ## 函数手册
 
