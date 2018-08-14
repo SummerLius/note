@@ -1475,13 +1475,67 @@
     - 每个`@import`允许多个关键字，您必须使用逗号分隔关键字
     - 例如：`@import (optional, reference) "foo.less";`
 - reference
+    - 例如：`@import (reference) "foo.less";`
+    - 想象一下，在导入的文件里面，`reference`选项会标记每个指令和选择器，正常导入，但是当编译生成css时，标记为reference的选择器不会输出。
+    - `reference`样式将不会出现到你生成的css文件中，除非其作为`mixins`或`extended`被使用
+    - 此外，根据被使用的方法（mixin或extend），reference会产生不同的结果：
+        - extend：当一个选择器被继承时，只有新选择器被标记为not reference时，它在引用@import语句的位置被拉入。（When a selector is extended, only the new selector is marked as not referenced, and it is pulled in at the position of the reference @import statement.）
+        - mixins：（When a reference style is used as an implicit mixin, its rules are mixed-in, marked "not reference", and appear in the referenced place as normal.）
 - reference example
-- inline
+    - 下面允许您通过执行以下操作从Bootstrap等库中仅提取特定的，有针对性的样式：
+        ```less
+        // 原less代码
+        .navbar:extend(.navbar all) {}
+        ```
+    - 并且您将仅从Bootstrap中提取.navbar相关样式。
+- inline（目前不是很理解）
+    - 使用`@import (inline)`引入外部文件，但不处理它们
+    - 例如：`@import (inline) "not-less-compatible.css";`
+    - 当CSS文件可能Less不兼容时，您将使用此选项;这是因为虽然Less支持大多数已知标准CSS，但它不支持某些地方的注释，并且不支持所有已知的CSS hacks。
+    - 因此，您可以使用它将文件包含在输出中，以便所有CSS都在一个文件中
 - less
+    - 使用`@import (less)`将导入的文件视为Less，无论文件扩展名如何。
+        ```less
+        // 原less代码
+        @import (less) "foo.css";
+        ```
 - css
+    - 使用`@import (css)`将导入的文件视为常规CSS，无论文件扩展名如何。这意味着import语句将保持原样。
+        ```less
+        // 原less代码
+        @import (css) "foo.less";
+        ```
 - once
+    - `@import` 语句的默认行为。这意味着文件仅导入一次，并且将忽略该文件的后续导入语句。
+        ```less
+        // 原less代码
+        @import (once) "foo.less";
+        @import (once) "foo.less"; // this statement will be ignored
+        ```
 - multiple
+    - 使用`@import (multiple)`允许导入具有相同名称的多个文件。这是once的相反行为。
+        ```less
+        // 原less代码
+        
+        // file: foo.less
+        .a {
+          color: green;
+        }
+        // file: main.less
+        @import (multiple) "foo.less";
+        @import (multiple) "foo.less";
+        
+        
+        // 编译后css代码
+        .a {
+          color: green;
+        }
+        .a {
+          color: green;
+        }
+        ```
 - optional
+    - 使用`@import (optional)`仅允许在文件存在时导入文件。没有optional关键字Less会抛出FileError并在导入无法找到的文件时停止编译。
 
 ### Mixin Guards
 
