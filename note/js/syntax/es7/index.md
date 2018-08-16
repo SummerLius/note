@@ -1,6 +1,6 @@
 <!-- TOC -->
 
-- [ECMACcript 7th](#ecmaccript-7th)
+- [ECMACcript 8th](#ecmaccript-8th)
     - [概述](#概述)
     - [标准目录](#标准目录)
     - [标准章节](#标准章节)
@@ -20,7 +20,7 @@
 
 <!-- /TOC -->
 
-# ECMACcript 7th
+# ECMACcript 8th
 
 ## 概述
 

@@ -30,5 +30,5 @@ ECMAScript和JavaScript的关系？
 
 ### 查看ECMACript标准
 
-- [es7 / es 2016](./es7/index.md)
+- [es8 / es 2017](./es7/index.md)
 
