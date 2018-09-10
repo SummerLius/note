@@ -39,3 +39,9 @@ false：任何时候都不转换
 获取一个仓库
 git init
 git clone <repo-url>
+
+## 常见命令
+
+```sh
+git rm --cached -r 目录/
+```

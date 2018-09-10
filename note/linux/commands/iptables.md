@@ -22,6 +22,23 @@ Debian下，就提供了这样一个工具：`iptables-persistent`，可以了�
 
 ### iptables-restore
 
+## 常用命令
+
+```sh
+iptables -nvL --line-numbers
+
+iptables -P INPUT DROP
+
+iptables -D INPUT 95
+
+iptables -A INPUT -s 0.0.0.0 -j ACCEPT
+iptables -A INPUT -s 0.0.0.0 -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -s 0.0.0.0 -p tcp -m tcp -m multiport --dports 80,443 -j ACCEPT
+
+iptables-save > /etc/iptables/ipt_save.def
+iptables-restore < /etc/iptables/ipt_save.def
+```
+
 ## 参考链接
 
 - https://segmentfault.com/a/1190000002540601
