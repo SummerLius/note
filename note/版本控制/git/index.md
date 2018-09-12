@@ -42,6 +42,15 @@ git clone <repo-url>
 
 ## 常见命令
 
-```sh
-git rm --cached -r 目录/
-```
+- 欲忽略了仓库中已存在的文件，需要先从仓库中移除，然后在.gitigonre中配置
+- 将文件从仓库中移除
+    ```sh
+    git rm --cached -r 目录/
+    ```
+- 将本地的git仓库上传到远程上，如果远程完全为空的情况下
+    ```
+    git remote add origin url
+    git config --global user.name "username"
+    git config --global user.email "useremail"
+    git push --set-upstream origin master
+    ```

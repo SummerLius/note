@@ -10,16 +10,28 @@
 
 
 
-## 其它 
+## 常见命令
 
-```sql
-# 创建用户并赋予全部权限
-grant all privileges on *.* to root@localhost identified by 'my_password';
-
+```sh
+# 创建用户并赋予权限
+grant all privileges on *.* to root@10.82.193.184 identified by '2980summerwuhan';
+grant all privileges on mail_monitor.* to 'mail_monitor'@'%' identified by 'dy2980Mail_monitor';
 flush privileges;
 
+# 创建从复制用户
+grant REPLICATION SLAVE ON *.* to rsyncuser2@'%' identified by 'rsync2980esbwuhan';
+GRANT ALL PRIVILEGES ON `esb`.* TO 'rsyncuser2'@'%';
 
-grant all privileges on mail_monitor.* to 'mail_monitor'@'%' identified by 'dy2980Mail_monitor';
+# 导出数据和表结构
+mysqldump -u用户名 -p密码 数据库名 > xxx.sql
+
+# 只导出表结构
+mysqldump -u用户名 -p密码 -d 数据库名 > xxx.sql
+
+# 导入数据库 （首先要创建数据库：create database xxx;）
+mysql>source /home/xxx.sql
+
+mysql -u用户名 -p密码 数据库名 < xxx.sql
 ```
 
 ### 引擎
