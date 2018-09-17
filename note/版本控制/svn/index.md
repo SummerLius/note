@@ -20,4 +20,7 @@
 
 ```sh
 svn info
+
+# 恢复文件
+svn revert -R .
 ```
