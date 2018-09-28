@@ -1,5 +1,11 @@
 # apt
 
+## 源
+
+- ustc
+    - http://mirrors.ustc.edu.cn/help
+    - https://mirrors.ustc.edu.cn/repogen/
+
 ## 常见
 
 ```sh
