@@ -28,7 +28,7 @@
 
 ## 安装go
 
-- [下载并安装 Go 编译器、工具与库的说明](./install.md)
+- [下载并安装 Go 编译器、工具与库的说明](https://go-zh.org/doc/install)
 
 ## 学习go
 
