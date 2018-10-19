@@ -22,3 +22,11 @@
 
 ## 前端
 - https://juejin.im/entry/5a4cb8b05188255de57e2915
+
+
+## 其它
+- https://oceanofpdf.org/
+- https://futyi.co/  （要注册）
+- https://ebookee.org/  （要注册）
+- https://www.pdfdrive.com/
+- 【⭐】http://www.allitebooks.com
