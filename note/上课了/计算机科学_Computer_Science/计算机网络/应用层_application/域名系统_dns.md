@@ -73,4 +73,44 @@
         - 为了改善时延性能并减少在因特网上到处传输的dns报文数量，dns广泛使用了缓存技术。
         - 每一个层级上的dns服务器都有缓存，可以大大的减少响应时间。
 - 《计算机网络 自顶向下》，dns记录和报文
-    1. 
+    1. 概述
+        - 共同实现dns分布式数据库的所有dns服务器存储了**资源记录（Resource Record）**，RR提供主机名到IP地址的映射。
+        - 每个dns回答报文包含了一条或多条资源记录。
+        - 关于更多详细，可以参考rfc1034、rfc1035。
+        - RR是一个包含了下列字段的4元组：`(Name, Value, Type, TTL)`
+        - ttl是该记录的生存时间，它决定RR应当从缓存中删除的时间。
+        - name和value的值，取决于type。
+        - 以下例子中，先忽略掉ttl字段。
+            - Type=A。
+                - name是主机名，value是该主机名对应的ip地址。
+                - 因此，一条类型为 A 的RR提供了标准的主机名到ip地址的映射。
+                - 例如，（relay1.bar.foo.com， 145.37.93.126，A）就是一条类型你A记录。
+            - Type=NS。
+                - name是个域（如foo.com），而value是个知道如何获得该域中主机ip地址的权威dns服务器的主机名。
+                - 例如（foo.com，dns.foo.com，NS）就是一个类型为NS的记录。
+            - Type=CNAME。
+                - value是别名为name的主机对应的规范主机名。
+                - 该记录能够向查询的主机提供一个主机名对应的规范主机名。
+                - 例如（foo.com，relay1.bar.foo.com，CNAME）就是一条CNAME类型的记录。
+            - Type=MX。
+                - value是别名为name的邮件服务器的规范主机名。
+                - 例如（foo.com，mail.bar.foo.com，MX）就是一条MX记录。
+                - 通过使用mx记录，一个公司的邮件服务器和其它服务器可以使用相同的别名。
+                    - 例如,“foo.com” 域名可以同时是两台服务器的别名，可以通过type来区分开
+                    - （foo.com，mail.bar.foo.com，MX）
+                    - （foo.com，relay1.bar.foo.com，CNAME）
+                - 为了获取邮件服务器的规范主机名，dns客户应当请求一条mx记录；而为了获取其它服务器的规范主机名，dns客户应当请求cname记录。
+        - 小结：
+            - 如果一台dns服务器是用于某特定主机名的权威dns服务器，那么该权威dns服务器会含有一条包含该主机名的类型A记录。
+            - 如果服务器不是用于某主机名的权威服务器，那么该服务器将包含一条类型NS记录，该记录对应于包含主机名的域；它还将包含一条类型A记录，该记录提供了在NS记录的value字段中的dns服务器的ip地址。
+    2. dns报文
+        - dns只有两种报文：查询和回答。并且两者报文具有相同的格式。
+        - ![dns_message.png](./assets/dns_message.png)
+        - ![dns_message_explain.png](./assets/dns_message_explain.png)
+    3. 在dns数据库中插入记录
+        - 实例分析：假如你要注册域名 “networkutopia.com”
+        - 首先，当你向某些注册登录机构注册域名 “networkutopia.com” 时，需要向该机构提供你的基本和辅助（备份）dns服务器的名字和ip地址。假定该名字和ip地址是：“dns1.networkutopia.com和dns2.networkutopia.com，以及212.212.212.1和212.212.212.2”。对于这两个权威dns服务器的每一个，该注册登录机构确保将一个类型ns和一个类型A的记录输入TLD com服务器。
+        - 特别是对于用于 “networkutopia.com” 的基本权威服务器，该注册登录机构将下列两条RR插入该dns系统中：
+            - (networkutopia.com, dns1.networkutopia.com, NS)
+            - (dns1.networkutopia.com, 212.212.212.1, A)
+        - 然后，对于你自己的权威dns服务器中，你必须确保用于web服务器 “www.networkutopia.com” 的类型A资源记录和用于邮件服务器 “mail.networkutopia.com” 的类型MX资源记录被输入其中。
