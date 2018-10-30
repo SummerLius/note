@@ -1,6 +1,15 @@
-## 安装方式
+<!-- TOC -->
 
-### 官网源码包(.tar.gz)的下载安装（官网没有提供二进制bin包）
+- [安装方式](#安装方式)
+    - [官网源码包(.tar.gz)的下载安装（官网没有提供二进制bin包）](#官网源码包targz的下载安装官网没有提供二进制bin包)
+    - [apt-get方式安装](#apt-get方式安装)
+    - [docker安装](#docker安装)
+
+<!-- /TOC -->
+
+# 安装方式
+
+## 官网源码包(.tar.gz)的下载安装（官网没有提供二进制bin包）
 
 首先[官网](https://redis.io/download)只提供了源码包xx.tar.gz的下载。
 
@@ -45,8 +54,43 @@ redis服务的启动尽量采用配置文件方式：
 
 执行/redis-3.2.9/utils/下 install_server.sh脚本自动配置上面的东西，然后启动
 
-### apt-get方式安装
+## apt-get方式安装
 
-apt-get install redis-server（真一键安装）
+- apt-get install redis-server
+- 但是一般apt原redis-server的版本较低，所以需要配置其它源
+    1. ubuntu
+        - [ppa](https://launchpad.net/)
+            ```sh
+            apt-get install software-properties-common python-software-properties
+            add-apt-repository ppa:chris-lea/redis-server
+            apt-get update
+            apt-get install redis-server
+            ```
+    2. debian
+        - [Dotdeb](https://www.dotdeb.org/)
+            ```sh
+            # 添加一个dotdeb.list的apit源文件
+            /etc/apt/sources.list.d/dotdeb.list
+            
+            # 原地址
+            deb http://packages.dotdeb.org jessie all
+            deb-src http://packages.dotdeb.org jessie all
+
+            # 国内镜像地址
+            deb http://mirror.xtom.com.hk/dotdeb/ jessie all
+            deb-src http://mirror.xtom.com.hk/dotdeb/ jessie all
+
+
+            wget https://www.dotdeb.org/dotdeb.gpg
+            apt-key add dotdeb.gpg
+
+            apt-get update
+            apt-get install redis-server
+            ```
+        - 参考：
+            - https://www.linode.com/docs/databases/redis/how-to-install-a-redis-server-on-ubuntu-or-debian8/
+            - https://www.hugeserver.com/kb/install-redis-debian-ubuntu/
+
+## docker安装
 
 
