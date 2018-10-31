@@ -38,15 +38,15 @@
         redis-server*
         ```
     3. 将上述编译生成的可执行文件，拷贝到 `/usr/bin/` 目录下
-    4. 接下来就是配置和启动服务：在解压后的目录 `redis-5.0.0/utils/` 下，官方就提供了一些工具文件，其中 `redis-5.0.0/utils/install_server.sh` 脚本提供了服务的配置与运行的自动化，很方便，这就是我们要的执行的脚本文件。
-    5. 执行`install_server.sh`文件，其是交互式的，依次让我们确定以下几项：
+    4. 接下来就是配置和启动服务：在解压后的目录 `redis-5.0.0/utils/` 下，官方就提供了一些工具文件，其中 `redis-5.0.0/utils/install_server.sh` 脚本提供了服务的配置与运行的自动化处理，很方便，这就是我们要使用的脚本文件。
+    5. 执行`install_server.sh`文件，其运行是交互式的，依次让我们确定以下几项：
         - 端口：默认 6379
         - 配置文件：默认 /etc/redis/6379.conf
         - 日志文件：默认 /var/log/redis_6379.log
         - 数据目录：默认 /var/lib/redis/6379/
         - 可执行文件：默认 /var/bin/redis-server（该文件需要我们事先拷贝到该目录）
     6. `install_server.sh` 执行完后，会生成上述确定的文件，并运行redis服务
-        - 生成 /etc/init.d/redis_6379 文件，可以作为系统服务
+        - 生成 /etc/init.d/redis_6379* 文件，可以作为系统服务
         - 生成 /etc/redis/6379.conf 配置文件
         - 生成 /var/log/redis_6379.log 日志文件
         - 生成 /var/lib/redis/6379/ 数据目录
@@ -99,7 +99,7 @@ redis服务的启动尽量采用配置文件方式：
 ## apt-get方式安装
 
 - apt-get install redis-server
-- 但是一般apt原redis-server的版本较低，所以需要配置其它源
+- 但是一般apt源redis-server的版本较低，所以需要配置其它源（其实其它源也不高，五十步笑百步）
     1. ubuntu
         - [ppa](https://launchpad.net/)
             ```sh
@@ -134,5 +134,8 @@ redis服务的启动尽量采用配置文件方式：
             - https://www.hugeserver.com/kb/install-redis-debian-ubuntu/
 
 ## docker安装
+
+- [官方redis](https://hub.docker.com/_/redis/)
+- [搜索列表](https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page=1&pullCount=0&q=redis&starCount=0)
 
 
