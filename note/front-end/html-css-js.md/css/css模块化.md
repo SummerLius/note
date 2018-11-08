@@ -1,26 +1,47 @@
 <!-- TOC -->
 
-- [CSS规范](#css规范)
-    - [书写与命名](#书写与命名)
-        - [CSS BEM 命名约定](#css-bem-命名约定)
-            - [微信tmt团队关于css bem命名约定](#微信tmt团队关于css-bem命名约定)
-            - [bem-method说明](#bem-method说明)
+- [CSS模块化](#css模块化)
+    - [概要](#概要)
+        - [大规模css处理难点](#大规模css处理难点)
+        - [模块化框架](#模块化框架)
+    - [BEM](#bem)
+        - [bem 官网](#bem-官网)
+        - [微信tmt团队关于css bem命名约定](#微信tmt团队关于css-bem命名约定)
     - [参考](#参考)
 
 <!-- /TOC -->
 
-# CSS规范
+# CSS模块化
 
-## 书写与命名
+## 概要
 
-- css命名规范方案种类：
-    1. [bem](https://en.bem.info/)
-    2. [nec](http://nec.netease.com/)
-    3. ...
+### 大规模css处理难点
 
-### CSS BEM 命名约定
+- 模块化 CSS 使用的主要场景是棘手的大规模 CSS
+- Replace "can you build this?" with "can you maintain this without losing your minds?"
+- 这句话直指大规模 CSS 问题的核心。写代码并不难，难的是在不让你的代码随着时间的推移成为拖累你的“技术债”。
+- 难点
+    1. 难以理解
+    2. 难以复用
+    3. 难以维护
+    
 
-#### 微信tmt团队关于css bem命名约定
+### 模块化框架
+
+- [模块化框架](https://github.com/xitu/gold-miner/blob/master/TODO1/what-is-modular-css.md)
+    - [bem](https://en.bem.info/)
+    - [nec](http://nec.netease.com/)
+    - [oocss](https://github.com/stubbornella/oocss/wiki)
+    - [smacss](https://smacss.com/)
+
+## BEM
+
+### bem 官网
+
+- [bem info](https://github.com/bem-site/bem-method)
+- [bem get](http://getbem.com/introduction/)
+
+### 微信tmt团队关于css bem命名约定
 
 1. 概要
     - 使用bem命名规范，理论上讲，每行css代码都只有一个选择器。
@@ -113,9 +134,7 @@
     - 组件之间完全解耦，不会造成命名空间污染，例如：.mod-xxx ul li 的写法带来的潜在的嵌套风险
 
 
-#### bem-method说明
 
-- [bem-method](https://github.com/bem-site/bem-method)
 
 
 
@@ -128,4 +147,6 @@
 - http://getbem.com/introduction/
 - http://nec.netease.com/
 - https://en.bem.info/
+- https://github.com/xitu/gold-miner/blob/master/TODO1/what-is-modular-css.md
+- https://juejin.im/post/5ba234c85188255c38535a47#heading-5
 
