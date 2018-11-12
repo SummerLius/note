@@ -527,12 +527,119 @@ Sass可以通过以下三种方式使用：作为命令行；作为独立的Ruby
         - 当合并选择器的时候，@extend可以灵活的避免不必要的重复，会将".seriousError.seriousError" 这样的选择器转换为 ".seriousError"。此外，也不会产生不会匹配任何元素的选择器，例如 "#main#footer"
         - **工作流程**：
             - 看上面的代码，初步看上去，很有意思的一点是，在 ".seriousError" 选择器内继承选择器".error"，最后还会生成一个 ".seriousError.intrusion" 新选择器。这个继承逻辑过于“玄学”
-            - 猜想：目前初步的猜想是这样，A选择器继承B选择器，那么会将B和包含B的复合选择器全部复制一遍，然后==============================================
+            - 猜想：目前初步的猜想是这样，A选择器继承B选择器，那么会将 B 和 包含B的复合选择器 全部复制一遍，然后将复制的部分中的B替换成A。
     2. 多重继承
+        - 一个选择器可以继承多个选择器。
+        - 如果多个选择器中，有定义重复的样式，那么后面的会覆盖前面的。
+        - 多重继承可以用逗号分隔选择器名。例如，`@extend .error, .attention;` 与 `@extend .error; @extend .attention;` 有相同的效果
+            ```scss
+            .error {
+              border: 1px #f00;
+              background-color: #fdd;
+            }
+            .attention {
+              font-size: 3em;
+              background-color: #ff0;
+            }
+            .seriousError {
+              @extend .error;
+              @extend .attention;
+              border-width: 3px;
+            }
+            ```
+            ```css
+            .error, .seriousError {
+              border: 1px #f00;
+              background-color: #fdd; }
+            
+            .attention, .seriousError {
+              font-size: 3em;
+              background-color: #ff0; }
+            
+            .seriousError {
+              border-width: 3px; }
+            ```
     3. 继承链
+        - 当一个选择器继承给第二个选择器，可以继续将第二个选择器继承给第三个
+            ```scss
+            .error {
+              border: 1px #f00;
+              background-color: #fdd;
+            }
+            .seriousError {
+              @extend .error;
+              border-width: 3px;
+            }
+            .criticalError {
+              @extend .seriousError;
+              position: fixed;
+              top: 10%;
+              bottom: 10%;
+              left: 10%;
+              right: 10%;
+            }
+            ```
+            ```css
+            .error, .seriousError, .criticalError {
+              border: 1px #f00;
+              background-color: #fdd; }
+            
+            .seriousError, .criticalError {
+              border-width: 3px; }
+            
+            .criticalError {
+              position: fixed;
+              top: 10%;
+              bottom: 10%;
+              left: 10%;
+              right: 10%; }
+            ```
     4. 选择器序列
+        - 目前不可以将选择器序列继承给其它元素，但是却可以将其它元素继承给选择器序列。（例如，`.foo .bar` 或 `.foo + .bar`）
+            ```scss
+            #fake-links .link {
+              @extend a;
+            }
+            
+            a {
+              color: blue;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+            ```
+            ```css
+            a, #fake-links .link {
+              color: blue; }
+              a:hover, #fake-links .link:hover {
+                text-decoration: underline; }
+            ```
+        - 合并选择器列
+            - 略
     5. @extend-only
-    6. `!optional` 选项
+        - 有时，需要定义一套样式并不是给某个元素用，而是只通过 `@extend` 指令使用，尤其是在制作 Sass 样式库的时候，希望 Sass 能够忽略用不到的样式。
+        - 如果使用普通的 CSS 规则，最后会编译出很多用不到的样式，也容易与其他样式名冲突，所以，Sass 引入了“占位符选择器” (placeholder selectors)，看起来很像普通的 id 或 class 选择器，只是 `#` 或 `.` 被替换成了 `%`。可以像 class 或者 id 选择器那样使用，当它们单独使用时，不会被编译到 CSS 文件中。
+        - 占位符选择器需要通过继承指令使用，用法与 class 或者 id 选择器一样，被继承后，占位符选择器本身不会被编译。
+            ```scss
+            // This ruleset won't be rendered on its own.
+            #context a%extreme {
+              color: blue;
+              font-weight: bold;
+              font-size: 2em;
+            }
+
+            .notice {
+              @extend %extreme;
+            }
+            ```
+            ```css
+            #context a.notice {
+              color: blue;
+              font-weight: bold;
+              font-size: 2em; }
+            ```
+    6. `!optional` 声明
+        - 该声明可以使`@extend`不产生任何新选择器。
     7. @extend in directives
     8. 继承复合选择器
 4. `@at-root`
