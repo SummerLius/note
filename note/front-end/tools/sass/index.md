@@ -639,9 +639,14 @@ Sass可以通过以下三种方式使用：作为命令行；作为独立的Ruby
               font-size: 2em; }
             ```
     6. `!optional` 声明
-        - 该声明可以使`@extend`不产生任何新选择器。
-    7. @extend in directives
+        - 该声明可以使`@extend`不产生任何新选择器。（有待测试）
+    7. 在指令内部使用@extend
+        - 在指令中使用 @extend 时（比如在 @media 中）有一些限制：Sass 不可以将 @media 层外的 CSS 规则延伸给指令层内的 CSS，这样会生成大量的无用代码。
+        - 也就是说，如果在 @media （或者其他 CSS 指令）中使用 @extend，必须延伸给相同指令层中的选择器。
+        - 可以理解为像变量一样，有作用域限制。
     8. 继承复合选择器
+        - 在新的sass版本中，不支持复合选择器的继承，例如 `.special.cool`、`a:hover` 等。
+        - 总结下：也就是不继承序列选择器、复合选择器。
 4. `@at-root`
 5. `@debug`
 6. `@warn`
@@ -649,32 +654,433 @@ Sass可以通过以下三种方式使用：作为命令行；作为独立的Ruby
 
 ### 控制指令和表达式
 
+- 概要
+    - SassScript 提供了一些基础的控制指令，比如在满足一定条件时引用样式，或者设定范围重复输出格式。
+    - 控制指令是一种高级功能，日常编写过程中并不常用到，主要与混合指令 (mixin) 配合使用，尤其是用在 Compass 等样式库中。
 1. `if()`
+    - 内置函数`if()`，根据条件进行判断，返回两个结果中的一个。
+        ```
+        if(true, 1px, 2px) => 1px
+        if(false, 1px, 2px) => 2px
+        ```
 2. `@if`
+    - 若表达式返回非 false 或 null，则会使用内嵌的样式。
+    - 同时，指令后面还可以跟 `@else if` 或 `@else` 语句。
+        ```scss
+        $type: monster;
+        p {
+          @if $type == ocean {
+            color: blue;
+          } @else if $type == matador {
+            color: red;
+          } @else if $type == monster {
+            color: green;
+          } @else {
+            color: black;
+          }
+        }
+        ```
+        ```css
+        p { 
+          color: green; }
+        ```
 3. `@for`
+    - 格式：
+        - `@for $var from <start> through <end>`
+        - `@for $var from <start> to <end>`
+        - `$var`可以是任何变量名。
+        - `<start>` 和 `<end>` 是SassScript脚本返回值为整数的表达式，当start大于end时，则循环自动调整为降序。
+        - 使用 `through` 范围为 [start, end]；使用 `to` 范围为 [start, end)，不包含end。
+    - 例子
+        ```scss
+        @for $i from 1 through 3 {
+          .item-#{$i} { width: 2em * $i; }
+        }
+        ```
+        ```css
+        .item-1 {
+          width: 2em; }
+        .item-2 {
+          width: 4em; }
+        .item-3 {
+          width: 6em; }
+        ```
 4. `@each`
+    - 格式：
+        - `@each $var in <list or map>`
+        - `$var` 可以为任何变量。
+        - `<list or map>` 是一个返回list或map的SassScript表达式。
+            ```scss
+            @each $animal in puma, sea-slug, egret, salamander {
+              .#{$animal}-icon {
+                background-image: url('/images/#{$animal}.png');
+              }
+            }
+            ```
+            ```css
+            .puma-icon {
+              background-image: url('/images/puma.png'); }
+            .sea-slug-icon {
+              background-image: url('/images/sea-slug.png'); }
+            .egret-icon {
+              background-image: url('/images/egret.png'); }
+            .salamander-icon {
+              background-image: url('/images/salamander.png'); }
+            ```
+    - 多重赋值
+        - list多重赋值
+            ```scss
+            @each $animal, $color, $cursor in (puma, black, default),
+                                              (sea-slug, blue, pointer),
+                                              (egret, white, move) {
+              .#{$animal}-icon {
+                background-image: url('/images/#{$animal}.png');
+                border: 2px solid $color;
+                cursor: $cursor;
+              }
+            }
+            ```
+            ```css
+            .puma-icon {
+              background-image: url('/images/puma.png');
+              border: 2px solid black;
+              cursor: default; }
+            .sea-slug-icon {
+              background-image: url('/images/sea-slug.png');
+              border: 2px solid blue;
+              cursor: pointer; }
+            .egret-icon {
+              background-image: url('/images/egret.png');
+              border: 2px solid white;
+              cursor: move; }
+            ```
+        - map作为键值对列表
+            ```scss
+            @each $header, $size in (h1: 2em, h2: 1.5em, h3: 1.2em) {
+              #{$header} {
+                font-size: $size;
+              }
+            }
+            ```
+            ```css
+            h1 {
+              font-size: 2em; }
+            h2 {
+              font-size: 1.5em; }
+            h3 {
+              font-size: 1.2em; }
+            ```
 4. `@while`
+    ```scss
+    $i: 6;
+    @while $i > 0 {
+      .item-#{$i} { width: 2em * $i; }
+      $i: $i - 2;
+    }
+    ```
+    ```css
+    .item-6 {
+      width: 12em; }
+    
+    .item-4 {
+      width: 8em; }
+    
+    .item-2 {
+      width: 4em; }
+    ```
 
 ### 混合指令（Mixin Directives）
 
+- 概要
+    - 混合指令（Mixin）用于定义可重复使用的样式，避免了使用无语意的 class，比如 .float-left。
+    - 混合指令可以包含所有的 CSS 规则，绝大部分 Sass 规则，甚至通过参数功能引入变量，输出多样化的样式。
 1. 定义Mixin：`@mixin`
+    - Mixins通过指令 `@mixin` 定义，后面跟着mixin名、可选参数、内容块。
+        ```scss
+        @mixin large-text {
+          font: {
+            family: Arial;
+            size: 20px;
+            weight: bold;
+          }
+          color: #ff0000;
+        }
+        ```
+    - Mixin也可以包含选择器、属性、父选择器引用`&`。
+        ```scss
+        @mixin clearfix {
+          display: inline-block;
+          &:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+          }
+          * html & { height: 1px }
+        }
+        ```
+    - 由于历史原因，mixin名可以将连字符和下划线互换。例如你定义了一个mixin名为add-column，然后你可以通过名add_column引用。
 2. 引用Mixin：`@include`
+    - 将mixin样式引用到某个样式规则中。
+        ```scss
+        .page-title {
+          @include large-text;
+          padding: 4px;
+          margin-top: 10px;
+        }
+        ```
+        ```css
+        .page-title {
+          font-family: Arial;
+          font-size: 20px;
+          font-weight: bold;
+          color: #ff0000;
+          padding: 4px;
+          margin-top: 10px; }
+        ```
+    - mixin可以在任何样式规则外被引用，即在文档的最外层，不过这种mixin不能直接定义属性或父引用&。
+        ```scss
+        @mixin silly-links {
+          a {
+            color: blue;
+            background-color: red;
+          }
+        }
+        
+        @include silly-links;
+        ```
+        ```css
+        a {
+          color: blue;
+          background-color: red; }
+        ```
+    - 在mixin的定义中，可以引用其它的mixin
+        ```scss
+        @mixin compound {
+          @include highlighted-background;
+          @include header-text;
+        }
+        
+        @mixin highlighted-background { background-color: #fc0; }
+        @mixin header-text { font-size: 20px; }
+        ```
 3. 参数
+    - mixin 可以接受SassScript值作为参数，同时可以指定参数的默认值。
+        ```scss
+        @mixin sexy-border($color, $width: 1in) {
+          border: {
+            color: $color;
+            width: $width;
+            style: dashed;
+          }
+        }
+        p { @include sexy-border(blue); }
+        h1 { @include sexy-border(blue, 2in); }
+        ```
+        ```css
+        p {
+          border-color: blue;
+          border-width: 1in;
+          border-style: dashed; }
+        
+        h1 {
+          border-color: blue;
+          border-width: 2in;
+          border-style: dashed; }
+        ```
+    - **关键词参数**
+        - 调用mixin时，传参数时可以指定准确的参数名，虽然不够简洁，但是可读性高、而且不用考虑参数顺序。
+        - 另外，参数名被视为变量名时，下划线、短横线可以互换使用。
+            ```scss
+            p { @include sexy-border($color: blue); }
+            h1 { @include sexy-border($color: blue, $width: 2in); }
+            ```
+    - **Trailing Commmas**
+    - **可变参数**
+        - 有时，不能确定混合指令需要使用多少个参数，比如一个关于 box-shadow 的混合指令不能确定有多少个 'shadow' 会被用到。这时，可以使用参数变量 `…`声明（写在参数的最后方）告诉 Sass 将这些参数视为值列表处理：
+            ```scss
+            @mixin box-shadow($shadows...) {
+              -moz-box-shadow: $shadows;
+              -webkit-box-shadow: $shadows;
+              box-shadow: $shadows;
+            }
+            .shadows {
+              @include box-shadow(0px 4px 5px #666, 2px 6px 10px #999);
+            }
+            ```
+            ```css
+            .shadowed {
+              -moz-box-shadow: 0px 4px 5px #666, 2px 6px 10px #999;
+              -webkit-box-shadow: 0px 4px 5px #666, 2px 6px 10px #999;
+              box-shadow: 0px 4px 5px #666, 2px 6px 10px #999;
+            }
+            ```
+        - 在调用mixin时，也可以传入可变参数
+            ```scss
+            @mixin colors($text, $background, $border) {
+              color: $text;
+              background-color: $background;
+              border-color: $border;
+            }
+            $values: #ff0000, #00ff00, #0000ff;
+            .primary {
+              @include colors($values...);
+            }
+            ```
+            ```css
+            .primary {
+              color: #ff0000;
+              background-color: #00ff00;
+              border-color: #0000ff;
+            }
+            ```
 4. 传递内容块到Mixin
+    - 在引用mixin的时候，可以将一段代码传递到mixin中，然后再整合输出。传递的部分将出现在 `@content` 标记的地方：
+        ```scss
+        @mixin apply-to-ie6-only {
+          * html {
+            @content;
+          }
+        }
+        @include apply-to-ie6-only {
+          #logo {
+            background-image: url(/logo.gif);
+          }
+        }
+        ```
+        ```css
+        * html #logo {
+          background-image: url(/logo.gif);
+        }
+        ```
+    - 为了便于书写，`@minxin` 可以用 `=` 表示，而 `@include` 可以用 `+` 表示。
+        ```scss
+        =apply-to-ie6-only
+          * html
+            @content
+        
+        +apply-to-ie6-only
+          #logo
+            background-image: url(/logo.gif)
+        ```
+    - **变量作用域和内容块**
+        - 传递给mixin的内容块的作用域在块定义的位置，而不是mixin内。
+        - 这意味着mixin内的本地变量，不能在内容块中使用。
+            ```scss
+            $color: white;
+            @mixin colors($color: blue) {
+              background-color: $color;
+              @content;
+              border-color: $color;
+            }
+            .colors {
+              @include colors { color: $color; }
+            }
+            ```
+            ```css
+            .colors {
+              background-color: blue;
+              color: white;
+              border-color: blue;
+            }
+            ```
+        - 内容块中的变量取决于其定义的位置。
+            ```scss
+            #sidebar {
+              $sidebar-width: 300px;
+              width: $sidebar-width;
+              @include smartphone {
+                width: $sidebar-width / 3;
+              }
+            }
+            ```
 
 ### 函数指令
 
+- sass支持自定义函数。
+- 自定义函数参数同minxin类似，支持可变参数、关键词参数。
+- 一个函数可以含有多条语句，需要调用 `@return` 输出结果。
+- 建议在自定义函数前添加前缀避免命名冲突，其他人阅读代码时也会知道这不是 Sass 或者 CSS 的自带功能。
+    ```scss
+    $grid-width: 40px;
+    $gutter-width: 10px;
+    
+    @function grid-width($n) {
+      @return $n * $grid-width + ($n - 1) * $gutter-width;
+    }
+    
+    #sidebar { width: grid-width(5); }
+    ```
+    ```css
+    #sidebar {
+      width: 240px; }
+    ```
+
 ### 输出格式
 
+- 概要
+    - Sass 默认的 CSS 输出格式很美观也能清晰反映文档结构，为满足其他需求 Sass 也提供了多种输出格式。
+    - Sass 提供了四种输出格式，可以通过 `:style option` 选项设定，或者在命令行中使用 `--style` 选项。
 1. `:nested`
+    - Nested （嵌套）样式是 Sass 默认的输出格式，能够清晰反映 CSS 与 HTML 的结构关系。
+    - 选择器与属性等单独占用一行，缩进量与 Sass 文件中一致，每行的缩进量反映了其在嵌套规则内的层数。
+    - 当阅读大型 CSS 文件时，这种样式可以很容易地分析文件的主要结构。
+        ```css
+        #main {
+          color: #fff;
+          background-color: #000; }
+          #main p {
+            width: 10em; }
+        
+        .huge {
+          font-size: 10em;
+          font-weight: bold;
+          text-decoration: underline; }
+        ```
 2. `:expanded`
+    - Expanded 输出更像是手写的样式，选择器、属性等各占用一行，属性根据选择器缩进，而选择器不做任何缩进。
+        ```css
+        #main {
+          color: #fff;
+          background-color: #000;
+        }
+        #main p {
+          width: 10em;
+        }
+        
+        .huge {
+          font-size: 10em;
+          font-weight: bold;
+          text-decoration: underline;
+        }
+        ```
 3. `:compact`
+    - Compact 输出方式比起上面两种占用的空间更少，每条 CSS 规则只占一行，包含其下的所有属性。
+    - 嵌套过的选择器在输出时没有空行，不嵌套的选择器会输出空白行作为分隔符。
+        ```css
+        #main { color: #fff; background-color: #000; }
+        #main p { width: 10em; }
+        
+        .huge { font-size: 10em; font-weight: bold; text-decoration: underline; }
+        ```
 4. `:compressed`
+    - Compressed 输出方式删除所有无意义的空格、空白行、以及注释，力求将文件体积压缩到最小，同时也会做出其他调整，比如会自动替换占用空间最小的颜色表达方式。
+        ```css
+        #main{color:#fff;background-color:#000}#main p{width:10em}.huge{font-size:10em;font-weight:bold;text-decoration:underline}
+        ```
 
 ### 拓展Sass
 
-
 1. 自定义Sass函数
+    - Sass为具有独特要求的用户提供了许多高级自定义。使用这些功能需要对Ruby有深刻的理解。
 2. 存储缓存
+    - Sass缓存已解析的文档，以便可以重复使用它们，而无需再次解析它们，除非它们已更改
+    -  默认情况下，Sass会将这些缓存文件写入文件系统上的一个位置：cache_location。
+    -  如果您无法写入文件系统或需要跨ruby进程或计算机共享缓存，则可以定义自己的缓存存储并设置：cache_store option。
 3. 自定义导入
+    - Sass导入器负责将路径传递给@import并为这些路径找到合适的Sass代码。 
+    - 默认情况下，此代码是从文件系统加载的，但可以添加导入程序以通过HTTP从数据库加载，或使用与Sass预期不同的文件命名方案。
+    - 可以将导入程序放在：load_paths数组中，与常规文件系统路径一起放置。
+    - 解析@import时，Sass将通过加载路径查找成功导入路径的导入程序。找到一个后，将使用导入的文件。
 
