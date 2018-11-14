@@ -275,6 +275,8 @@
         - normal：使用默认的断行规则。一般默认是，非cjk单词不断行，cjk断行。
         - break-all：cjk文本和非cjk单词都断行。
         - keep-all：cjk文本连续不断行，非cjk单词不断行。
+    - 和word-break和word-wrap文字可能表示不清，详细参见下图
+    - ![word_wrap_break](./assets/word_wrap_break.png)
 
 ## 字体
 
