@@ -35,12 +35,34 @@
         - [将blocks绑定到DOM节点](#将blocks绑定到dom节点)
         - [嵌套元素](#嵌套元素)
         - [使用HTML包装器](#使用html包装器)
+        - [手动创建HTML](#手动创建html)
+        - [自动创建HTML](#自动创建html)
     - [JavaScript](#javascript)
+        - [BEM js组件基本原理](#bem-js组件基本原理)
+        - [如何将js切换到BEM风格](#如何将js切换到bem风格)
+        - [BEM js实现](#bem-js实现)
     - [文件结构](#文件结构)
+        - [BEM项目文件结构指南](#bem项目文件结构指南)
+        - [结构方式](#结构方式)
     - [重定义级别](#重定义级别)
+        - [什么是重定义级别](#什么是重定义级别)
+        - [重定义级别应用场景](#重定义级别应用场景)
+        - [如何使用重定义级别](#如何使用重定义级别)
+        - [使用重定义级别的示例](#使用重定义级别的示例)
     - [Block modification](#block-modification)
+        - [如何选择block的修改方法](#如何选择block的修改方法)
+        - [使用modifier修改block](#使用modifier修改block)
+        - [使用mix修改block](#使用mix修改block)
+        - [使用redefinition level修改block](#使用redefinition-level修改block)
+        - [使用context修改block](#使用context修改block)
     - [Build](#build)
+        - [介绍](#介绍)
+        - [构建阶段](#构建阶段)
+        - [构建结果](#构建结果)
+        - [构建工具](#构建工具)
     - [Declarations](#declarations)
+        - [获得声明的方式](#获得声明的方式)
+        - [使用声明](#使用声明)
     - [Solved problems](#solved-problems)
 
 <!-- /TOC -->
@@ -48,6 +70,8 @@
 # Bem Info
 
 - [Bem Info](https://en.bem.info)
+- [Github bem-site/bem-method](https://github.com/bem-site/bem-method)
+- [Github organization/bem](https://github.com/bem)
 
 ## 快速入门
 
@@ -645,7 +669,7 @@ BEM（块，元素，修饰符）是一种基于组件的Web开发方法。 其�
     - 如果block的css属性可能会有变化，那么应该将这属性使用modifier来控制
     - 使用混合（mix）
     - 将代码分成小的独立部分，以便使用单个块
-    - 重用block=
+    - 重用block
 - 如何在现有的项目中开始BEM概念
     - 使用BEM规范创建新组件，并根据需要更改旧组件
     - 在设计block时，请遵循上面的原则
@@ -663,15 +687,721 @@ BEM（块，元素，修饰符）是一种基于组件的Web开发方法。 其�
         <span class="menu"></span>
         ```
 - 多个block应用到单个DOM节点
+    - 将多个BEM实体应用到HTML元素，仅需将多个BEM实体名字添加到HTML元素的class属性上。
+    - 这种方法被称为混合（mix）。
+    - 一个常用的mix例子为，将modifier应用到block或element，来应用不同的外观样式。
 - 单个block应用到多个DOM节点
+    - 在某些js任务上，例如在页面上需要同时初始化多个模块，那么可以将同一个BEM实体应用到这些模块上。
 
 ### 嵌套元素
+
+- BEM规范中的命名约定不允许你层叠element名（例如，block__elem1__elem2）。
+- 但是你可以随意嵌套html元素，不受限制。
+    ```html
+    <ul class="menu">
+        <li class="menu__item">
+            <a class="menu__link" href="https://">...</a>
+        </li>
+    </ul>
+    ```
+
 ### 使用HTML包装器
 
+- BEM规范，对于定位block
+    - 不建议使用HTML包装器
+    - 建议使用混合（mix）
+- 相对其它block定位block
+    - 方法：使用混合（mix）。
+    - 示例：
+        ```html
+        <body class="page">
+            <!-- Header and navigation -->
+            <header class="header page__header">...</header>
+            <!-- footer -->
+            <footer class="footer page__footer">...</footer>
+        </body>
+        ```
+        ```css
+        .page__header {
+            padding: 20px;
+        }
+        
+        .page__footer {
+            padding: 50px;
+        }
+        ```
+    - 在上例中，`header`和`footer`块使用`page`内的element来定位：`page__header`、`page__footer`。同时block `header`、`header`、`footer`仍然保持独立性，因为其没有定位的属性。
+- 在block内部定位html元素
+    - 方法：使用额外的block。
+    - 示例：
+        ```html
+        <button class="button">
+            <span class="button__inner">
+                <span class="icon"></span>
+            </span>
+        </button>
+        ```
+        ```css
+        .button__inner {
+            margin: auto;
+            width: 10px;
+        }
+        ```
+    - 上例中，button__inner元素含有定位的样式，来定位控制button内部的元素，类似于一个包装器的功能。
+
+### 手动创建HTML
+
+- 若是手动创建HTML，请遵循上述的规则。
+- 在HTML中，block标记在多个html元素上，如果block名字更改，则需要更改html页面上的所有对应的旧名字。
+- 因此，BEM项目，通常不手动编写HTML。
+
+### 自动创建HTML
+
+- html代码可以自动生成。
+- BEM允许当你修改block实现时，可以动态的将修改应用到html上的block应用的元素。为了达到这种功能，需要使用模板。
+- 模板（template）技术是一种block实现，会生成HTML代码。
+- BEM规范中的模板以声明方式编写，这使我们能够应用BEM的主要原则：
+    - 应用统一的主题域
+    - 划分代码为几部分
+    - 使用重定义级别
+- 应用统一的主题域
+    - 模板是根据block、element、modifier定义的。
+    - 为此，在DOM tree上有一个用于处理模板的抽象级别：BEM tree。
+    - BEM tree定义了BEM实体的名称及其状态、顺序和嵌套。
+    - 模板引擎使用BEM树上的信息来构建DOM节点树。
+    - BEM树可以使用支持分层树结构的任何格式。xml、json、yml等等。
+        ```html
+        <header class="header">
+            <img class="logo">
+            <form class="search-form">
+                <input class="input">
+                <button class="button"></button>
+            </form>
+            <ul class="lang-switcher">
+                <li class="lang-switcher__item">
+                    <a class="lang-switcher__link" href="url">en</a>
+                </li>
+                <li class="lang-switcher__item">
+                    <a class="lang-switcher__link" href="url">ru</a>
+                </li>
+            </ul>
+        </header>
+        ```
+        ```
+        header
+            logo
+            search-form
+                input
+                button
+            lang-switcher
+                lang-switcher__item
+                    lang-switcher__link
+                lang-switcher__item
+                    lang-switcher__link
+        ```
+- 划分代码为几部分
+    - 根据BEM项目的文件结构组织规则，模板代码存储在单独的block文件中。
+    - 你可以为整个block创建模板，也可以为单独的element和modifier创建模板。
+    - 例如：
+        - 此处有 `menu` block的文件结构
+            ```
+            menu/
+                __item/
+                    menu__item.css
+                    menu__item.js
+                    menu__item.tmpl     # Template for the `menu__item` element
+                menu.css
+                menu.js
+                menu.tmpl               # Template for the `menu` element
+            ```
+        - `menu` block模板
+            ```
+            block('menu')(
+              tag()('ul')               // The <ul> tag is set for the `menu` block
+            );
+            ```
+        - `menu__item` element模板
+            ```
+            block('menu').elem('item')(
+              tag()('li')               // The <li> tag is set for all `menu__item` elements
+            );
+            ```
+        - 目标编译后生成的HMTL实现为：
+            ```html
+            <ul class="menu">
+              <li class="menu__item">...</li>
+              <li class="menu__item">...</li>
+            </ul>
+            ```
+- 使用重定义级别
+    - 重定义模板或其中的部分
+        - 示例：
+            ```
+            project
+                library.blocks/                 # Redefinition level with blocks from the library
+                    menu/                       # The `menu` block from the library
+                        __item/
+                            menu__item.tmpl     # The `menu__item` element template
+                        menu.css
+                        menu.js
+                        menu.tmpl               # The `menu` block template
+                common.blocks/
+            ```
+        - 略...（待了解，详情见官网）
+    - 将html元素添加到block中
+        - 你可以使用模板在运行时更改块。例如，您可以添加新的HTML元素。
+        - `menu` block由下面的BEM树表示：
+            ```
+            menu
+                menu__item
+                menu__item
+            ```
+        - 要在block（menu）中定位元素（menu__itme），需要创建一个额外的元素，如menu__inner。新元素与数据无关，只需要添加标记。这意味着你可以在编译模板时动态添加它。
+            ```js
+            block('menu')(
+                tag()('menu'),
+                // Adding the 'menu__inner' element
+                content()(function() {
+                    return {
+                        elem: 'inner',
+                        content: this.ctx.content
+                    };
+                })
+            );
+            
+            // Setting the <ul> tag for the 'menu__inner' element
+            elem('inner')(
+                tag()('ul')
+            );
+            ```
+        - 最后生成的html结果
+            ```html
+            <menu class="menu">
+                <ul class="menu__inner">           // adds new element
+                  <li class="menu__item"></li>
+                  <li class="menu__item"></li>
+                </ul>
+            </menu>
+            ```
+
 ## JavaScript
+
+- 在BEM中，js主要用来使网页动态起来，是block实现的技术之一。
+
+### BEM js组件基本原理
+
+- 概要
+    - js是block实现技术之一，也会看到其中BEM的主要概念。
+- 统一主题域
+    - 在web开发中，最终产品（例如网页）由不同的技术组成（html、css、js等）。在BEM中，在这些技术上会使用相同的术语和实现方法。这意味着使用BEM的整个项目有一个统一的认识，基于block、element、modifier的运行方式。
+    - 所以，BEM block的js实现不适用DOM元素的概念，而是使用BEM tree抽象概念。
+    - 示例：
+        - 使用添加class的通用解决方案。此方法不一定方便，因为你必须对块名进行硬编码。
+            ```js
+            document.querySelector('.button')
+              .addEventListener('click', function() {
+                document.querySelector('.popup').classList.toggle('popup_visible');
+            }, false);
+            ```
+        - 使用BEM原则，并不使用class操作，而是使用block、element、modifier进行操作。
+            ```js
+            block('button').click(function() {
+                block('popup').toggleMod('visible');
+            });
+            ```
+    - 使用统一的主题域，可以让组件之间的交互以更高级的方式进行交互。（而不是原始的，根据class、id、tag通过选择器找到元素然后操作等）
+    - 略...
+- 划分代码为几部分
+    - 略...
+- 使用重定义级别区分代码
+    - 略...
+
+### 如何将js切换到BEM风格
+
+- 最快的方法是在项目中开始应用BEM原则
+- 要立即使用项目中的所有BEM概念，您需要：
+    - 在所有技术中使用统一术语：block、element、modifier
+    - 在JavaScript级别创建独立组件
+    - 使用类似于css的重定义级别更改block、element、modifier的行为
+    - 重用block并在项目之间迁移它们
+    - 由于组件独立，可以单独开发block，进而促进和加速项目的开发和调试
+    - 通过项目的文件结构简化导航
+
+### BEM js实现
+
+- 声明
+    - BEM项目中的声明性JavaScript如下所示：
+        - 每个block的行为单独描述
+        - block的状态以声明方式设置，更改状态时，将自动调用为此状态的代码
+        - block的逻辑被描述为用于执行这些操作的一组动作和条件。这使得block的功能可以分为单独的部分并使用重定义级别
+- BEM js面向对象设计原理
+    - 封装
+        - 在BEM中，一个块的JavaScript实现与另一个块分开。每个块提供用于与其他块交互的API。
+        - block允许它隐藏内部的实现，由于element始终是block的内部实现，因此只能通过block的API访问它们
+    - 继承
+        - block行为的声明性描述使得，可以在派生block内使用基block的方法，并继承它们。新block可以获取基block的所有方法和属性
+        - 依次，你还可以创建继承链
+- 动态的block的DOM表示
+    - 使用js实现的block可以对应于html中的节点。我们将其称为具有DOM表示的block。
+    - 在最简单的情况下，块与DOM节点具有一对一的关系。 但是，DOM节点和块并不总是等效的。 您可以在同一个DOM节点上放置多个块（这称为混合），或在多个DOM节点上实现单个块。
+    - 同时也存在不具有DOM节点对应的block。
+- block和block之间的交互
+    - BEM建议用独立block。但实际上，block不能完全相互独立。
+    - block可以使用以下方式相互交互：
+        - 订阅其它block实例的事件
+        - 订阅其它block的modifier的更改事件
+        - 直接调用其他块实例的方法或另一个块类的静态方法
+        - 任何互动模式。例如，事件通道：所有通信都通过组件使用中介发布和侦听的消息进行。
+    - BEM方法建议根据块在DOM树中的位置分层排列块之间的交互。 嵌套块不应该知道有关父块的任何信息，因为这会违反独立组件的原则。
+- block和elment之间的交互
+    - element是块的内部实现。 在BEM方法中，block通常具有用于处理其element的额外帮助器。 无法直接访问另一个block的element。 只能通过此element所属的block的API访问element。
+
 ## 文件结构
+
+- 所有BEM项目的文件结构都遵循类似的结构。当文件始终位于熟悉的位置时，这使开发人员可以更轻松地导航项目并在项目之间切换。
+- BEM有几种组织项目文件结构的方法：
+    - 嵌套nested
+    - 平铺flat
+    - 灵活flex
+
+### BEM项目文件结构指南
+
+- 项目包括重定义级别
+    - 项目始终至少有一个重定义级别。最大级别数没有限制。
+        ```files
+        project/
+            common.blocks/  # Redefinition level with the project blocks 
+            library.blocks/ # Redefinition level with the library blocks
+        ```
+- block实现由多个单独的文件组成
+    - 每种实现技术都有一个单独的文件。实现文件的名称与块名称匹配。
+        ```files
+        project 
+            common.blocks/ 
+                input.css            # CSS implementation of the input block 
+                input.js             # JavaScript implementation of the input block 
+                input_theme_sun.css  # Implementation of the input_theme_sun modifier 
+                input__clear.css     # CSS implementation of the input__clear element 
+                input__clear.js      # JavaScript implementation of the input__clear element
+        ```
+- 文件按意义分组，而不是按类型分组
+    - 每个块都有一个目录，其中包含用于实现块的文件的块名称。
+        ```files
+        project 
+            common.blocks/ 
+                input/            # Directory for the input block 
+                    input.css     # CSS implementation of the input block 
+                    input.js      # JavaScript implementation of the input block 
+                popup/            # Directory for the popup block 
+                    popup.css     # CSS implementation of the popup block 
+                    popup.js      # JavaScript implementation of the popup block
+        ```
+    - 为了改善项目的导航，具有多个值的块修饰符也可以组合在不同的目录中。
+        ```files
+        project 
+            common.blocks/                     # Redefinition level with blocks 
+                input/                         # Directory for the input block 
+                    _type/                     # Directory for the input_type modifier 
+                        input_type_search.css  # CSS implementation of the input_type modifier 
+                        input_type_pass.css    # CSS implementation of the input_type modifier 
+                    input.css                  # CSS implementation of the input block 
+                    input.js                   # JavaScript implementation of the input block 
+                popup/                         # Directory for the popup block
+        ```
+
+### 结构方式
+
+- 嵌套nested
+    - 这是BEM项目的经典文件结构方法：
+        - 每个块对应一个目录
+        - 修饰符和元素的代码存储在单独的文件中
+        - 修饰符和元素的文件存储在不同的目录中
+        - 块目录是其元素和修饰符的子目录的根目录
+        - 元素目录的名称以双下划线开头（__）
+        - 修饰符目录的名称以单个下划线开头（_）
+    - 示例
+        ```files
+        project 
+            common.blocks/                            # Redefinition level with blocks 
+                input/                                # Directory for the input block 
+                    _type/                            # Directory for the input_type modifier 
+                        input_type_search.css         # CSS implementation of the input_type modifier 
+                    __clear/                          # Directory for the input__clear element 
+                        _visible/                     # Directory for the input__clear_visible modifier 
+                            input__clear_visible.css  # CSS implementation of the input__clear_visible modifier 
+                        input__clear.css              # CSS implementation of the input__clear element
+                        input__clear.js               # JavaScript implementation of the input__clear element 
+                input.css                             # CSS implementation of the input block 
+                input.js                              # JavaScript implementation of the input block
+        ```
+- 平铺flat
+    - 文件结构的简化结构:
+        - 目录和块不对应
+        - 可选元素和修饰符在单独的文件或主块文件中实现
+    - 示例
+        ```files
+        project 
+            common.blocks/ 
+                input_type_search.css     # The input_type_search modifier in CSS 
+                input_type_search.js      # The input_type_search modifier in JavaScript 
+                input__clear.js           # Optional element of the input block 
+                input.css 
+                input.js 
+                popup.css 
+                popup.js 
+                popup.png
+        ```
+- 灵活flex
+    - 最灵活的方法是nested和flat的组合。简单的block使用flat，复杂的block使用nested。
+        - 每个块对应一个单独的目录
+        - 元素和修饰符可以在块文件中或在单独的文件中实现
+    - 示例
+        ```
+        project 
+            common.blocks/
+                input/                                # Directory for the input block 
+                    _type/                            # Directory for the input_type modifier 
+                        input_type_search.css         # CSS implementation of the input_type modifier 
+                    __clear/                          # Directory for the input__clear element 
+                        _visible/                     # Directory for the input__clear_visible modifier 
+                            input__clear_visible.css  # CSS implementation of the input__clear_visible modifier 
+                        input__clear.css              # CSS implementation of the input__clear element 
+                        input__clear.js               # JavaScript implementation of the input__clear element 
+                    input.css                         # CSS implementation of the input block 
+                    input.js                          # JavaScript implementation of the input block 
+                popup/                                # Directory for the popup block 
+                    popup.css 
+                    popup.js 
+                    popup.png
+        ```
+
 ## 重定义级别
+
+### 什么是重定义级别
+
+- 重定义级别是BEM项目中的目录，其中包含用于实现block、element、modifier的文件
+- 任何BEM项目都包含重新定义级别。每个项目必须至少有一个级别，但最大级别数不受限制。
+- 具有一个重定义级别的BEM项目的文件系统示例：
+    ```files
+    project/ 
+        common.blocks/ # redefinition level with project blocks 
+            header/ 
+            footer/
+    ```
+- 重定义规则允许你：
+    - 将项目代码使用不同的平台
+    - 容易更新集成到项目中的block库
+    - 使用公共的block库来开发不同的项目。（有一点脚手架的味道）
+    - 在不影响项目逻辑的情况下更改设计主题
+    - 在实时项目上执行实验
+
+### 重定义级别应用场景
+
+- 将block添加到项目中
+    - 您可以在项目中的任何级别使用块而无需进行更改。
+    - 下面的示例显示了如何使用项目中第三方库的按钮。 要做到这一点，您只需要在单独的级别上将库与按钮块连接起来。 您无需将按钮块的代码复制到项目块的级别。
+        ```files
+        project/ 
+            common.blocks/  # redefinition level with project blocks 
+                header/ 
+                logo/ 
+            library.blocks/ # redefinition level with library blocks 
+                button/     # button block 
+        ```
+    - 为构建项目的结果，按钮块将包含在项目中：：
+        ```css
+        @import "common.blocks/header/header.css";  /* header from the common project block level */
+        @import "common.blocks/logo/logo.css";      /* logo from the common project block level */
+        @import "library.blocks/button/button.css"; /* button from the library level */
+        ```
+- 更改现有的block
+    - 您可以从任何级别更改块以满足不同重定义级别的项目需求：
+        - 扩展 - 向块添加新属性。
+        - 重新定义 - 更改块的现有属性。
+    - 您可以按任何顺序使用任意数量的级别来组装最终的块实现。 原始块实现通过后续级别的实现进行扩展或重新定义。 这就是为什么将原始实现首先包含在构建中的重要性，然后可以从所有重定义级别应用更改。
+    - 该图显示了如何将来自不同重定义级别的BEM实体添加到构建中：
+        - ![](https://camo.githubusercontent.com/dfde0c22cc89d088c7246f2cdb69feeba6780c2c/68747470733a2f2f63646e2e7261776769742e636f6d2f62656d2d736974652f62656d2d6d6574686f642f62656d2d696e666f2d646174612f6d6574686f642f7265646566696e6974696f6e2d6c6576656c732f7265646566696e6974696f6e2d6c6576656c735f5f6c6576656c732e737667)
+    - 略...
+    
+
+### 如何使用重定义级别
+
+- 您可以在同一项目中配置不同的构建：定义每个单独案例的顺序和级别数。例如，您可以单独配置要用于项目中每个页面的级别集。
+- 下图图显示了针对不同平台的项目构建，具体取决于用户代理：
+    - ![](https://camo.githubusercontent.com/b24ff6d6e889b10de33838ab5cd4c17d913411c7/68747470733a2f2f63646e2e7261776769742e636f6d2f62656d2d736974652f62656d2d6d6574686f642f62656d2d696e666f2d646174612f6d6574686f642f6275696c642f6275696c645f5f6c6576656c732e737667)
+
+### 使用重定义级别的示例
+
+- 将项目通过平台进行划分
+    - 示例
+        ```files
+        project/ 
+            common.blocks/ 
+                button/ 
+                    button.css   # basic CSS button implementation 
+            desktop.blocks/ 
+                button/ 
+                    button.css   # custom button for desktop 
+            mobile.blocks/ 
+                button/ 
+                    button.css   # custom button for mobile
+        ```
+    - 作为构建的结果，desktop.bundles / bundle / bundle.css文件从common.blocks级别获取按钮的所有基本CSS规则，并从desktop.blocks级别获取重新定义规则。
+        ```css
+        @import "common.blocks/button/button.css";   /* Basic CSS rules */
+        @import "desktop.blocks/button/button.css";  /* Desktop version */
+        ```
+    - mobile.bundles / bundle / bundle.css文件从common.blocks级别获取按钮的所有基本CSS规则，从mobile.blocks级别获取重定义规则。
+        ```css
+        @import "common.blocks/button/button.css";   /* Basic CSS rules */
+        @import "mobile.blocks/button/button.css";   /* Mobile version */
+        ```
+- 更新项目中的block库
+    - 示例：
+        ```files
+        project/ 
+            common.blocks/   # redefinition level with project blocks 
+                header/ 
+                logo/ 
+            library.blocks/  # redefinition level with library blocks 
+                button/     
+        ```
+- 使用通用block开发项目
+    ```files
+    projects/ 
+        common.blocks/    # shared blocks for multiple projects 
+            button/ 
+            input/ 
+        project-1/        # project 1 
+            button/       # redefined button block for project 1 
+            logo/ 
+            modal/ 
+        project-2/        # project 2 
+            button/       # redefined b1 block for project 2 
+            search/ 
+            spin/    
+    ```
+- 为项目创建不同的设计主题
+    ```files
+    project/ 
+        common.blocks/    # shared blocks for describing the project's business logic 
+            button/ 
+            input/ 
+            ... 
+        alpha/            # alpha design theme 
+            button/ 
+            input/ 
+        beta/             # beta design theme 
+            button/ 
+            input/
+    ```
+- 在实时项目上运行实验
+    ```files
+    project/ 
+        common.blocks/    # project blocks 
+            header/ 
+            user-name/ 
+            user-pic/ 
+            ... 
+    exps/ 
+        exp-1/            # level for experiment 1 
+            header/       # new offsets in the header 
+            user-name/    # new font for the user name 
+            user-pic/     # new type of profile picture 
+        exp-2/            # level for experiment 2 
+            header/       # new offsets in the header 
+            user-name/    # new font for the user name 
+            user-pic/     # new type of profile picture 
+        exp-n/            # level for any new experiment 
+            header/       # new offsets in the header 
+            user-name/    # new font for the user name 
+            user-pic/     # new type of profile picture       
+    ```
+
 ## Block modification
+
+- Block ———— 逻辑和功能独立，可重用的页面组件。相同的block可用于不同的项目。为了防止这些项目看起来相同，可以使用以下方法修改块：
+    - modifier
+    - mix
+    - redefinition level
+    - context
+- 上述修改方法不需要你做：
+    - 拷贝block代码来进行修改
+    - 修改block的原始实现
+    - 基于现有的block创建新block
+
+### 如何选择block的修改方法
+
+- 使用modifier。
+    - 设置和删除modifier仅影响对应的block，不影响周围的block。
+- 使用mix。
+    - 将一个block放到另一个block内部
+    - 将样式应用到页面上多个不同的block，而不是使用选择器组
+- 使用redefinition level。
+    - 更改项目中具有相同名称的所有块
+- 使用context。
+    - 您不知道嵌套块的内容将是什么时，使用context去定义block样式
+
+### 使用modifier修改block
+### 使用mix修改block
+### 使用redefinition level修改block
+### 使用context修改block
+    
+
 ## Build
+
+### 介绍
+
+- 在BEM项目中，代码被分成单独的文件（源文件）。 要将源文件合并到一个文件中（例如，将所有CSS文件放在project.css中，将所有JS文件放在project.js中，等等），我们使用构建过程。 生成的文件在BEM方法中称为包（bundles）。
+    - ![](https://camo.githubusercontent.com/2e266eabf5d6977d7026d49f456f58f0520bd2ef/68747470733a2f2f63646e2e7261776769742e636f6d2f62656d2d736974652f62656d2d6d6574686f642f62656d2d696e666f2d646174612f6d6574686f642f6275696c642f6275696c645f5f62656d2d70726f6a6563742e737667)
+- 构建执行以下任务：
+    - 合并分布在项目文件系统中的源文件。
+    - 仅包含项目中必需的block，element和modifier（BEM实体）。
+    - 按照引用（include）实体的顺序。
+    - 在构建过程中处理源代码（例如，将LESS代码编译为CSS代码）。
+
+### 构建阶段
+
+- 为了接受作为构建结果的捆绑包（bundles），请定义以下内容：
+    - BEM实体列表
+    - 它们之间的依赖关系
+    - 引用（include）它们的顺序
+- BEM实体列表
+    - 要在构建中仅包含必需的BEM实体，您需要创建页面上使用的block，element和modifier的列表。此列表称为声明（declaration）。它允许您摆脱增加包大小的不必要的代码。
+    - 构建工具仅捆绑列表中包含的BEM实体。下面的示例显示了基于声明的捆绑。
+        - ![](https://camo.githubusercontent.com/63f6e29faf2cdc6bd0b50a6fc2bd94c5f8e516dd/68747470733a2f2f63646e2e7261776769742e636f6d2f62656d2d736974652f62656d2d6d6574686f642f62656d2d696e666f2d646174612f6d6574686f642f6275696c642f6275696c645f5f6465636c61726174696f6e2e737667)
+- BEM实体之间的依赖关系
+    - 您可以基于其他块创建BEM块。为此，您需要定义它们的依赖关系。依赖关系允许您避免不必要的复制和粘贴。
+    - 构建工具获取有关依赖项的信息，并添加实现块所需的所有BEM实体。下面的示例显示了一个复合块。
+        - ![](https://camo.githubusercontent.com/05fbc3dc4cebc92b38ba31129778ef00413ecc24/68747470733a2f2f63646e2e7261776769742e636f6d2f62656d2d736974652f62656d2d6d6574686f642f62656d2d696e666f2d646174612f6d6574686f642f6275696c642f6275696c645f5f7365617263682d666f726d2e737667)
+- 引用（include）BEM实体的顺序
+    - 在构建中包含BEM实体的顺序取决于
+        - 依赖关系（Dependencies.）
+        - 重定义级别（Redefinition levels.）
+    - 依赖关系以及在构建中包含BEM实体的顺序
+        - 在BEM中，依赖关系可以影响在构建中包含BEM实体的顺序
+    - 重新定义级别以及构建中包含BEM实体的顺序
+        - 在BEM中，最终的block实现可能分布在不同的重定义级别上。
+        - 它们允许您更改不同平台的block的表示和行为。
+        - 每个后续级别都会扩展或覆盖原始block实现。 
+        - 因此，原始实现必须首先包含在构建中，然后可以从所有重新定义级别应用更改。
+        - 下面的示例显示了具有重定义级别的项目：common.blocks，desktop.blocks和touch.blocks。 构建顺序标有数字。
+            - ![](https://camo.githubusercontent.com/b24ff6d6e889b10de33838ab5cd4c17d913411c7/68747470733a2f2f63646e2e7261776769742e636f6d2f62656d2d736974652f62656d2d6d6574686f642f62656d2d696e666f2d646174612f6d6574686f642f6275696c642f6275696c645f5f6c6576656c732e737667)
+
+
+### 构建结果
+
+- 构建的输出结果可以是：
+    - 页面片段（例如，header.css和footer.css）
+    - 单个页面（例如，hello.css和hello.js）
+    - 整个项目（例如，project.css和project.js）
+- 构建单个页面或项目时，生成的代码可以包括：
+    - 项目文件结构中的所有BEM实体（这显着增加了代码量）
+    - 只有必要的BEM实体
+- 下例显示了页面“hello”的构建
+    - 构建前
+        ```files
+        blocks/                 # Directory containing blocks
+
+        bundles/                # Directory containing build results (optional)
+            hello/              # Directory of the hello page (created manually)
+                hello.decl.js   # List of BEM entities requires for the hello page
+        ```
+    - 构建后
+        ```files
+        blocks/
+
+        bundles/
+            hello/
+                hello.decl.js
+                hello.css       # Compiled CSS file for the hello page (the hello bundle in CSS)
+                hello.js        # Compiled JS file for the hello page (the hello bundle in JS)
+        ```
+
+### 构建工具
+
+- BEM不限制你使用什么构建工具，例如enb、gulp等等
+
 ## Declarations
+
+- 要列出构建网页所需的BEM实体（实际上是“一个包的实例”），您可以使用声明（declaration）。
+- 声明（declaration）是页面上使用block、element、modifier的实体列表。构建工具使用声明列表信息来缩小最终项目中的实体列表。你可以从列表中仅选择必要的block，而不是项目中包含的所有block。
+- **声明的目标**是定义构建中应包含的内容和顺序。
+
+### 获得声明的方式
+
+- 概要
+    - 手动
+    - 自动
+        - 依据html页面描述
+        - 依据项目文件结构
+- 通过页面描述创建声明
+    - 可以使用来自网页的HTML文件的类来获得要包括在构建中的实体的列表
+    - 在BEM项目中，网页结构由BEM tree描述。此树可以手动创建，也可以从HTML代码中的类自动生成（它包含具有所有BEM实体名称的类）。
+    - 构建页面时，将根据BEM tree数据自动形成声明：
+        - 所有实体（block，element和modifier）都按照构建配置中指定的顺序包含在声明中。
+        - 如果在页面上使用相同的实体两次，则它仅在声明中出现一次。
+        - 块和元素的嵌套不在声明中显示。
+        - ![](https://raw.githubusercontent.com/bem-site/bem-method/bem-info-data/method/declarations/declarations__html2decl.en.png)
+- 通过项目文件结构创建声明
+    - BEM实体另一个信息来源是项目的文件结构。因此，声明将包含项目结构中的所有实体。
+    - 这种方法会构建所有实体，缺乏精确性；相反基于页面描述的声明仅会构建需要的实体，不会构建全部。
+    - ![](https://raw.githubusercontent.com/bem-site/bem-method/bem-info-data/method/declarations/declarations__fs2decl.en.png)
+
+### 使用声明
+
+- 声明可以帮助您管理构建过程。 例如，您可以将不同的页面声明组合成一个，并一次构建整个项目，而不是逐页构建。 除了组合声明之外，您还可以重用它们，提取它们的常用和不同部分。
+- 这种控件使您可以将所有页面组合成一个包，根据请求加载页面的必要部分或在不同页面上重用已构建的公共组件。
+- 声明操作
+    - 合并：将来自不同声明的实体集合成一个
+    - 差异：从不同的声明中获取实体集之间的差异
+    - 交叉：从两个其他声明的实体的交集
+- 合并
+    ```text
+    Declaration 1       Declaration 2        Declaration 3
+
+    [                   [                    [
+    'header',           'header',            'header',
+    'input',            'input',             'input',
+    'button',           'button',            'button',
+    'link',                                  'link',
+    'attach',      +                  =      'attach',
+                        'menu',              'menu',
+    'image',                                 'image',
+                        'checkbox',          'checkbox',
+    'popup'                                  'popup',
+                        'textarea'           'textarea'
+    ]                   ]                    ]
+    ```
+- 差异
+    ```text
+    Declaration 1       Declaration 2       Declaration 3
+
+    [                   [                   [
+    'button',           'button',
+    'checkbox',                             'checkbox',
+    'textarea',                             'textarea',
+    'suggest'                               'suggest'
+                        'header',
+                 -      'input',      =
+                        'menu',
+                        'image',
+                        'popup'
+    ]                   ]                   ]
+    ```
+- 交叉
+    ```text
+    Declaration 1       Declaration 2       Declaration 3
+
+    [                   [                   [
+    'header',           'header',           'header',
+    'input',            'menu',
+    'link',        +    'button',      =
+    'attach',           'input',
+    'checkbox',         'image',
+    'textarea',         'popup',
+    'footer'            'footer'            'footer'
+    ]                   ]                   ]
+    ```
+
 ## Solved problems
