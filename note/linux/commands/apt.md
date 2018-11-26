@@ -12,4 +12,7 @@
 apt-cache showpkg mysql-server
 apt-cache show mysql-server
 apt-cache search mysql-server
+
+apt list --upgradable
+apt-get autoremove
 ```
