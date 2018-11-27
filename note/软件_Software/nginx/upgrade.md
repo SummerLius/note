@@ -75,8 +75,8 @@
 ## 升级步骤
 
 - 升级方式：
-    - 源码编译：本文档使用该方法
-    - apt-get：使用apt-get upgrade升级
+    - 源码编译：本文档使用该方法（在线无缝切换）
+    - apt-get：可以尝试`aptitude safe-upgrade nginx` 或 `apt-get install nginx=1.15.0-1~jessie` 或其它。（该方法也可以升级，但是不清楚能否在线无缝切换）（不要使用apt-get upgrade，该指令会尝试升级全部软件）
 
 ```sh
 # 安装相关必要环境（没有必要首先安装环境，直接编译nginx，在过程中提示缺什么再安装）
