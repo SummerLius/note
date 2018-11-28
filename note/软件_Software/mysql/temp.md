@@ -33,6 +33,17 @@ mysqldump -u用户名 -p密码 -d 数据库名 > xxx.sql
 mysql>source /home/xxx.sql
 
 mysql -u用户名 -p密码 数据库名 < xxx.sql
+
+# 用户设置ssl
+## >5.5
+alter user 'ssltest'@'%' require none;
+alter user 'ssltest'@'%' require ssl;
+## 5.5
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'10.83.198.89' REQUIRE SSL;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'10.83.198.89' REQUIRE NONE;
+
+# 修改密码
+set password for root@1.1.1.1 = password('xxxx');
 ```
 
 ### 引擎
