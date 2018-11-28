@@ -14,12 +14,12 @@
 
 ```sh
 # 创建用户并赋予权限
-grant all privileges on *.* to root@10.82.193.184 identified by '2980summerwuhan';
-grant all privileges on mail_monitor.* to 'mail_monitor'@'%' identified by 'dy2980Mail_monitor';
+grant all privileges on *.* to root@1.1.1.1 identified by 'xxxxxx';
+grant all privileges on mail_monitor.* to 'mail_monitor'@'%' identified by 'xxxxxxxxxxx';
 flush privileges;
 
 # 创建从复制用户
-grant REPLICATION SLAVE ON *.* to rsyncuser2@'%' identified by 'rsync2980esbwuhan';
+grant REPLICATION SLAVE ON *.* to rsyncuser2@'%' identified by 'xxxxxxxx';
 GRANT ALL PRIVILEGES ON `esb`.* TO 'rsyncuser2'@'%';
 
 # 导出数据和表结构
