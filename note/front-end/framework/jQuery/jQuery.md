@@ -116,6 +116,8 @@ $(selector).mouseover(function);
 ## 参考
 
 - [w3school jQuery](http://www.w3school.com.cn/jquery/index.asp)
-- [jQuery123](https://www.jquery123.com/)
+- [jQuery123：中文API](https://www.jquery123.com/)
+- [jQuery官网：插件](http://plugins.jquery.com/)
+- [jQuery官网：API](https://api.jquery.com/)
 
 
