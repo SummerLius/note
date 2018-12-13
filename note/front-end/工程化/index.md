@@ -7,6 +7,7 @@
         - [CSS](#css)
     - [第二部：组件化](#第二部组件化)
     - [第三部：静态资源管理](#第三部静态资源管理)
+    - [参考链接](#参考链接)
 
 <!-- /TOC -->
 
@@ -64,3 +65,9 @@
 
 
 ## 第三部：静态资源管理
+
+## 参考链接
+
+- http://www.alloyteam.com/2015/11/we-will-be-componentized-web-long-text/
+- http://fis.baidu.com/
+- https://github.com/xufei/blog/issues/50
