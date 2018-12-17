@@ -1,13 +1,3 @@
-<!-- TOC -->
-
-- [webpack](#webpack)
-    - [概要](#概要)
-    - [文档结构](#文档结构)
-    - [概念](#概念)
-        - [概念](#概念-1)
-        - [模块](#模块)
-
-<!-- /TOC -->
 
 # webpack
 
@@ -58,6 +48,8 @@
 - Loaders
 - 插件
 
+
+<!-- 
 ## 概念
 
 ### 概念
@@ -135,6 +127,26 @@
         };
         ```
 
+### 入口
+
+- 简要
+    - 单个入口语法
+        - `entry: string|Array<string>`
+    - 对象语法
+        - `entry: {[entryChunkName: string]: string|Array<string>}`
+    - 常见场景
+        - 分离应用程序和第三方库入口
+        - 多页面应用程序
+
+### 输出
+
+- 概要
+    - 配置 output 选项可以控制 webpack 如何向硬盘写入编译文件。
+    - 注意，即使可以存在多个入口起点，但可以只指定一个输出配置。
+- 用法
+- 多个入口起点
+- 高级进阶
+
 ### 模块
 
 - 概要
@@ -143,7 +155,7 @@
     - 在web存在多种支持JavaScript模块化的工具，这些工具各有优势和限制。
     - webpack基于从这些系统获得经验教训，并将模块的概念应用于项目中的任何文件。
 - 什么是webpack模块
-    - 对于nodejs模块，webpack模块能够以各种方式表达它们的依赖关系，几个例子如下
+    - 对比nodejs模块，webpack模块能够以各种方式表达它们的依赖关系，几个例子如下
         - es2015 import 语句
         - CommonJS require() 语句
         - AMD define 和 require 语句
@@ -151,4 +163,194 @@
         - 样式 `url(...)` 或HTML文件 `<img src=...>` 中的图片链接
     - 注意：webpack1需要特定的loader来转换es2015 import，然后webpack2可以开箱即用
 - 支持的模块类型
-    - webpack通过
+    - webpack通过loader可以支持各种语言和预处理器编写的模块。
+    - loader 描述了 webpack 如何处理非JavaScript模块，并且在bundle中引入这些依赖，webpack社区已经为各种流行语言和语言处理器构建了loader，包括：
+        - CoffeeScript
+        - TypeScript
+        - ESNext（Babel）
+        - Sass
+        - Less
+        - Stylus
+    - 相关完整列表，请参考[loader列表](https://www.webpackjs.com/loaders)或[自己编写](https://www.webpackjs.com/api/loaders)
+
+### 模式
+
+- 概要
+    - 提供 mode 配置选项，告知webpack使用相应模式的内置优化
+- 用法
+    - 在配置或命令行中提供 mode 选项
+        ```js
+        module.exports = {
+          mode: 'production'
+        };
+        ```
+        ```sh
+        webpack --mode=production
+        ```
+- 值
+    - development
+        - 会将 process.env.NODE_ENV 的值设为 development。
+        - 启用 NamedChunksPlugin 和 NamedModulesPlugin。
+    - production
+        - 会将 process.env.NODE_ENV 的值设为 production。
+        - 启用 FlagDependencyUsagePlugin, FlagIncludedChunksPlugin, ModuleConcatenationPlugin, NoEmitOnErrorsPlugin, OccurrenceOrderPlugin, SideEffectsFlagPlugin 和 UglifyJsPlugin.
+    - none
+    - > 记住，只设置 NODE_ENV，则不会自动设置 mode。
+
+## 配置
+
+### 配置
+
+- 概要
+    - webpack需要传入一个配置对象，可以通过两种方式传：终端或Nodejs
+- 选项
+    - **mode**
+        - 类型：
+            - `string`
+        - 概要：
+            - 提供 mode 配置选项，告知webpack使用相应模式的内置优化
+        - 例如：
+            ```js
+            {
+                mode: 'production',
+                mode: 'development',
+                mode: 'none'
+            }
+            ```
+    - entry
+        - 类型：
+            - `string | object | array` 
+        - 概要：
+            - 程序入口
+        - 例如：
+            ```js
+            {
+                entry: "./app/entry",
+                entry: ["./app/entry1", "./app/entry2"],
+                entry: {
+                  a: "./app/entry-a",
+                  b: ["./app/entry-b1", "./app/entry-b2"]
+                }
+            }
+            ```
+    - output
+        - 类型：`object`
+        - 概要：webpack 如何输出结果的相关选项
+        - 子选项：
+            - path
+            - filename
+            - publicPath
+            - library
+            - libraryTarget
+            - ...
+    - module
+    - resolve
+    - devtool
+    - context
+    - target
+    - externals
+    - stats
+    - devServer
+    - plugins
+    - resolveLoader
+    - parallelism
+    - profile
+    - bail
+    - cache
+    - watch
+    - watchOptions
+    - node
+    - recordsPath
+    - recordsInputPath
+    - recordsOutputPath
+
+### 入口和上下文
+
+- **选项 context**
+    - string
+    - 基础目录，绝对路径，用于从配置中解析entry和loader
+    - 默认使用当前目录，但是推荐指定值。这使得你的配置独立于当前执行路径。
+        ```sh
+        context: path.resolve(__dirname, "app")
+        ```
+- **选项 entry**
+    - 类型：
+        - 字符串、数组、对象：`string | [string] | object { <key>: string | [string] }`
+    - entry选项是应用程序的起点入口，如果传递一个数组，那么数组的每一项都会执行。
+    - 简单规则：
+        - 每个html页面都有一个入口起点
+        - 单页应用spa，一个入口起点
+        - 多页应用mpa，多个入口七点
+- **命名**
+    - 如果传入一个字符串或字符串数组，chunk会被命名为 main。
+    - 如果传入一个对象，则每个键（key）会是 chunk 的名称，该值描述了 chunk 的入口起点。
+- **动态入口**
+    ```sh
+    entry: () => './demo'
+    entry: () => new Promise((resolve) => resolve(['./demo', './demo2']))
+    ```
+
+### 输出
+
+- **output**
+    - 类型：`object`
+- **output.filename**
+    - 类型：`string | function`
+    - 
+    - 此选项决定了每个 bundle 的名称。这些 bundle 将会输出到 output.path 目录下。
+    - 如果entry是单个起点，filename会是一个静态名称。
+        ```js
+        filename = "bundle.js";
+        ```
+    - 然而，当通过多个入口起点、代码拆分或各种插件创建多个bundle，应该使用下面的替换方式，来赋予每个 bundle 一个唯一的名称：
+        - 使用入口名称：`filename: "[name].bundle.js"`
+        - 使用内部 chunk id：`filename: "[id].bundle.js"`
+        - 使用每次构建过程中的唯一的hash：`filename: "[name].[hash].bundle.js"`
+        - 使用基于每个 chunk 内容的 hash：`filename: "[chunkhash].bundle.js"`
+        - 模板：
+            - `[hash]`：模块标识符的hash
+            - `[chunkhash]`：chunk内容的hash
+            - `[name]`：模块名称
+            - `[id]`：模块标识符
+            - `[query]`：模块的query，例如文件名“?”后面的字符串
+            - 其中 hash 和 chunkhash 的长度可以使用 `[hash:20]` （默认20）这样的方式来指定。或者通过指定 output.hashDigestLength 在全局配置长度。
+    - > 请确保已阅读过指南 - 缓存的详细信息。这里涉及更多步骤，不仅仅是设置此选项。
+    - 注意，此选项filename被称为文件名，但是你还是可以使用像 “js/[name]/bundle.js” 这样的文件夹结构。
+    - 注意，此选项不会影响那些 “按需加载 chunk” 的输出文件。对于这些文件，请使用 output.chunkFilename 选项来控制输出。通过 loader 创建的文件也不受影响。在这种情况下，你必须尝试 loader 特定的可用选项。
+- **output.path**
+    - 类型：`string`
+    - output 目录对应一个绝对路径
+        ```js
+        path = path.resolve(__dirname, 'dist/assets')
+        ```
+- **output.chunkFilename**
+    - 类型：`string | function`
+    - 此选项决定了非入口（non-entry）chunk文件的名称。
+- **output.publicPath**
+    - 类型：`string | function`
+    - 对于按需加载（on-demand-load）或加载外部资源（如图片、文件等）来说，output.publicPath是很重要的选项。
+    - 如果指定了一个错误的值，则在加载这些资源时会受到404错误。
+    - output.publicPath 此选项指定资源在页面上URL的前缀，可以是绝对的或相对的。
+        - 绝对：`https://cdn.example.com/assets/`
+        - 相对：`/assets/`
+            - 相对的url会被相对于html页面（或 `<base>` 标签）解析。
+    - 示例：
+        ```js
+        publicPath: "https://cdn.example.com/assets/", // CDN（总是 HTTPS 协议）
+        publicPath: "//cdn.example.com/assets/", // CDN (协议相同)
+        publicPath: "/assets/", // 相对于服务(server-relative)
+        publicPath: "assets/", // 相对于 HTML 页面
+        publicPath: "../assets/", // 相对于 HTML 页面
+        publicPath: "", // 相对于 HTML 页面（目录相同）
+        ```
+    - 在编译时(compile time)无法知道输出文件的 publicPath 的情况下，可以留空，然后在入口文件(entry file)处使用自由变量(free variable) `__webpack_public_path__`，以便在运行时(runtime)进行动态设置。
+- **output.**
+- **output.**
+- **output.**
+- **output.**
+- **output.**
+- **output.**
+- **output.**
+- **output.**
+- **output.** -->
+
