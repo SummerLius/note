@@ -15,3 +15,12 @@
         }
     }
     ```
+3. 建立基本目录结构
+    ```files
+    /root
+        /dist
+        /src
+        package.json
+        webpack.config.js
+        index.html
+    ```
