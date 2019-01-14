@@ -116,7 +116,7 @@ No！不完全相同，因为用1去使其它位保持不变的话，我们需�
 函数：
 - 当创建一个函数时，js会根据特定的规则为此函数创建一个prototype属性，这个属性是一个指针，指向函数的原型对象。
 - 默认情况下，所有原型对象会自动获得一个constructor属性，指向prototype属性所在的函数。例如，Func.prototype.constructor = Func
-- 创建了自定义构造函数后，其原型对象默认只会取得constructor属性，其它方法都是从Object继承而来。也就是说，默认的原型对象的原型是Object.prototype，而Object.prototype.__proto__===null
+- 创建了自定义构造函数后，其原型对象默认只会取得constructor属性，其它方法都是从Object继承而来。也就是说，默认的原型对象的原型是Object.prototype，而`Object.prototype.__proto__===nul`
 - 当使用构造函数创建一个实例后，改实例内部会包含一个指针（内部属性），指向构造函数的原型对象，但是目前可以通过obj.__proto__来访问原型对象
 - Obj.__proto__和func.prototype都指向同一个原型对象
 	var Obj = function(){}
