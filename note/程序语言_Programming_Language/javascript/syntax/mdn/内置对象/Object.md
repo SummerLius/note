@@ -179,6 +179,10 @@ obj.d === arr[2];// true
 
 #### Object.getOwnPropertyNames()
 
+- 该方法返回一个由指定对象的所有自身属性的属性名组成的数组
+- 包括枚举和不可枚举属性，但不包括Symbol值作为名称的属性
+- 数组中枚举属性的顺序与通过 for...in 循环（或 Object.keys）迭代该对象属性时一致。数组中不可枚举属性的顺序未定义。
+
 #### Object.getOwnPropertySymbols()
 
 #### Object.getPrototypeOf()
