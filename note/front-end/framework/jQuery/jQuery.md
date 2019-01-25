@@ -4,18 +4,6 @@
 - [基本语法](#基本语法)
     - [选择器](#选择器)
     - [事件](#事件)
-- [API](#api)
-    - [选择器](#选择器-1)
-    - [事件](#事件-1)
-    - [效果](#效果)
-    - [文档操作](#文档操作)
-    - [属性](#属性)
-    - [CSS](#css)
-    - [AJAX](#ajax)
-    - [遍历](#遍历)
-    - [数据](#数据)
-    - [DOM元素](#dom元素)
-    - [核心](#核心)
 - [参考](#参考)
 
 <!-- /TOC -->
@@ -75,49 +63,13 @@ $(selector).focus(function);
 $(selector).mouseover(function);
 ...
 ```
-
-## API
-
-- [W3C jQuery 参考手册](http://www.w3school.com.cn/jquery/jquery_reference.asp)
-    - [选择器](http://www.w3school.com.cn/jquery/jquery_ref_selectors.asp)
-    - [事件](http://www.w3school.com.cn/jquery/jquery_ref_events.asp)
-    - [效果](http://www.w3school.com.cn/jquery/jquery_ref_effects.asp)
-    - [文档操作](http://www.w3school.com.cn/jquery/jquery_ref_manipulation.asp)
-    - [属性](http://www.w3school.com.cn/jquery/jquery_ref_attributes.asp)
-    - [CSS](http://www.w3school.com.cn/jquery/jquery_ref_css.asp)
-    - [AJAX](http://www.w3school.com.cn/jquery/jquery_ref_ajax.asp)
-    - [遍历](http://www.w3school.com.cn/jquery/jquery_ref_traversing.asp)
-    - [数据](http://www.w3school.com.cn/jquery/jquery_ref_data.asp)
-    - [DOM 元素](http://www.w3school.com.cn/jquery/jquery_ref_dom_element_methods.asp)
-    - [核心](http://www.w3school.com.cn/jquery/jquery_ref_core.asp)
-
-### 选择器
-
-### 事件
-
-### 效果
-
-### 文档操作
-
-### 属性
-
-### CSS
-
-### AJAX
-
-### 遍历
-
-### 数据
-
-### DOM元素
-
-### 核心
-
 ## 参考
 
 - [w3school jQuery](http://www.w3school.com.cn/jquery/index.asp)
 - [jQuery123：中文API](https://www.jquery123.com/)
 - [jQuery官网：插件](http://plugins.jquery.com/)
 - [jQuery官网：API](https://api.jquery.com/)
+- [JQuery官网：学习中心](https://learn.jquery.com/)
+- [其它网站：jQuery API 中文文档](https://www.html.cn/jqapi-1.9/)
 
 
