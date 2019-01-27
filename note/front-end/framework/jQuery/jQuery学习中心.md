@@ -16,6 +16,8 @@
 
 # 官网 jQuery学习中心
 
+- [JQuery官网：学习中心](https://learn.jquery.com/)
+
 ## 关于jQuery
 
 - 概要
@@ -169,6 +171,15 @@
             ```
 - [操纵元素（Manipulating Elements）](#)
     - 有关jQuery操作方法的完整文档，请访问api.jquery.com上的[操纵元素](https://www.jquery123.com/category/manipulation/)
+    - 获取和设置元素信息
+        - 有许多方法可以更改现有元素，最常见的任务之一是更改元素HTML或属性；
+        - jQuery库为这些类型的操作提供了许多简单的、跨浏览器平台的方法，以下是一些可用于获取和设置元素信息的方法：
+            - `.html()`
+    - 移动，复制和删除元素
+    - 克隆元素
+    - 删除元素
+    - 创建新元素
+    - 操纵属性
 - [jQuery对象（The jQuery Object）](#)
 - [Traversing](#)
 - [CSS, Styling, & Dimensions](#)
