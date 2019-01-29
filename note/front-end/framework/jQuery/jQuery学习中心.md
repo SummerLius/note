@@ -524,11 +524,100 @@
             - 直接绑定，是直接在`<a>`元素上添加click事件处理程序
             - 委托绑定，是在`<a>`元素的父元素上添加click事件处理程序
                 - 当`<a>`元素上产生的Event冒泡到父元素上时，即$("#list")，其根据第二个参数 “a” 一起组合$("#list a")，判断该Event.target，即产生事件的DOM元素是否匹配，如果匹配则执行事件处理程序。（该分析，仅为猜测）
+            - 委托绑定的优点就是，减少了绑定的数量，优化性能
+    - 使用触发元素
+        - 如果你需要在新窗口打开外部链接，该怎么办？（此处以 “http” 开头所示）
+            ```js
+            // Attach a delegated event handler
+            $( "#list" ).on( "click", "a", function( event ) {
+                var elem = $( this );
+                if ( elem.is( "[href^='http']" ) ) {
+                    elem.attr( "target", "_blank" );
+                }
+            });
+            ```
+        - 简化代码为：
+            ```js
+            // Attach a delegated event handler with a more refined selector
+            $( "#list" ).on( "click", "a[href^='http']", function( event ) {
+                $( this ).attr( "target", "_blank" );
+            });
+            ```
     - 小结
 - [触发事件处理函数](#)
+    - 概要
+        - jQuery提供了方法`.trigger()`来触发绑定到元素上的事件处理程序，而不需要用户交互触发；
+    - 什么事件处理程序可以被`.trigger()` 方法触发？
+        - jQuery事件处理系统是一个基于本地浏览器事件的层；
+        - 当使用jQuery添加事件处理程序时 `.on("click", function() {})`，那么可以用`.trigger()`触发它，另外也可以触发 `onclick` 属性中的代码；
+        - 但是`.trigger()`不能用于模仿实际的本机浏览器事件；
+            ```html
+            <a href="http://learn.jquery.com">Learn jQuery</a>
+            ```
+            ```js
+            // 不会生效
+            // This will not change the current page
+            $( "a" ).trigger( "click" );
+            ```
+    - 如果`.trigger()`方法不能模拟本地浏览器事件，那什么能模拟？
+        - 若想要真正的触发一个本地浏览器事件，你必须使用`document.createEventObject`（ie9）或`document.createEvent`（其它浏览器）；
+        - 使用这两个API，你可以以编程的方式创建一个事件，其行为等同于人交互触发的事件一般；
+        - jQuery UI团队创建了[jquery.simulate.js](https://github.com/jquery/jquery-simulate/)，以简化触发本地浏览器事件以用于其自动化测试；
+            ```js
+            // Triggering a native browser event using the simulate plugin
+            $( "a" ).simulate( "click" );
+            ```
+    - `.trigger()` VS `.triggerHandler()`
+    - 不要用`.trigger()`去简单的执行特定函数
+        ```js
+        // Triggering an event handler the right way
+        var foo = function( event ) {
+            if ( event ) {
+                console.log( event );
+            } else {
+                console.log( "this didn't come from an event!" );
+            }
+        };
+        
+        $( "p" ).on( "click", foo );
+        
+        foo(); // instead of $( "p" ).trigger( "click" )
+        ```
+    - 可以使用[jQuery插件](https://github.com/cowboy/jquery-tiny-pubsub)使用发布/订阅模式在触发器之上构造更复杂的体系结构；使用此技术，可用于通知代码
 - [jQuery事件历史](#)
+    - `.bind()`：jQuery v1.0 引入，已弃用
+    - `.live()`：jQuery v1.3 引入，已弃用
+    - `.delegate()`：jQuery v1.4.2 引入，已弃用
+    - `.on()`：jQuery v1.7 引入
 - [自定义事件介绍](#)
+    - 定义事件
+        - 一开始很难理解为什么你想要自定义事件，当内置事件看起来很适合你的需求时；
+        - 事实证明，自定义事件提供了一种全新的思考事件驱动JS的方式；
+        - todo
+    - 命名自定义事件
+        - 你可以为自定义事件使用任何名称，但是你应该注意谨防和未来DOM事件同名；
+        - 因此，在文本中，我们选择使用`light:`这样的事件名称，因为未来的DOM规范不太可能使用冒号事件；
+        - 回顾：`.on()`和`.trigger()`
+            - 在自定义事件的世界中，有两个重要的jQuery方法：`.on()`和`.trigger()`；
+            - 以下是两种情况下使用`.on()`和`.trigger()`使用自定义数据的示例
+                ```js
+                $( document ).on( "myCustomEvent", {
+                    foo: "bar"
+                }, function( event, arg1, arg2 ) {
+                    console.log( event.data.foo ); // "bar"
+                    console.log( arg1 );           // "bim"
+                    console.log( arg2 );           // "baz"
+                });
+                
+                $( document ).trigger( "myCustomEvent", [ "bim", "baz" ] );
+                ```
+    - 结论
+        - 自定义事件提供了一种思考代码的新方法：它们强调行为的目标，而不是触发它的元素；
+        - 如果您从一开始就花时间来说明您的应用程序的各个部分，以及这些部分需要展示的行为，那么自定义事件可以为您提供一种强大的方式来“跟踪”这些部分，一次一个或集体；
+        - 一旦描述了一个片段的行为，从任何地方触发这些行为变得微不足道，允许快速创建和实验界面选项；
+        - 最后，通过明确元素与其行为之间的关系，自定义事件可以增强代码的可读性和可维护性。
 - [jQuery事件扩展](#)
+    - todo
 
 ## 效果
 
@@ -542,6 +631,268 @@
 ## 插件
 ## 性能
 ## 代码组织
+
+- [概要](#)
+    - 构建应用程序的本质是理解如何组织代码，条理清晰、封装良好，而不是一大堆全局函数；
+- [代码组织概念](#)
+    - 概要
+        - 当你不再仅仅使用jQuery向网站添加简单的功能，而是开始开发成熟的客户端应用程序时，你需要考虑如何组织代码；
+        - 在本章中，我们将介绍可以在jQuery应用程序中使用的各种代码组织模式，并探索RequireJS依赖关系管理和构建系统；
+    - 关键概念
+        - 在我们深入研究代码组织模式之前，了解良好的代码组织模式共有的一些概念非常重要：
+            - 你的代码应该分为功能单元。避免将所有代码放在一个巨大的`$(document).ready()`块中；
+            - 不要重复。如果功能之间有相似之处，可以使用继承技术来避免重复代码；
+            - 尽管jQuery以DOM为中心，但是JS应用程序不是所有都是关于DOM的，没有必要将所有功能代码都使用DOM表示；
+            - 功能单元应该松散耦合，即功能单元应该能够独立存在，并且单元之间的通信应该通过消息传递系统来处理，例如自定义事件或发布/订阅。尽可能避免功能单元之间的直接通信；
+    - 封装
+        - 对象字面量
+            - 对象字面量是封装代码的最简单的方法；
+            - 这种封装，不提供私人属性或方法，都是公开的；
+                ```js
+                // An object literal
+                var myFeature = {
+                    myProperty: "hello",
+                
+                    myMethod: function() {
+                        console.log( myFeature.myProperty );
+                    },
+                
+                    init: function( settings ) {
+                        myFeature.settings = settings;
+                    },
+                
+                    readSettings: function() {
+                        console.log( myFeature.settings );
+                    }
+                };
+                
+                myFeature.myProperty === "hello"; // true
+                
+                myFeature.myMethod(); // "hello"
+                
+                myFeature.init({
+                    foo: "bar"
+                });
+                
+                myFeature.readSettings(); // { foo: "bar" }
+                ```
+                ```js
+                // Using an object literal for a jQuery feature
+                var myFeature = {
+                    init: function( settings ) {
+                        myFeature.config = {
+                            items: $( "#myFeature li" ),
+                            container: $( "<div class='container'></div>" ),
+                            urlBase: "/foo.php?item="
+                        };
+                
+                        // Allow overriding the default config
+                        $.extend( myFeature.config, settings );
+                
+                        myFeature.setup();
+                    },
+                
+                    setup: function() {
+                        myFeature.config.items
+                            .each( myFeature.createContainer )
+                            .click( myFeature.showItem );
+                    },
+                
+                    createContainer: function() {
+                        var item = $( this );
+                        var container = myFeature.config.container
+                            .clone()
+                            .appendTo( item );
+                        item.data( "container", container );
+                    },
+                
+                    buildUrl: function() {
+                        return myFeature.config.urlBase + myFeature.currentItem.attr( "id" );
+                    },
+                
+                    showItem: function() {
+                        myFeature.currentItem = $( this );
+                        myFeature.getContent( myFeature.showContent );
+                    },
+                
+                    getContent: function( callback ) {
+                        var url = myFeature.buildUrl();
+                        myFeature.currentItem.data( "container" ).load( url, callback );
+                    },
+                
+                    showContent: function() {
+                        myFeature.currentItem.data( "container" ).show();
+                        myFeature.hideContent();
+                    },
+                
+                    hideContent: function() {
+                        myFeature.currentItem.siblings().each(function() {
+                            $( this ).data( "container" ).hide();
+                        });
+                    }
+                };
+                
+                $( document ).ready( myFeature.init );
+                ```
+        - 模块模式
+            - 不同于“对象字面量”，模块模式不仅提供了公开的API，也提供了私人的属性和方法
+            - 这种模式的实现，基于js“作用域/闭包”
+                ```js
+                    var feature = (function() {
+                    
+                    // Private variables and functions
+                    var privateThing = "secret";
+                    var publicThing = "not secret";
+                
+                    var changePrivateThing = function() {
+                        privateThing = "super secret";
+                    };
+                
+                    var sayPrivateThing = function() {
+                        console.log( privateThing );
+                        changePrivateThing();
+                    };
+                
+                    // Public API
+                    return {
+                        publicThing: publicThing,
+                        sayPrivateThing: sayPrivateThing
+                    };
+                })();
+                
+                feature.publicThing; // "not secret"
+                
+                // Logs "secret" and changes the value of privateThing
+                feature.sayPrivateThing();
+                ```
+                ```js
+                // Using the module pattern for a jQuery feature
+                $( document ).ready(function() {
+                    var feature = (function() {
+                        var items = $( "#myFeature li" );
+                        var container = $( "<div class='container'></div>" );
+                        var currentItem = null;
+                        var urlBase = "/foo.php?item=";
+                
+                        var createContainer = function() {
+                            var item = $( this );
+                            var _container = container.clone().appendTo( item );
+                            item.data( "container", _container );
+                        };
+                
+                        var buildUrl = function() {
+                            return urlBase + currentItem.attr( "id" );
+                        };
+                
+                        var showItem = function() {
+                            currentItem = $( this );
+                            getContent( showContent );
+                        };
+                
+                        var showItemByIndex = function( idx ) {
+                            $.proxy( showItem, items.get( idx ) );
+                        };
+                
+                        var getContent = function( callback ) {
+                            currentItem.data( "container" ).load( buildUrl(), callback );
+                        };
+                
+                        var showContent = function() {
+                            currentItem.data( "container" ).show();
+                            hideContent();
+                        };
+                
+                        var hideContent = function() {
+                            currentItem.siblings().each(function() {
+                                $( this ).data( "container" ).hide();
+                            });
+                        };
+                
+                        items.each( createContainer ).click( showItem );
+                
+                        return {
+                            showItemByIndex: showItemByIndex
+                        };
+                    })();
+                
+                    feature.showItemByIndex( 0 );
+                });
+                ```
+        - 面向对象：Class
+- [注意匿名函数](#)
+    - 代码中到处匿名函数是一种痛苦，它们很难调试，维护，测试或重用；可以使用对象字面量来组织和命名处理函数；
+        ```js
+        // BAD
+        $( document ).ready(function() {
+        
+            $( "#magic" ).click(function( event ) {
+                $( "#yayeffects" ).slideUp(function() {
+                    // ...
+                });
+            });
+        
+            $( "#happiness" ).load( url + " #unicorns", function() {
+                // ...
+            });
+        
+        });
+        
+        // BETTER
+        var PI = {
+        
+            onReady: function() {
+                $( "#magic" ).click( PI.candyMtn );
+                $( "#happiness" ).load( PI.url + " #unicorns", PI.unicornCb );
+            },
+        
+            candyMtn: function( event ) {
+                $( "#yayeffects" ).slideUp( PI.slideCb );
+            },
+        
+            slideCb: function() { ... },
+        
+            unicornCb: function() { ... }
+        
+        };
+        
+        $( document ).ready( PI.onReady );
+        ```
+- [Keep Things DRY](#)
+    - 不要重复代码，重复代码，那你就错了
+        ```js
+        // BAD
+        if ( eventfade.data( "currently" ) !== "showing" ) {
+            eventfade.stop();
+        }
+        
+        if ( eventhover.data( "currently" ) !== "showing" ) {
+            eventhover.stop();
+        }
+        
+        if ( spans.data( "currently" ) !== "showing" ) {
+            spans.stop();
+        }
+        
+        // GOOD!!
+        var elems = [ eventfade, eventhover, spans ];
+        
+        $.each( elems, function( i, elem ) {
+            if ( elem.data( "currently" ) !== "showing" ) {
+                elem.stop();
+            }
+        });
+        ```
+- [Feature & Browser Detection](#)
+    - 有几种用的方法可以检查用户浏览器是否支持某种特定功能
+        - 浏览器UA检测
+            - 不建议：因为标以外的其他浏览器可能会遇到相同的问题；用户代理不可靠；
+        - 特定特征检测
+            - 方法：
+                - 直接写js判断
+                - 借助已有的第三方库
+- [Deferreds](#)
+    - 类似于“Promise”，详情查看[jQuery Deferred](https://www.jquery123.com/category/deferred-object/)
+
 ## jQuery UI
 ## jQuery Mobile
 
