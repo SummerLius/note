@@ -11,6 +11,7 @@
         - [MouseEvent](#mouseevent)
         - [File](#file)
         - [Node](#node)
+        - [XMLHttpRequest](#xmlhttprequest)
     - [链接](#链接)
 
 <!-- /TOC -->
@@ -117,6 +118,40 @@
         → EventTarget.prototype
             → Object.prototype
     ```
+
+### XMLHttpRequest
+
+- 原型链
+    ```
+    XMLHttpRequest.prototype
+        → XMLHttpRequestEventTarget.prototype
+            → EventTarget.prototype
+                → Object.prototype
+    ```
+- 构造方法
+    - XMLHttpRequest()
+- 属性
+    - XMLHttpRequest.onreadystatechange
+    - XMLHttpRequest.readyState 
+    - XMLHttpRequest.response
+    - XMLHttpRequest.responseText 
+    - XMLHttpRequest.responseType
+    - XMLHttpRequest.responseURL 
+    - XMLHttpRequest.responseXML
+    - XMLHttpRequest.status 
+    - XMLHttpRequest.statusText 
+    - XMLHttpRequest.timeout
+    - XMLHttpRequest.upload 
+    - XMLHttpRequest.withCredentials
+- 方法
+    - XMLHttpRequest.abort()
+    - XMLHttpRequest.getAllResponseHeaders()
+    - XMLHttpRequest.getResponseHeader()
+    - XMLHttpRequest.open()
+    - XMLHttpRequest.overrideMimeType()
+    - XMLHttpRequest.send()
+    - XMLHttpRequest.setRequestHeader()
+
 
 ## 链接
 
