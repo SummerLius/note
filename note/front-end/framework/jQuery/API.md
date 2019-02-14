@@ -252,6 +252,24 @@ dfd.done() === dfd // true
 ### AJAX
 
 1. 全局Ajax事件处理器
+    - 概要
+        - 这些API用于注册全局Ajax事件处理器，用来处理页面上的任何Ajax请求，当某些事件触发后，这些事件处理器会被调用；
+        - 注意：全局事件不会被跨域脚本或JSONP请求触发；
+    - **.ajaxComplete()**
+        ```js
+        /**
+         * @description 当Ajax请求完成后注册一个回调函数。这是一个 AjaxEvent。
+         * @return {jQuery} 
+         */
+        .ajaxComplete(handler(event, XMLHttpRequest, ajaxOptions) )
+        ```
+        - 每当一个Ajax请求完成，jQuery就会触发ajaxComplete事件;
+        - 从 jQuery 1.8 开始, .ajaxComplete() 方法只能绑定到 document元素;
+    - **.ajaxError()**
+    - **.ajaxSend()**
+    - **.ajaxStart()**
+    - **.ajaxStop()**
+    - **.ajaxSuccess()**
 2. 辅助函数
     - 概要
         - 这些函数用于辅助完成Ajax任务；
@@ -266,10 +284,43 @@ dfd.done() === dfd // true
         /**
          * @param {String} url 一个用来包含发送请求的url字符串
          * @param {PlainObject} settings  一个键值对对象，组成ajax请求设置，所有的选项都是可选的；可以使用$.ajaxSetup()设置任何默认参数；
+         * @param {PlainObject} settings.accepts
+         * @param {Boolean} settings.async
+         * @param {Function} settings.beforeSend
+         * @param {Boolean} settings.cache
+         * @param {Function} settings.complete
+         * @param {PlainObject} settings.contents
+         * @param {String} settings.contentType
+         * @param {Object} settings.context
+         * @param {PlainObject} settings.converters
+         * @param {Boolean} settings.crossDomain
+         * @param {Object|String} settings.data
+         * @param {dataFilter} settings.dataFilter
+         * @param {String} settings.dataType
+         * @param {Function} settings.error
+         * @param {Boolean} settings.global 
+         * @param {PlainObject} settings.headers
+         * @param {Boolean} settings.ifModified
+         * @param {Boolean} settings.isLocal
+         * @param {String} settings.jsonp
+         * @param {Function|String} settings.jsonpCallback
+         * @param {String} settings.mimeType
+         * @param {String} settings.password
+         * @param {Boolean} settings.processData
+         * @param {String} settings.scriptCharset
+         * @param {PlainObject} settings.statusCode
+         * @param {Function} settings.success
+         * @param {Number} settings.timeout
+         * @param {Boolean} settings.traditional
+         * @param {String} settings.type
+         * @param {String} settings.url
+         * @param {String} settings.username
+         * @param {Function} settings.xhr
+         * @param {PlainObject} settings.xhrFields
          * @return {jqXHR} 返回延迟对象
          */
-        deferred.ajax(url[, settings]);
-        deferred.ajax([settings]);
+        jQuery.ajax(url[, settings]);
+        jQuery.ajax([settings]);
         ```
         - jQuery发送的所有ajax请求，内部都会通过调用$.ajax()函数来实现；通常没有必要直接调用这个函数，可以使用几个已经封装的简便方法，如$.get()、.load()等；
         - 所有的选项都可以通过 $.ajaxSetup() 函数来全局设置；
@@ -298,10 +349,10 @@ dfd.done() === dfd // true
                 then: ƒ (t,r,i)
                 __proto__: Object
                 ```
-            - jqXHR.done()
-            - jqXHR.fail()
-            - jqXHR.always()
-            - jqXHR.then()
+            - jqXHR.done(function(data, textStatus, jqXHR){})
+            - jqXHR.fail(function(jqXHR, textStatus, errorThrown){})
+            - jqXHR.always(function(data|jqXHR, textStatus, jqXHR|errorThrown){})
+            - jqXHR.then(function(data, textStatus, jqXHR){}, function(jqXHR, textStatus, errorThrown){})
             - 注意：
                 - jqXHR.success()、jqXHR.error()、jqXHR.complete()回调从jQuery 1.8开始弃用；它们将最终被取消，您的代码应做好准备，使用jqXHR.done()、jqXHR.fail()、jqXHR.always等代替；
             - 在ajax所有回调函数中的 **this** 对象，引用的是在$.ajax() settings参数中设置的context选项，如果没有指定该选项，那么引用 settings 对象本身；
@@ -314,17 +365,86 @@ dfd.done() === dfd // true
                   $(this).addClass("done");
                 });
                 ```
+        - settings参数中的回调选项
+            - beforeSend、error、dataFilter、success和complete回调函数会在合适的时间调用；
+        - 数据类型
+        - 发送数据到服务器
+        - 高级选项
+        - 扩展ajax
+        - 使用转换器
+        - 其他注意事项
     - **jQuery.ajaxPrefilter()**
     - **jQuery.ajaxSetup()**
+        ```js
+        /**
+         * @param {PlainObject} options
+         * @return {}
+         */
+        jQuery.ajaxSetup( options )
+        ```
+        - 为以后要用到的Ajax请求设置默认的值，详细的参数设置，请参考jQuery.ajax；
+        - 注意: 全局回调函数应使用他们各自的全局Ajax事件处理方法-`.ajaxStart(), .ajaxStop(), .ajaxComplete(), .ajaxError(), .ajaxSuccess(), .ajaxSend()`-设置，而不是为 $.ajaxSetup() 设置 options 对象。
     - **jQuery.ajaxTransport()**
 4. 快捷方法
     - 概要
         - 这些方法帮你用最少的代码发送常见的Ajax请求；
     - **jQuery.get()**
+        ```js
+        /**
+         * @description 使用一个HTTP GET请求从服务器加载数据
+         *
+         * @param {String} url
+         * @param {PlainObject|String} data
+         * @param {Function} success
+         * @param {String} dataType
+         * @return {jqXHR} 
+         */
+        jQuery.get( url [, data ] [, success(data, textStatus, jqXHR) ] [, dataType ] )
+        ```
+        - 这是jQuery.ajax的一个缩写，相当于：
+            ```js
+            $.ajax({
+                url: url,
+                data: data,
+                type: 'GET',
+                success: success,
+                dataType: dataType
+            })
+            ```
     - **jQuery.getJSON()**
+        ```js
+        /**
+         * @description 使用一个HTTP GET请求从服务器加载JSON编码的数据
+         *
+         * @param {String} url
+         * @param {PlainObject|String} data
+         * @param {Function} success
+         * @return {jqXHR} 
+         */
+        jQuery.getJSON( url [, data ] [, success(data, textStatus, jqXHR) ])
+        ```
+        - 这是jQuery.ajax的一个缩写，相当于：
+            ```js
+            $.ajax({
+                url: url,
+                data: data,
+                type: 'GET',
+                success: success,
+                dataType: 'JSON'
+            })
+            ```
     - **jQuery.getScript()**
     - **jQuery.post()**
     - **.load()**
+        ```js
+        /**
+         * @description 从服务器载入数据并且将返回的 HTML 代码并插入至 匹配的元素 中。
+         * 
+         * @return {jQuery} 
+         */
+        .load( url [, data ] [, complete(responseText, textStatus, XMLHttpRequest) ] )
+        ```
+        - 注意: 事件处理函数中也有一个方法叫 .load()。jQuery根据传递给它的参数设置来确定使用哪个方法执行；
 
 
 
