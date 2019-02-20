@@ -1,5 +1,7 @@
 /**
  * @description Nodejs HTTP Simple Server
+ * @param
+ * @returns
  */
 
 const url = require('url');
@@ -53,6 +55,9 @@ const serverCtrl = {
             });
 
             res.end(str);
+        },
+        '/testjs': function(req, res) {
+
         }
     },
     server: http.createServer((req, res) => {
