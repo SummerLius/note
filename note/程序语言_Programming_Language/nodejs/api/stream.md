@@ -78,6 +78,7 @@
             - [readable事件](#readable事件)
         - [双工流（Duplex）](#双工流duplex)
         - [变换流（Transform）](#变换流transform)
+    - [链接](#链接)
 
 <!-- /TOC -->
 
@@ -113,6 +114,7 @@
 ### 可写流
 
 - 可写流是对数据要被写入目的地的一种抽象；
+    - “我们” 写入数据到目的地；
 - 可写流的例子包括：
     - 客户端的 HTTP 请求
     - 服务器的 HTTP 响应
@@ -142,7 +144,7 @@
 ##### 'drain' 事件
 
 - 如果调用 stream.write(chunk) 返回false，即当前写入流的缓冲区已满；
-    - 当缓冲区空出来，可以继续写入数据到流时，会触发 'drain' 事件；
+    - 当缓冲区空出来，适合继续写入数据到流时，会触发 'drain' 事件；
 - 示例：
     ```js
     // 向可写流中写入数据一百万次。
@@ -275,15 +277,138 @@
 
 ##### writable.end([chunk][, encoding][, callback])
 
-
+```js
+/**
+ * @description
+ * 
+ * @param {String|Buffer|Uint8Array|any} chunk 
+ * @param {String} encoding 
+ * @param {Function} callback 
+ * @returns {this}
+ */
+writable.end([chunk][, encoding][, callback])
+```
+- 参数chunk，表示要写入的数据
+    - 对于非对象模式的流，chunk必须是String、Buffer或Uint8Array；
+    - 对于对象模式的流，chunk可以是任何JavaScript的值，除了null；
+- 参数encoding
+    - 如果chunk是字符串，则指定字符编码；
+- 参数callback，当流结束时的回调函数；
+- 调用 writable.end() 表明已没有数据要被写入可写流；
+    - 可选的 chunk 和 encoding 参数可以在关闭流之前再写入一块数据；
+    - 如果传入了 callback 函数，则会作为监听器添加到 'finish' 事件；
+- 调用 stream.end() 之后再调用 steam.write() 会导致错误；
+    ```js
+    // 先写入 'hello, '，结束前再写入 'world!'。
+    const fs = require('fs');
+    const file = fs.createWriteStream('例子.txt');
+    file.write('hello, ');
+    file.end('world!');
+    // 后面不允许再写入数据！
+    ```
 
 ##### writable.setDefaultEncoding(encoding)
+
+```js
+/**
+ * @description
+ * 
+ * @param {String} encoding 
+ * @returns {this}
+ */
+writable.setDefaultEncoding(encoding)
+```
+- 参数encoding，为可写流设置默认编码；
+
 ##### writable.write(chunk[, encoding][, callback])
+
+```js
+/**
+ * @description
+ * 
+ * @param {String|Buffer|Uint8Array|any} chunk 
+ * @param {String} encoding 
+ * @param {Function} callback 
+ * @returns {Boolean}
+ */
+writable.write(chunk[, encoding][, callback])
+```
+- 参数chunk，表示要写入的数据
+    - 对于非对象模式的流，chunk必须是String、Buffer或Uint8Array；
+    - 对于对象模式的流，chunk可以是任何JavaScript的值，除了null；
+- 参数encoding
+    - 如果chunk是字符串，则指定字符编码；
+- 参数callback，当数据块被输出到目标后的回调函数；
+- 返回Boolean值，如果流需要等待 'drain' 事件触发才能继续写入更多数据，则返回false，否则返回true；
+- writable.write() 写入数据到流，并在数据被完全处理之后才调用 callback；
+    - 如果发生错误，则 callback 可能被调用也可能不被调用；
+    - 为了可靠的检测错误，可以为 'error' 事件添加监听器；
+- 在接收 chunk 后，如果内部的缓冲小于创建流时配置的 highWaterMark，则返回true；如果返回 false，则应该停止向流写入数据，直到 'drain' 事件被触发；
+- 当缓冲区数据大小达到阈值时，调用 write() 会返回false；
+    - 一旦当前缓冲区的数据块被排空时（被操作系统接受并传输），则触发 'drain' 事件；
+        - 【这里问题待研究 ———— 具体什么情况触发 'drain' 事件？】是缓冲区全部排空还是排空到合适即可；
+    - 建议一旦 write() 返回 false，则不再写入任何数据块，直到 'drain' 事件被触发；
+    - 当流还未被排空时，也是可以调用 write()，Node.js会缓冲所有被写入的数据块，直到达到最大内存占用，这时它会无条件中止；
+    - 甚至在它中止之前，高内存占用将会导致垃圾回收器的性能变差和RSS变高（即使内存不再需要，通常也不会被释放回系统）；
+    - 如果远程的另一端没有读取数据，TCP的socket可能永远也不会排空，所以写入到一个不会排空的socket可能会导致远程可利用的漏洞；
+- 对于 Transform，写入数据到一个不会排空的流尤其成问题，因为Transform流默认会被暂停，直到它们被pipe或者添加了'data'或'readable'事件句柄；
+- 如果要被写入的数据可以根据需要生成或者取得，建议将逻辑封装一个可读流并且使用 stream.pipe()；
+    - 如果要优先调用 write()，则可以使用 'drain' 事件来防止背压与避免内存问题；
+        ```js
+        function write(data, cb) {
+          if (!stream.write(data)) {
+            stream.once('drain', cb);
+          } else {
+            process.nextTick(cb);
+          }
+        }
+        
+        // 在回调函数被执行后再进行其他的写入。
+        write('hello', () => {
+          console.log('完成写入，可以进行更多的写入');
+        });
+        ```
 
 ### 可读流
 
+- 可读流是对提供数据的来源的一种抽象；
+    - “我们” 从源头读取数据；
+- 可读流的例子包括：
+    - 客户端的 HTTP 响应
+    - 服务器的 HTTP 请求
+    - fs 的读取流
+    - zlib 流
+    - crypto 流
+    - TCP socket
+    - 子进程 stdout 与 stderr
+    - process.stdin
+- 所有可读流都实现了 stream.Readable 类定义的接口
+
 #### 两种读取模式
+
+- 可读流运作于两种模式之一：流动模式（flowing）或暂停模式（paused）
+    - 在流动模式中，数据自动从底层系统读取，并通过 EventEmitter 接口的事件尽可能快地被提供给应用程序；
+    - 在暂停模式中，必须显式调用 stream.read() 读取数据块；
+- 所有可读流开始都处于暂停模式，可以通过以下方式切换到流动模式：
+    - 添加 `data` 事件句柄；
+    - 调用 stream.resume()；
+    - 调用 stream.pipe()；
+- 可读流可以通过以下方式切换回暂停模式：
+    - 如果没有管道目标，则调用 stream.pause()；
+    - 如果有管道目标，则移除所有管道目标，调用 stream.unpipe() 可以移除多个管道目标；
+- 只有提供了消费或者忽略数据的机制后，可读流才会产生数据；如果消费的机制被禁用或者移除，则可读流会停止产生数据；
+- 为了向后兼容，移除'data'事件句柄不会自动暂停流；如果有管道流目标，一旦目标变为 drain 状态并请求接受数据时，则调用 stream.pause() 也不能保证流会保持暂停模式；
+- 如果可读流切换到流动模式，且没有可用的消费者来处理数据，则数据将会丢失；
+    - 例如，当调用 readable.resume() 时，没有监听 'data' 事件或 'data'事件句柄已移除；
+- 添加 'readable' 事件句柄会使流自动停止流动，并通过 readable.read() 消费数据；
+    - 如果 'readable' 事件句柄被移除，且存在 'data' 事件句柄，则流会再次开始流动；
+
 #### 三种状态
+
+- 可读流的两种模式是对发生在可读流中更加复杂的内部状态管理的一种简化的抽象；
+- 在任意时刻，可读流会处于以下三种状态之一：
+    - 
+
 #### 选择一种接口风格
 #### stream.Readable 类
 ##### 'close' 事件
@@ -444,3 +569,8 @@ end事件将在流中再没有数据可供消费时触发。
 - zlib streams
 - crypto streams
 
+
+## 链接
+
+- http://nodejs.cn/api/
+- https://nodejs.org/api/
