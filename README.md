@@ -4,7 +4,7 @@ Record some notes.
 <!-- - ideal : nodejs + vue + html, css...
 - real  : vscode + github + markdown-reader(chrome extension) -->
 
-## catalogue
+<!--  catalogue
 
 - [Bookmark](./note/bookmark.md)
 - [Terminology](./note/terminology.md)
@@ -15,4 +15,4 @@ Record some notes.
 - [Javascript](./note/js/index.md)
 - [Linux](./note/linux/index.md)
 - [Nodejs](./note/nodejs/index.md)
-- [Windows](./note/windows/index.md)
+- [Windows](./note/windows/index.md) -->
