@@ -15,12 +15,14 @@
         - [Array.prototype.copyWithin() - 方法浅复制数组的一部分到同一数组中的另一个位置，并返回它，而不修改其大小](#arrayprototypecopywithin---方法浅复制数组的一部分到同一数组中的另一个位置并返回它而不修改其大小)
         - [Array.prototype.entries() - 方法返回一个新的Array Iterator对象](#arrayprototypeentries---方法返回一个新的array-iterator对象)
         - [Array.prototype.every() - 方法测试数组的所有元素是否都通过了指定函数的测试](#arrayprototypeevery---方法测试数组的所有元素是否都通过了指定函数的测试)
-        - [Array.prototype.fill()](#arrayprototypefill)
-        - [Array.prototype.filter()集合](#arrayprototypefilter集合)
-        - [Array.prototype.find()集合](#arrayprototypefind集合)
-        - [Array.prototype.findIndex()集合](#arrayprototypefindindex集合)
-        - [Array.prototype.forEach()集合](#arrayprototypeforeach集合)
-        - [Array.prototype.includes()](#arrayprototypeincludes)
+        - [Array.prototype.fill() - 用一个固定值填充一个数组中从起始索引到终止索引内的全部元素，不包括终止索引](#arrayprototypefill---用一个固定值填充一个数组中从起始索引到终止索引内的全部元素不包括终止索引)
+        - [Array.prototype.filter() - 创建一个新数组, 其包含通过所提供函数实现的测试的所有元素](#arrayprototypefilter---创建一个新数组-其包含通过所提供函数实现的测试的所有元素)
+        - [Array.prototype.find() - 返回数组中满足提供的测试函数的第一个元素的值，否则返回 undefined](#arrayprototypefind---返回数组中满足提供的测试函数的第一个元素的值否则返回-undefined)
+        - [Array.prototype.findIndex() - 返回数组中满足提供的测试函数的第一个元素的索引，否则返回-1](#arrayprototypefindindex---返回数组中满足提供的测试函数的第一个元素的索引否则返回-1)
+        - [Array.prototype.flat() - 扁平化嵌套数组，返回新数组](#arrayprototypeflat---扁平化嵌套数组返回新数组)
+        - [Array.prototype.flatMap()](#arrayprototypeflatmap)
+        - [Array.prototype.forEach() - 数组循环](#arrayprototypeforeach---数组循环)
+        - [Array.prototype.includes() - 用来判断一个数组是否包含一个指定的值](#arrayprototypeincludes---用来判断一个数组是否包含一个指定的值)
         - [Array.prototype.indexOf()](#arrayprototypeindexof)
         - [Array.prototype.join()](#arrayprototypejoin)
         - [Array.prototype.keys()](#arrayprototypekeys)
@@ -41,6 +43,7 @@
         - [Array.prototype.toString()](#arrayprototypetostring)
         - [Array.prototype.values()](#arrayprototypevalues)
 - [其它](#其它)
+- [链接](#链接)
 
 <!-- /TOC -->
 
@@ -260,30 +263,286 @@ array.entries()
  * @description 方法测试数组的所有元素是否都通过了指定函数的测试
  * @param {Function} callback 用来测试每个元素的函数，
  * @param {Object} thisArg
- * @return {Array Iterator} 返回一个新的Array Iterator对象
+ * @return {Boolean}
  */
-arr.every(callback[, thisArg])
+array.every(callback[, thisArg])
 ```
+- 数组中所有元素符合条件时，那么array.every才返回true；
+    - 空数组返回true（空数组所有元素都符合条件，因为空数组没有元素，囧）；
+- callback 被传入三个参数：element、index、array；
+- thisArg 提供为callback函数的this值，如果省略，则callback被调用时的this值，在非严格模式下为全局对象，在严格模式下为undefined；
+- array.every 不会改变原数组；
+- 注意：
+    - every 遍历的元素范围在第一次调用 callback 之前就已确定了；
+    - 在调用 every 之后添加到数组中的元素不会被 callback 访问到；
+    - 如果数组中存在的元素被更改，则他们传入 callback 的值是 every 访问到他们那一刻的值；
+    - 那些被删除的元素或从来未被赋值的元素将不会被访问到；
+- 示例
+    ```js
+    function isBigEnough(element, index, array) {
+      return (element >= 10);
+    }
+    var passed = [12, 5, 8, 130, 44].every(isBigEnough);
+    // passed is false
+    passed = [12, 54, 18, 130, 44].every(isBigEnough);
+    // passed is true
+    ```
 
-#### Array.prototype.fill()
+#### Array.prototype.fill() - 用一个固定值填充一个数组中从起始索引到终止索引内的全部元素，不包括终止索引
 
-用一个固定值填充一个数组中从起始索引到终止索引内的全部元素
+```js
+/**
+ * @description 用一个固定值填充一个数组中从起始索引到终止索引内的全部元素，不包括终止索引
+ * @param {Any} value 用来填充数组元素的值
+ * @param {Number} start 可选，起始索引，默认0
+ * @param {Number} end 可选，终止索引，默认this.length
+ * @return {Array} 返回被修改的原数组
+ */
+array.fill(value[, start[, end]])
+```
+- fill 方法故意被设计成通用的方法，该方法不要求 this 是数组对象；
+- fill 方法是可变方法，它会改变调用它的 this 对象本身，然后返回它，而不是返回一个新的副本；
+- 如果 start 是个负数, 则开始索引会被自动计算成为 length+start, 其中 length 是 this 对象的 length 属性值；
+- 如果 end 是个负数, 则结束索引会被自动计算成为 length+end；
+- 示例
+    ```js
+    [1, 2, 3].fill(4);               // [4, 4, 4]
+    [1, 2, 3].fill(4, 1);            // [1, 4, 4]
+    [1, 2, 3].fill(4, 1, 2);         // [1, 4, 3]
+    [1, 2, 3].fill(4, 1, 1);         // [1, 2, 3]
+    [1, 2, 3].fill(4, 3, 3);         // [1, 2, 3]
+    [1, 2, 3].fill(4, -3, -2);       // [4, 2, 3]
+    [1, 2, 3].fill(4, NaN, NaN);     // [1, 2, 3]
+    [1, 2, 3].fill(4, 3, 5);         // [1, 2, 3]
+    Array(3).fill(4);                // [4, 4, 4]
+    [].fill.call({ length: 3 }, 4);  // {0: 4, 1: 4, 2: 4, length: 3}
+    
+    // Objects by reference.
+    var arr = Array(3).fill({}) // [{}, {}, {}];
+    arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
+    ```
 
-`arr.fill(value[, start[, end]])`  
+#### Array.prototype.filter() - 创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
 
-#### Array.prototype.filter()集合
+```js
+/**
+ * @description 创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
+ * @param {Function} callback 回调函数，返回true保留元素，否则不保留
+ * @param {Object} thisArg 可选
+ * @return {Array} 返回一个新的通过测试的元素的集合的数组，如果没有通过测试则返回空数组
+ */
+array.filter(callback[, thisArg])
+```
+- callback
+    - element、index、array
+- thisArg
+    - 如果为 filter 提供一个 thisArg 参数，则它会被作为 callback 被调用时的 this 值；
+    - 否则，callback 的 this 值在非严格模式下将是全局对象，严格模式下为 undefined；
+- 注意：
+    - filter 遍历的元素范围在第一次调用 callback 之前就已经确定了；
+    - 在调用 filter 之后被添加到数组中的元素不会被 filter 遍历到；
+    - 如果已经存在的元素被改变了，则他们传入 callback 的值是 filter 遍历到它们那一刻的值；
+    - 被删除或从来未被赋值的元素不会被遍历到；
+- 示例
+    ```js
+    function isBigEnough(element) {
+      return element >= 10;
+    }
+    var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
+    // filtered is [12, 130, 44]
+    ```
 
-#### Array.prototype.find()集合
+#### Array.prototype.find() - 返回数组中满足提供的测试函数的第一个元素的值，否则返回 undefined
 
-#### Array.prototype.findIndex()集合
+```js
+/**
+ * @description 返回数组中满足提供的测试函数的第一个元素的值，否则返回 undefined
+ * @param {Function} callback 回调函数
+ * @param {Object} thisArg 可选
+ * @return {Any} 数组中第一个满足所提供测试函数的元素的值，否则返回 undefined
+ */
+array.find(callback[, thisArg])
+```
+- callback
+    - element、index、array
+- find方法不会改变数组；
+- 注意：
+    - callback 函数会为数组中的每个索引调用即从 0 到 length - 1，而不仅仅是那些被赋值的索引，这意味着对于稀疏数组来说，该方法的效率要低于那些只遍历有值的索引的方法；
 
-#### Array.prototype.forEach()集合
+#### Array.prototype.findIndex() - 返回数组中满足提供的测试函数的第一个元素的索引，否则返回-1
 
-#### Array.prototype.includes()
+```js
+/**
+ * @description 返回数组中满足提供的测试函数的第一个元素的索引，否则返回-1
+ * @param {Function} callback 回调函数
+ * @param {Object} thisArg 可选
+ * @return {Number} 返回数组中满足提供的测试函数的第一个元素的索引，否则返回-1
+ */
+array.findIndex(callback[, thisArg])
+```
+- 基本同array.find方法，只不过find方法返回值，而findIndex方法返回索引值；
 
-用来判断一个数组是否包含一个指定的值。注意该方法在nodejs低版本没有实现，高一点版本才实现。
+#### Array.prototype.flat() - 扁平化嵌套数组，返回新数组
 
-`arr.includes(searchElement[, fromIndex])`    
+```js
+/**
+ * @description 递归到指定深度将所有子数组连接，并返回一个新数组
+ * @param {Number} depth 递归深度，默认为1
+ * @return {Array} 递归到指定深度将所有子数组连接，并返回一个新数组
+ */
+array.flat(depth)
+```
+- 扁平化嵌套数组；
+- flat()方法会移除数组中的空项；
+    - 例如：`[1, 2, , 4, 5].flat()` ==> `[1, 2, 4, 5]`
+- 示例
+    ```js
+    var arr1 = [1, 2, [3, 4]];
+    arr1.flat(); 
+    // [1, 2, 3, 4]
+    
+    var arr2 = [1, 2, [3, 4, [5, 6]]];
+    arr2.flat();
+    // [1, 2, 3, 4, [5, 6]]
+    
+    var arr3 = [1, 2, [3, 4, [5, 6]]];
+    arr3.flat(2);
+    // [1, 2, 3, 4, 5, 6]
+    
+    //Infinity展开所有嵌套数组
+    arr3.flat(Infinity); 
+    // [1, 2, 3, 4, 5, 6]
+    ```
+- 替代array.flat
+    ```js
+    //使用reduce和concat递归
+    var arr1 = [1,[2,[3,[4,[5,[6,7]]]]]];
+    
+    function _flatFunc(flatArray, dep=1){
+       if(Number.isNaN(Number(dep))||Number(dep)<1) return flatArray;
+       var curDep = 1;
+       function recursionFun(flatArray, dep, curDep){
+          return flatArray.reduce((acc,val) => (
+             Array.isArray(val)&&(dep === Infinity || curDep< dep)
+             ? acc.concat(_flatFunc(val, dep, curDep + 1))
+             : acc.concat(val)
+          ), []);
+       }
+       return recursionFun(flatArray, dep, curDep);
+    }
+    
+    _flatFunc(arr1);
+    //[1,2,[3,[4,[5,[6,7]]]]]
+    
+    _flatFunc(arr1,Infinity);
+    //[1,2,3,4,5,6,7]
+    
+    
+    //使用数组的toString方法
+    
+    arr1.toString().split(',').map(item => +item);
+    //[1,2,3,4,5,6,7]  转换成了字符串，后面map转换一下数字
+    ```
+
+#### Array.prototype.flatMap()
+
+```js
+/**
+ * @description 使用映射函数映射每个元素，然后将结果压缩成一个新数组
+ * @param {Function} callback
+ * @param {Object} thisArg
+ * @return {Array} 一个新的数组，其中每个元素都是回调函数的结果，并且结构深度 depth 值为1
+ */
+array.flatMap(callback, thisArg)
+```
+- 有关回调函数的详细描述，请参见 Array.prototype.map()，flatMap 方法与 map 方法和深度depth为1的 flat 几乎相同，但 flatMap 通常在合并成一种方法的效率稍微高一些；
+- 示例
+    ```js
+    var arr1 = [1, 2, 3, 4];
+
+    arr1.map(x => [x * 2]); 
+    // [[2], [4], [6], [8]]
+    
+    arr1.flatMap(x => [x * 2]);
+    // [2, 4, 6, 8]
+    
+    // 只会将 flatMap 中的函数返回的数组 “压平” 一层
+    arr1.flatMap(x => [[x * 2]]);
+    // [[2], [4], [6], [8]]
+    ```
+    ```js
+    let arr = ["今天天气不错", "", "早上好"]
+
+    arr.map(s => s.split(""))
+    // [["今", "天", "天", "气", "不", "错"],[""],["早", "上", "好"]]
+    
+    arr.flatMap(s => s.split(''));
+    // ["今", "天", "天", "气", "不", "错", "", "早", "上", "好"]
+    ```
+
+#### Array.prototype.forEach() - 数组循环
+
+```js
+/**
+ * @description 数组循环
+ * @param {Function} callback
+ * @param {Object} thisArg
+ * @return {Undefined} 返回undefined
+ */
+array.forEach(callback, thisArg)
+```
+- 注意：
+    - forEach 遍历的范围在第一次调用 callback 前就会确定；
+    - 调用 forEach 后添加到数组中的项不会被 callback 访问到；
+    - 如果已经存在的值被改变，则传递给 callback 的值是 forEach 遍历到他们那一刻的值；
+    - 那些已删除或者未初始化的项将被跳过（例如在稀疏数组上）
+    - **如果使用箭头函数表达式来传入函数参数，thisArg 参数会被忽略，因为箭头函数在词法上绑定了 this 值;**
+        - 这个已经测试是这样，还要测试的是，其它数组方法是不是也是这样？？？？？？待测试...
+- 示例
+    ```js
+    // 下面的例子会输出"one", "two", "four"。当到达包含值"two"的项时，整个数组的第一个项被移除了，这导致所有剩下的项上移一个位置。因为元素 "four"现在在数组更前的位置，"three"会被跳过。 forEach()不会在迭代之前创建数组的副本。
+    var words = ['one', 'two', 'three', 'four'];
+    words.forEach(function(word) {
+      console.log(word);
+      if (word === 'two') {
+        words.shift();
+      }
+    });
+    // one
+    // two
+    // four
+    ```
+
+#### Array.prototype.includes() - 用来判断一个数组是否包含一个指定的值
+
+```js
+/**
+ * @description 用来判断一个数组是否包含一个指定的值
+ * @param {Any} valueToFind 需要查找的元素值
+ * @param {Number} fromIndex 从该索引处开始查找，默认0
+ * @return {Boolean} 返回true或false
+ */
+array.includes(valueToFind[, fromIndex])
+```
+- 参数fromIndex
+    - 默认为0；
+    - 如果为负值，则按升序从 array.length - fromIndex 的索引开始搜索；
+- includes() 方法有意设计为通用方法；
+    - 它不要求this值是数组对象，所以它可以被用于其他类型的对象 (比如类数组对象)
+        ```js
+        (function() {
+          console.log([].includes.call(arguments, 'a')); // true
+          console.log([].includes.call(arguments, 'd')); // false
+        })('a','b','c');
+        ```
+- 示例
+    ```js
+    [1, 2, 3].includes(2);     // true
+    [1, 2, 3].includes(4);     // false
+    [1, 2, 3].includes(3, 3);  // false
+    [1, 2, 3].includes(3, -1); // true
+    [1, 2, NaN].includes(NaN); // true
+    ```
 
 #### Array.prototype.indexOf()
 
@@ -407,6 +666,11 @@ arr.every(callback[, thisArg])
     ```
 - 警告： 小心！这种方法对含有复杂（unicode）字符（星号，多字节字符等）的string 不起作用。你需要支持unicode的更精巧的工具库来准确地处理这种操作。在这个问题上可以咨询Mathias Bynens的作品：Esrever（https://github.com/mathiasbynens/esrever）。
 - 另外一种考虑这个问题的方式是：如果你更经常地将你的“string”基本上作为 字符的数组 来执行一些任务的话，也许就将它们作为array而不是作为string存储更好。你可能会因此省去很多每次都将string转换为array的麻烦。无论何时你确实需要string的表现形式的话，你总是可以调用 字符的 array的join("")方法。
+
+## 链接
+
+- [MDN Array](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array)
+- [Github](https://github.com/SummerLius/note/blob/master/note/%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80_Programming_Language/javascript/syntax/mdn/%E5%86%85%E7%BD%AE%E5%AF%B9%E8%B1%A1/Array.md)
 
 <!-- - Array.length
 
