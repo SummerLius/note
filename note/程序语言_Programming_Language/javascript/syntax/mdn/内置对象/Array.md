@@ -23,14 +23,14 @@
         - [Array.prototype.flatMap()](#arrayprototypeflatmap)
         - [Array.prototype.forEach() - 数组循环](#arrayprototypeforeach---数组循环)
         - [Array.prototype.includes() - 用来判断一个数组是否包含一个指定的值](#arrayprototypeincludes---用来判断一个数组是否包含一个指定的值)
-        - [Array.prototype.indexOf()](#arrayprototypeindexof)
-        - [Array.prototype.join()](#arrayprototypejoin)
-        - [Array.prototype.keys()](#arrayprototypekeys)
-        - [Array.prototype.lastIndexOf()](#arrayprototypelastindexof)
-        - [Array.prototype.map()集合](#arrayprototypemap集合)
+        - [Array.prototype.indexOf() - 返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1](#arrayprototypeindexof---返回在数组中可以找到一个给定元素的第一个索引如果不存在则返回-1)
+        - [Array.prototype.join() 连接数组元素成一个字符串](#arrayprototypejoin-连接数组元素成一个字符串)
+        - [Array.prototype.keys() - 返回一个包含数组中每个索引键的Array Iterator对象](#arrayprototypekeys---返回一个包含数组中每个索引键的array-iterator对象)
+        - [Array.prototype.lastIndexOf() - 返回指定元素在数组中的最后一个的索引，如果不存在则返回 -1](#arrayprototypelastindexof---返回指定元素在数组中的最后一个的索引如果不存在则返回--1)
+        - [Array.prototype.map() - 创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果](#arrayprototypemap---创建一个新数组其结果是该数组中的每个元素都调用一个提供的函数后返回的结果)
         - [Array.prototype.pop()](#arrayprototypepop)
         - [Array.prototype.push()](#arrayprototypepush)
-        - [Array.prototype.reduce()集合](#arrayprototypereduce集合)
+        - [Array.prototype.reduce() - 遍历数组，并将每个回调函数的返回值，作为下一次回调的第一个参数，最后一次回调返回作为redece方法返回](#arrayprototypereduce---遍历数组并将每个回调函数的返回值作为下一次回调的第一个参数最后一次回调返回作为redece方法返回)
         - [Array.prototype.reduceRight()集合](#arrayprototypereduceright集合)
         - [Array.prototype.reverse()](#arrayprototypereverse)
         - [Array.prototype.shift()](#arrayprototypeshift)
@@ -199,7 +199,7 @@ array.concat(value1[, value2[, ...[, valueN]]])
  * @param {Number} end 待复制元素的结束位置，不包括end这个索引处，如果是负数，则从末尾计算，默认值到最后
  * @return {Array} 返回原本数组
  */
-array.copyWithin(target[, start[, end]])
+array.copyWithin(target[, start = 0 [, end = this.length ]])
 ```
 - 浅复制；
 - copyWithin 函数是设计为通用的，其不要求其 this 值必须是一个数组对象；
@@ -298,7 +298,7 @@ array.every(callback[, thisArg])
  * @param {Number} end 可选，终止索引，默认this.length
  * @return {Array} 返回被修改的原数组
  */
-array.fill(value[, start[, end]])
+array.fill(value[, start = 0 [, end = this.length]])
 ```
 - fill 方法故意被设计成通用的方法，该方法不要求 this 是数组对象；
 - fill 方法是可变方法，它会改变调用它的 this 对象本身，然后返回它，而不是返回一个新的副本；
@@ -387,10 +387,10 @@ array.findIndex(callback[, thisArg])
 ```js
 /**
  * @description 递归到指定深度将所有子数组连接，并返回一个新数组
- * @param {Number} depth 递归深度，默认为1
+ * @param {Number} depth 可选，递归深度，默认为1
  * @return {Array} 递归到指定深度将所有子数组连接，并返回一个新数组
  */
-array.flat(depth)
+array.flat([depth = 1])
 ```
 - 扁平化嵌套数组；
 - flat()方法会移除数组中的空项；
@@ -450,10 +450,10 @@ array.flat(depth)
 /**
  * @description 使用映射函数映射每个元素，然后将结果压缩成一个新数组
  * @param {Function} callback
- * @param {Object} thisArg
+ * @param {Object} thisArg 可选
  * @return {Array} 一个新的数组，其中每个元素都是回调函数的结果，并且结构深度 depth 值为1
  */
-array.flatMap(callback, thisArg)
+array.flatMap(callback[, thisArg])
 ```
 - 有关回调函数的详细描述，请参见 Array.prototype.map()，flatMap 方法与 map 方法和深度depth为1的 flat 几乎相同，但 flatMap 通常在合并成一种方法的效率稍微高一些；
 - 示例
@@ -486,10 +486,10 @@ array.flatMap(callback, thisArg)
 /**
  * @description 数组循环
  * @param {Function} callback
- * @param {Object} thisArg
+ * @param {Object} thisArg 可选
  * @return {Undefined} 返回undefined
  */
-array.forEach(callback, thisArg)
+array.forEach(callback[, thisArg])
 ```
 - 注意：
     - forEach 遍历的范围在第一次调用 callback 前就会确定；
@@ -522,7 +522,7 @@ array.forEach(callback, thisArg)
  * @param {Number} fromIndex 从该索引处开始查找，默认0
  * @return {Boolean} 返回true或false
  */
-array.includes(valueToFind[, fromIndex])
+array.includes(valueToFind[, fromIndex = 0])
 ```
 - 参数fromIndex
     - 默认为0；
@@ -544,44 +544,186 @@ array.includes(valueToFind[, fromIndex])
     [1, 2, NaN].includes(NaN); // true
     ```
 
-#### Array.prototype.indexOf()
+#### Array.prototype.indexOf() - 返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1
 
-返回数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1
+```js
+/**
+ * @description 返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1，查找顺序从前往后
+ * @param {Any} searchElement 需要查找的元素值
+ * @param {Number} fromIndex 可选，从该索引处开始查找，默认0
+ * @return {Number} 返回索引
+ */
+array.indexOf(searchElement[, fromIndex = 0])
+```
+- 参数 fromIndex
+    - 无论fromIndex是正数还是负数，查找的顺序都是从从前往后；
+    - 如果该索引值大于或等于数组长度，意味着不会在数组里查找，返回-1；
+    - 如果参数中提供的索引值是一个负值，则将其作为数组末尾的一个抵消，即-1表示从最后一个元素开始查找，-2表示从倒数第二个元素开始查找 ，以此类推；
 
-`arr.indexOf(searchElement[, fromIndex])`  
+#### Array.prototype.join() 连接数组元素成一个字符串
 
-#### Array.prototype.join()
+```js
+/**
+ * @description 将一个数组（或一个类数组对象）的所有元素连接成一个字符串并返回这个字符串，如果数组只有一个元素，那么将返回该元素而不使用分隔符
+ * @param {String} separator 可选，指定一个字符串来分隔数组的每个元素
+ * @return {String} 
+ */
+array.join([separator = ','])
+```
+- 参数 separator
+    - 默认为逗号 "," 分隔符号；
+    - 如果指定为空串 ""，则元素之间没有任何字符分隔；
+    - 如果元素为undefined或者null，其会被转换为空串，也会被分隔符分隔，详情见下例；
+- 返回
+    - 如果数组没有元素，则返回空串；
+- 该方法也可以用在类数组对象上，例如 arguments；
+- 示例
+    ```js
+    [null,1,undefined,2,null,3].join(',')// ',1,,2,,3'
+    [null,1,undefined,2,null,3].join('')// '123'
 
-将数组（或一个类数组对象）的所有元素连接到一个字符串中。
+    function f(a, b, c) {
+      var s = Array.prototype.join.call(arguments);
+      console.log(s); // '1,a,true'
+    }
+    f(1, 'a', true);
+    ```
 
-`arr.join(separator)`  
+#### Array.prototype.keys() - 返回一个包含数组中每个索引键的Array Iterator对象
 
-#### Array.prototype.keys()
+```js
+/**
+ * @description 返回一个包含数组中每个索引键的Array Iterator对象
+ * @return {Array Iterator} 返回一个新的Array Iterator对象
+ */
+array.keys()
+```
+- 索引迭代器会包含那些没有对应元素的索引；
+- 示例
+    ```js
+    var arr = ["a", , "c"];
+    var sparseKeys = Object.keys(arr);
+    var denseKeys = [...arr.keys()];
+    console.log(sparseKeys); // ['0', '2']
+    console.log(denseKeys);  // [0, 1, 2]
+    ```
 
-返回一个新的Array迭代器，它包含数组中每个索引的键。
+#### Array.prototype.lastIndexOf() - 返回指定元素在数组中的最后一个的索引，如果不存在则返回 -1
 
-- 待了解
+```js
+/**
+ * @description 返回指定元素在数组中的最后一个的索引，如果不存在则返回 -1，查找顺序从后往前
+ * @param {Any} searchElement 需要查找的元素值
+ * @param {Number} fromIndex 可选，从该索引处开始查找，默认this.length - 1
+ * @return {Number} 返回索引
+ */
+array.lastIndexOf(searchElement[, fromIndex = this.length - 1])
+```
 
-#### Array.prototype.lastIndexOf()
+#### Array.prototype.map() - 创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果
 
-返回指定元素在数组中最后一个的索引，如果不存在则返回-1。从数组的后面向前找，从fromIndex处开始。
-
-`arr.lastIndexOf(searchElement[, fromIndex = arr.length - 1])`  
-
-#### Array.prototype.map()集合
+```js
+/**
+ * @description 创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果
+ * @param {Function} callback 
+ * @param {Object} thisArg 可选
+ * @return {Array} 返回新数组
+ */
+array.map(callback[, thisArg])
+```
+- map 方法会给原数组中的每个元素都按顺序调用一次  callback 函数，callback 每次执行后的返回值（包括 undefined，null）组合起来形成一个新数组；
+- 注意：
+    - callback 函数只会在有值的索引上被调用；
+    - 那些从来没被赋过值或者使用 delete 删除的索引则不会被调用；
+    - 使用 map 方法处理数组时，数组元素的范围是在 callback 方法第一次调用之前就已经确定了；
+    - 在 map 方法执行的过程中：原数组中新增加的元素将不会被 callback 访问到；若已经存在的元素被改变或删除了，则它们的传递到 callback 的值是 map 方法遍历到它们的那一时刻的值；
+    - 而被删除的元素将不会被访问到；
+- 示例
+    ```js
+    [null, undefined].map(() => null); // [null, null]
+    [null, undefined].map(() => undefined); // [undefined, undefined]
+    ```
+    ```js
+    var map = Array.prototype.map
+    var a = map.call("Hello World", function(x) { 
+      return x.charCodeAt(0); 
+    })
+    // a的值为[72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
+    ```
 
 #### Array.prototype.pop()
+
+```js
+/**
+ * @description 从数组中删除最后一个元素，并返回该元素的值，此方法更改原数组的长度
+ * @return {Array} 返回删除的元素，当数组为空时返回undefined
+ */
+array.pop()
+```
+- pop 方法有意具有通用性，该方法和 call() 或 apply() 一起使用时，可应用在类似数组的对象上；
+- pop方法根据 length属性来确定最后一个元素的位置。如果不包含length属性或length属性不能被转成一个数值，会将length置为0，并返回undefined；
+- 如果你在一个空数组上调用 pop()，它返回  undefined；
 
 删除数组最后一个元素，并返回该元素的值。此方法会修改数组的长度。
 
 #### Array.prototype.push()
 
-将一个或多个元素添加到数组的末尾，并返回数组的长度
+```js
+/**
+ * @description 将一个或多个元素添加到数组的末尾
+ * @param {Any} elementN
+ * @return {Number} 返回该数组的新长度 
+ */
+array.push(element1, ..., elementN)
+```
+- push 方法有意具有通用性，该方法和 call() 或 apply() 一起使用时，可应用在类似数组的对象上；
+- push 方法根据 length 属性来决定从哪里开始插入给定的值。如果 length 不能被转成一个数值，则插入的元素索引为 0，包括 length 不存在时，当 length 不存在时，将会创建它；
 
-`arr.push(element1, element2, ...)`  
+#### Array.prototype.reduce() - 遍历数组，并将每个回调函数的返回值，作为下一次回调的第一个参数，最后一次回调返回作为redece方法返回
 
-#### Array.prototype.reduce()集合
-
+```js
+/**
+ * @description 遍历数组，并将每个回调函数的返回值，作为下一次回调的第一个参数，最后一次回调返回作为redece方法返回
+ * @param {Function} callback
+ * @param {Any} initialValue 可选
+ * @return {Any} 最后一次回调的返回值
+ */
+array.reduce(callback[, initialValue])
+```
+- 函数 callback，有四个参数
+    - accumulator：它是initialValue或上一次回调函数返回的值；
+    - currentValue
+    - currentIndex
+    - array
+- 函数 callback 第一次执行时，accumulator 和 currentValue 的取值有两种情况：
+    - 如果调用reduce()时提供了initialValue，那么accumulator取值为initialValue，currentValue取数组中的第一个值；
+    - 如果没有提供initialValue，那么accumulator取数组中第一个值，currentValue取数组中第二个值；
+- 参数 initialValue
+    - 作为第一次调用callback函数时的第一个参数accumulator的值；
+- 注意：
+    - 如果数组为空，且没有提供initialValue，会抛错；
+    - 如果数组仅有一个元素，并且没有提供initialValue，或者提供了initialValue但是数组为空，那么此唯一值会被返回，并且callback不会被执行；
+    - 所以：提供initialValue值会更加安全；
+- 示例
+    ```js
+    // 求和
+    [0, 1, 2, 3, 4].reduce((acc, cur) => acc + cur)
+    ```
+    ```js
+    // 计算数组中每个元素出现的次数
+    var names = ['a', 'b', 'a', 'c', 'b', 'a'];
+    var countedNames = names.reduce((allNames, name) => {
+        if(name in allNames) {
+            allNames[name]++;
+        } else {
+            allNames[name] = 1;
+        }
+        return allNames;
+    }, {})
+    // {a: 3, b: 2, c: 1}
+    ```
+    ```js
+    ```
 
 #### Array.prototype.reduceRight()集合
 
@@ -633,7 +775,7 @@ array.includes(valueToFind[, fromIndex])
     - Array.prototype.join
     - Array.prototype.map
     - Array.prototype.reverse
-    - ...
+    - ...（思考有哪些array方法可以用在string上面）
 - 示例
     ```js
     var a = 'foo';
