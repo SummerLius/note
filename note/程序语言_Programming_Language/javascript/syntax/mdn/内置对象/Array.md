@@ -28,20 +28,21 @@
         - [Array.prototype.keys() - 返回一个包含数组中每个索引键的Array Iterator对象](#arrayprototypekeys---返回一个包含数组中每个索引键的array-iterator对象)
         - [Array.prototype.lastIndexOf() - 返回指定元素在数组中的最后一个的索引，如果不存在则返回 -1](#arrayprototypelastindexof---返回指定元素在数组中的最后一个的索引如果不存在则返回--1)
         - [Array.prototype.map() - 创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果](#arrayprototypemap---创建一个新数组其结果是该数组中的每个元素都调用一个提供的函数后返回的结果)
-        - [Array.prototype.pop()](#arrayprototypepop)
-        - [Array.prototype.push()](#arrayprototypepush)
+        - [Array.prototype.pop() - 从数组中删除最后一个元素，并返回该元素的值，此方法更改原数组的长度](#arrayprototypepop---从数组中删除最后一个元素并返回该元素的值此方法更改原数组的长度)
+        - [Array.prototype.push() - 将一个或多个元素添加到数组的末尾](#arrayprototypepush---将一个或多个元素添加到数组的末尾)
         - [Array.prototype.reduce() - 遍历数组，并将每个回调函数的返回值，作为下一次回调的第一个参数，最后一次回调返回作为redece方法返回](#arrayprototypereduce---遍历数组并将每个回调函数的返回值作为下一次回调的第一个参数最后一次回调返回作为redece方法返回)
-        - [Array.prototype.reduceRight()集合](#arrayprototypereduceright集合)
-        - [Array.prototype.reverse()](#arrayprototypereverse)
-        - [Array.prototype.shift()](#arrayprototypeshift)
-        - [Array.prototype.unshift()](#arrayprototypeunshift)
-        - [Array.prototype.slice()](#arrayprototypeslice)
-        - [Array.prototype.some()集合](#arrayprototypesome集合)
-        - [Array.prototype.sort()](#arrayprototypesort)
-        - [Array.prototype.splice()](#arrayprototypesplice)
+        - [Array.prototype.reduceRight() - 同reduce()方法，只是该方法是从后往前遍历](#arrayprototypereduceright---同reduce方法只是该方法是从后往前遍历)
+        - [Array.prototype.reverse() - 将数组中元素的位置颠倒，并返回该数组，该方法会改变原数组](#arrayprototypereverse---将数组中元素的位置颠倒并返回该数组该方法会改变原数组)
+        - [Array.prototype.shift() - 删除数组第一个元素，并返回该元素的值，此方法更改数组的长度](#arrayprototypeshift---删除数组第一个元素并返回该元素的值此方法更改数组的长度)
+        - [Array.prototype.slice() - 返回一个从开始索引到结束索引（不包括结束）的数组的一部分浅拷贝到一个新数组对象，元素数组不会被修改](#arrayprototypeslice---返回一个从开始索引到结束索引不包括结束的数组的一部分浅拷贝到一个新数组对象元素数组不会被修改)
+        - [Array.prototype.some() - 测试是否至少有一个元素通过由callback提供的测试](#arrayprototypesome---测试是否至少有一个元素通过由callback提供的测试)
+        - [Array.prototype.sort() - 对数组的元素进行排序，并返回原数组](#arrayprototypesort---对数组的元素进行排序并返回原数组)
+        - [Array.prototype.splice() - 通过删除或替换现有元素来修改数组，并以数组形式返回被修改的内容，此方法会改变原数组](#arrayprototypesplice---通过删除或替换现有元素来修改数组并以数组形式返回被修改的内容此方法会改变原数组)
         - [Array.prototype.toLocaleString()](#arrayprototypetolocalestring)
         - [Array.prototype.toString()](#arrayprototypetostring)
-        - [Array.prototype.values()](#arrayprototypevalues)
+        - [Array.prototype.unshift() - 将一个或多个元素添加到数组的开头，并返回该数组的新长度](#arrayprototypeunshift---将一个或多个元素添加到数组的开头并返回该数组的新长度)
+        - [Array.prototype.values() - 返回一个新的 Array Iterator 对象](#arrayprototypevalues---返回一个新的-array-iterator-对象)
+        - [Array.prototype[@@iterator]() - 返回一个新的 Array Iterator 对象](#arrayprototypeiterator---返回一个新的-array-iterator-对象)
 - [其它](#其它)
 - [链接](#链接)
 
@@ -651,7 +652,7 @@ array.map(callback[, thisArg])
     // a的值为[72, 101, 108, 108, 111, 32, 87, 111, 114, 108, 100]
     ```
 
-#### Array.prototype.pop()
+#### Array.prototype.pop() - 从数组中删除最后一个元素，并返回该元素的值，此方法更改原数组的长度
 
 ```js
 /**
@@ -666,7 +667,7 @@ array.pop()
 
 删除数组最后一个元素，并返回该元素的值。此方法会修改数组的长度。
 
-#### Array.prototype.push()
+#### Array.prototype.push() - 将一个或多个元素添加到数组的末尾
 
 ```js
 /**
@@ -723,41 +724,260 @@ array.reduce(callback[, initialValue])
     // {a: 3, b: 2, c: 1}
     ```
     ```js
+    // 数组排序并去重
+    let arr = [1,2,1,2,3,5,4,5,3,4,4,4,4];
+    let newArr = arr.sort().reduce((uniqueArr, item) => {
+        if (unique.length === 0 || unique[unique.length - 1] !== item) {} else {
+            uniqueArr.push(item);
+        }
+
+        return uniqueArr;
+    }, []);
     ```
 
-#### Array.prototype.reduceRight()集合
+#### Array.prototype.reduceRight() - 同reduce()方法，只是该方法是从后往前遍历
 
-#### Array.prototype.reverse()
+- 同reduce()方法，只是该方法是从后往前遍历；
+- 示例
+    ```js
+    // reduce 与 reduceRight 之间的区别
+    var a = ['1', '2', '3', '4', '5']; 
+    var left  = a.reduce(function(prev, cur)      { return prev + cur; }); 
+    var right = a.reduceRight(function(prev, cur) { return prev + cur; }); 
+    
+    console.log(left);  // "12345"
+    console.log(right); // "54321"
+    ```
 
-将数组中元素位置颠倒
+#### Array.prototype.reverse() - 将数组中元素的位置颠倒，并返回该数组，该方法会改变原数组
 
-#### Array.prototype.shift()
+```js
+/**
+ * @description 将数组中元素的位置颠倒，并返回该数组，该方法会改变原数组
+ * @return {Array} 返回颠倒后的原数组
+ */
+array.reverse()
+```
+- 示例
+    ```js
+    var sourceArray = ['one', 'two', 'three'];
+    var reverseArray = sourceArray.reverse();
+    
+    console.log(sourceArray ) // ['three', 'two', 'one']
+    console.log(sourceArray === reverseArray); // true
+    ```
 
-`arr.shift()`  
+#### Array.prototype.shift() - 删除数组第一个元素，并返回该元素的值，此方法更改数组的长度
+
+```js
+/**
+ * @description 删除数组第一个元素，并返回该元素的值，此方法更改数组的长度
+ * @return {Any} 返回从数组中删除的元素，如果数组为空则返回undefined
+ */
+array.shift()
+```
+- shift 方法并不局限于数组：这个方法能够通过 call 或 apply 方法作用于类似数组的对象上；
+    - 但是对于没有 length 属性（从0开始的一系列连续的数字属性的最后一个）的对象，调用该方法可能没有任何意义；
+- 示例
+    ```js
+    let myFish = ['angel', 'clown', 'mandarin', 'surgeon'];
+
+    console.log('调用 shift 之前: ' + myFish);
+    // "调用 shift 之前: angel,clown,mandarin,surgeon"
+    
+    var shifted = myFish.shift(); 
+    
+    console.log('调用 shift 之后: ' + myFish); 
+    // "调用 shift 之后: clown,mandarin,surgeon" 
+    
+    console.log('被删除的元素: ' + shifted); 
+    // "被删除的元素: angel"
+    ```
 
 删除数组中第一个元素，并返回该元素的值。此方法会修改数组的长度。
 
-#### Array.prototype.unshift()
 
-`arr.unshift(ele1, ele2, ...)`  
+#### Array.prototype.slice() - 返回一个从开始索引到结束索引（不包括结束）的数组的一部分浅拷贝到一个新数组对象，元素数组不会被修改
 
-将一个或多个元素添加到数组的开头，并返回新数组的长度。
+```js
+/**
+ * @description 返回一个从开始索引到结束索引（不包括结束）的数组的一部分浅拷贝到一个新数组对象，元素数组不会被修改
+ * @param {Number} begin 可选，默认为0
+ * @param {Number} end 可选，不包括end索引处，默认为 this.length，即到末尾
+ * @return {Array} 返回新数组
+ */
+array.slice([begin = 0 [, end = this.length]])
+```
+- 参数 begin
+    - 默认0；
+    - 如果该参数为负数，则表示从原数组中的倒数第几个元素开始提取；
+        - 例如，slice(-2)表示提取原数组中的倒数第二个元素到最后一个元素（包含最后一个元素）；
+- 参数 end
+    - 不包括end；
+    - 默认this.length，即到末尾;
+    - 如果该参数为负数， 则它表示在原数组中的倒数第几个元素结束抽取；
+        - 例如，slice(-2,-1)表示抽取了原数组中的倒数第二个元素到最后一个元素（不包含最后一个元素，也就是只有倒数第二个元素）；
+    - 如果 end 大于数组长度，slice 也会一直提取到原数组末尾；
+- slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组，例如arguments；
+- 示例
+    ```js
+    var fruits = ['Banana', 'Orange', 'Lemon', 'Apple', 'Mango'];
+    var citrus = fruits.slice(1, 3);
+    
+    // fruits contains ['Banana', 'Orange', 'Lemon', 'Apple', 'Mango']
+    // citrus contains ['Orange','Lemon']
+    ```
+    ```js
+    // slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组
+    functioin listArgs() {
+        // 或 [].slice.slice.call(arguments)
+        return Array.prototype.slice.call(arguments);
+    }
+    
+    var = listArgs(1, 2, 3); // [1, 2, 3]
+    ```
 
-#### Array.prototype.slice()
+#### Array.prototype.some() - 测试是否至少有一个元素通过由callback提供的测试
 
-返回一个从开始索引到结束索引（不包括结束）的数组的一部分浅拷贝到一个新数组对象。原数组不会被修改。
+```js
+/**
+ * @description 测试是否至少有一个元素通过由callback提供的测试
+ * @param {Function} callback 
+ * @param {Object} thisArg 可选
+ * @return {Boolean} 
+ */
+array.some(callback[, thisArg])
+```
+- some() 为数组中的每一个元素执行一次 callback 函数，直到找到一个使得 callback 返回一个“真值”（即可转换为布尔值 true 的值）；
+- 注意：
+    - some() 遍历的元素的范围在第一次调用 callback 时就已经确定了；
+    - 在调用 some() 后被添加到数组中的值不会被 callback 访问到；
+    - 如果数组中存在且还未被访问到的元素被 callback 改变了，则其传递给 callback 的值是 some() 访问到它那一刻的值；
+    - callback 只会在那些”有值“的索引上被调用，不会在那些被删除或从来未被赋值的索引上调用；
+- 示例
+    ```js
+    // 判断是否含有大于10的数字
+    [1,2,3,45].some(item => item > 10);
+    ```
+    ```js
+    // 模仿 includes() 方法，若元素在数组中存在则返回true
 
-`arr.slice()`           // [0, end]  
-`arr.slice(begin)`      // [begin, end]  
-`arr.slice(begin, end)` // [begin, end)  
+    function iincludes(arr, checkItem) {
+        return arr.some(item => item === checkItem);
+    };
+    ```
 
-#### Array.prototype.some()集合
+#### Array.prototype.sort() - 对数组的元素进行排序，并返回原数组
 
-#### Array.prototype.sort()
+```js
+/**
+ * @description 对数组的元素进行排序，并返回原数组
+ * @param {Function} compareFunction 可选，用来指定按某种顺序进行排列的函数，如果省略，元素按照转换为的字符串的各个字符的Unicode位点进行排序
+ * @return {Array} 排序后的原数组 
+ */
+array.sort([compareFunction])
+```
+- sort 方法使用 [原地算法](https://en.wikipedia.org/wiki/In-place_algorithm) 对数组的元素进行排序；
+    - 排序算法现在是稳定的；
+    - 默认排序顺序是根据字符串Unicode码点；
+    - 由于它取决于具体实现，因此无法保证排序的时间和空间复杂性
+- 参数 compareFunction
+    - 可选，用来指定按某种顺序进行排列的函数，如果省略，元素按照转换为的字符串的各个字符的Unicode位点进行排序
+    - 该函数含有两个参数：第一个用于比较的元素 和 第二个用于比较的元素；
+    - 例如：
+        - 如果 compareFunction(a, b) 小于 0 ，那么 a 会被排列到 b 之前；
+        - 如果 compareFunction(a, b) 大于 0 ， b 会被排列到 a 之前；
+        - 如果 compareFunction(a, b) 等于 0 ， a 和 b 的相对位置不变；
+            - 备注： ECMAScript 标准并不保证这一行为，而且也不是所有浏览器都会遵守；
+- 示例
+    ```js
+    // 比较函数逻辑
+    function compare(a, b) {
+      if (a < b ) {           // 按某种排序标准进行比较, a 小于 b
+        return -1;
+      }
+      if (a > b ) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    }
+    ```
+    ```js
+    // 比较数字
+    [4,2,1].sort((a, b) => a -b);
+    ```
+    ```js
+    // compareFunction 可能需要对元素做多次映射以实现排序，尤其当 compareFunction 较为复杂，且元素较多的时候，某些 compareFunction 可能会导致很高的负载。使用 map 辅助排序将会是一个好主意。基本思想是首先将数组中的每个元素比较的实际值取出来，排序后再将数组恢复
+    
+    
+    // 需要被排序的数组
+    var list = ['Delta', 'alpha', 'CHARLIE', 'bravo'];
+    
+    // 对需要排序的数字和位置的临时存储
+    var mapped = list.map(function(el, i) {
+      return { index: i, value: el.toLowerCase() };
+    })
+    
+    // 按照多个值排序数组
+    mapped.sort(function(a, b) {
+      return +(a.value > b.value) || +(a.value === b.value) - 1;
+    });
+    
+    // 根据索引得到排序的结果
+    var result = mapped.map(function(el){
+      return list[el.index];
+    });
+    ```
 
-#### Array.prototype.splice()
 
-删除数组元素或添加新元素，更改原始数组
+#### Array.prototype.splice() - 通过删除或替换现有元素来修改数组，并以数组形式返回被修改的内容，此方法会改变原数组
+
+```js
+/**
+ * @description 通过删除或替换现有元素来修改数组，并以数组形式返回被修改的内容，此方法会改变原数组
+ * @param {Number} start 指定修改的开始位置
+ * @param {Number} deleteCount 可选，指定要移除数组元素的个数
+ * @param {Any} itemN 可选，要添加进数组的元素，从start位置开始，如果省略，那么splice将只删除元素
+ * @return {Array} 由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组；如果没有删除元素，则返回空数组
+ */
+array.splice(start[, deleteCount[, item1[, item2[, ...]]]])
+```
+- 不传任何参数，返回空数组，对原数组不做任何修改：`splice() // []`；
+- 流程：先删除，再插入；
+    - 在start位置删除，同时也是在start位置插入；
+- 参数start
+    - 指定修改的开始位置；
+    - 如果超出了数组的长度，则从数组末尾开始添加内容；
+    - 如果是负值，则表示从数组末位开始的第几位；
+    - 如果负数的绝对值大于数组的长度，则表示开始位置为第0位；
+- 参数deleteCount
+    - 指定要移除的数组元素的个数；
+    - 如果 deleteCount 是 0或者负数，则不移除元素；
+    - 如果 deleteCount 大于start 之后的元素的总数，则从 start 后面的元素都将被删除（含第 start 位）；
+    - deleteCount默认值为`this.length - start`，即从start开始（包括start），后面全部删除；
+- 参数itemN
+    - 要添加进数组的元素,从start 位置开始；
+    - 如果不指定，则 splice() 将只删除数组元素；
+- 注意：
+    - 如果添加进数组的元素个数不等于被删除的元素个数，数组的长度会发生相应的改变；
+- 示例
+    ```js
+    // 不传任何参数，不做任何处理
+    
+    let arr = [1,2,3];
+    let delArr = arr.splice();
+
+    console.log(arr); // [1, 2, 3]
+    console.log(delArr); // []
+    ```
+    ```js
+    // 从第2位开始删除1个元素，然后插入“trumpet”
+    var myFish = ['angel', 'clown', 'drum', 'sturgeon'];
+    var removed = myFish.splice(2, 1, "trumpet"); 
+    //运算后的myFish: ["angel", "clown", "trumpet", "surgeon"] 
+    //被删除元素数组：["drum"]
+    ```
 
 #### Array.prototype.toLocaleString()
 
@@ -765,9 +985,106 @@ array.reduce(callback[, initialValue])
 
 #### Array.prototype.toString()
 
-覆盖了Object.prototype.toString()
+```js
+/**
+ * @description 
+ * @return {String} 
+ */
+array.toString()
+```
+- Array对象覆盖了Object的 toString 方法;
+- 对于数组对象，toString 方法连接数组并返回一个字符串，其中包含用逗号分隔的每个数组元素；
+- 当一个数组被作为文本值或者进行字符串连接操作时，将会自动调用其 toString 方法；
+- 示例
+    ```js
+    ['a','b','c',['d',['e']]].toString(); // 'a,b,c,d,e'
 
-#### Array.prototype.values()
+    [1,2,3,4].toString(); // '1,2,3,4'
+
+    [{a:1}].toString(); // '[object Object]'
+    ```
+
+#### Array.prototype.unshift() - 将一个或多个元素添加到数组的开头，并返回该数组的新长度
+
+```js
+/**
+ * @description 将一个或多个元素添加到数组的开头，并返回该数组的新长度
+ * @param elementN 可选，要添加到数组开头的元素
+ * @return {Number} 该数组的新长度
+ */
+array.unshift([element1, ..., elementN])
+```
+- 注意：
+    - unshift 特意被设计成具有通用性；这个方法能够通过 call 或 apply 方法作用于类数组对象上；
+    - 不过对于没有 length 属性的对象，调用该方法可能没有任何意义；
+- 示例
+    ```js
+    var arr = [1, 2];
+
+    arr.unshift(0); //result of call is 3, the new array length
+    //arr is [0, 1, 2]
+    
+    arr.unshift(-2, -1); // = 5
+    //arr is [-2, -1, 0, 1, 2]
+    
+    arr.unshift( [-3] );
+    //arr is [[-3], -2, -1, 0, 1, 2]
+    ```
+
+#### Array.prototype.values() - 返回一个新的 Array Iterator 对象
+
+```js
+/**
+ * @description 返回一个新的 Array Iterator 对象，该对象包含数组每个索引的值
+ * @return {Array Iterator} 
+ */
+array.values()
+```
+- 示例
+    ```js
+    let arr = ['w', 'y', 'k', 'o', 'p'];
+    let eArr = arr.values();
+    for (let letter of eArr) {
+      console.log(letter);
+    }
+    ```
+    ```js
+    let arr = ['w', 'y', 'k', 'o', 'p'];
+    let eArr = arr.values();
+    console.log(eArr.next().value); // w
+    console.log(eArr.next().value); // y
+    console.log(eArr.next().value); // k
+    console.log(eArr.next().value); // o
+    console.log(eArr.next().value); // p
+    ```
+
+#### Array.prototype[@@iterator]() - 返回一个新的 Array Iterator 对象
+
+```js
+/**
+ * @description 数组的 iterator 方法，默认情况下与 values() 返回值相同
+ * @return {Array Iterator} 
+ */
+array[Symbol.iterator]()
+```
+- 数组的 iterator 方法，默认情况下与 values() 返回值相同
+- 示例
+    ```js
+    let arr = ['w', 'y', 'k', 'o', 'p'];
+    let eArr = arr[Symbol.iterator]();
+    for (let letter of eArr) {
+      console.log(letter);
+    }
+    ```
+    ```js
+    let arr = ['w', 'y', 'k', 'o', 'p'];
+    let eArr = arr[Symbol.iterator]();
+    console.log(eArr.next().value); // w
+    console.log(eArr.next().value); // y
+    console.log(eArr.next().value); // k
+    console.log(eArr.next().value); // o
+    console.log(eArr.next().value); // p
+    ```
 
 ## 其它
 
