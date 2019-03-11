@@ -178,13 +178,16 @@ Array.prototype[@@iterator]()
 ```js
 /**
  * @description 用于合并两个或多个数组，不会更改现在有数组，返回新数组
- * @param {Any} valueN 
+ * @param {Any} valueN 如果是普通元素直接连接到数组后面，如果是数组则会取数组里面的元素，而不是将整个数组作为单个元素
  * ...
  * @return {Array} 返回新的 Array 实例
  */
 array.concat(value1[, value2[, ...[, valueN]]])
 ```
 - 浅拷贝；
+- 参数 valueN：
+    - 如果是普通元素直接连接到数组后面；
+    - 如果是数组则会取数组里面的元素，而不是将整个数组作为单个元素；
 - 示例：
     ```js
     [1,2].concat(3, 4, [5, 6], [7], [[8]], {}); // [ 1, 2, 3, 4, 5, 6, 7, [ 8 ], {} ]
@@ -889,6 +892,9 @@ array.sort([compareFunction])
         - 如果 compareFunction(a, b) 大于 0 ， b 会被排列到 a 之前；
         - 如果 compareFunction(a, b) 等于 0 ， a 和 b 的相对位置不变；
             - 备注： ECMAScript 标准并不保证这一行为，而且也不是所有浏览器都会遵守；
+- **注意**：
+    - 默认比较是将元素转换为字符串后，比较unicode码点，故默认的不能直接用来比较**数字**，单位的数字可以借用unicode比较，但是多位数字不能直接比较，例如sort会认为 `13` 小于 `2`，因为其应该是一位一位比较，前者第一位数字 `1` 小于后者第一位数字 `2`；
+    - 故，若比较数字，最好指定compareFunciton比较函数，例如：`arr.sort((a, b) => a - b)`
 - 示例
     ```js
     // 比较函数逻辑
