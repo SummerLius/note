@@ -13,7 +13,7 @@
     - [Prototype Methods](#prototype-methods)
         - [Array.prototype.concat() - 合并多个数组，返回新数组](#arrayprototypeconcat---合并多个数组返回新数组)
         - [Array.prototype.copyWithin() - 方法浅复制数组的一部分到同一数组中的另一个位置，并返回它，而不修改其大小](#arrayprototypecopywithin---方法浅复制数组的一部分到同一数组中的另一个位置并返回它而不修改其大小)
-        - [Array.prototype.entries() - 方法返回一个新的Array Iterator对象](#arrayprototypeentries---方法返回一个新的array-iterator对象)
+        - [Array.prototype.entries() - 方法返回一个新的Array Iterator对象，可以迭代索引和成员组成的数据结构](#arrayprototypeentries---方法返回一个新的array-iterator对象可以迭代索引和成员组成的数据结构)
         - [Array.prototype.every() - 方法测试数组的所有元素是否都通过了指定函数的测试](#arrayprototypeevery---方法测试数组的所有元素是否都通过了指定函数的测试)
         - [Array.prototype.fill() - 用一个固定值填充一个数组中从起始索引到终止索引内的全部元素，不包括终止索引](#arrayprototypefill---用一个固定值填充一个数组中从起始索引到终止索引内的全部元素不包括终止索引)
         - [Array.prototype.filter() - 创建一个新数组, 其包含通过所提供函数实现的测试的所有元素](#arrayprototypefilter---创建一个新数组-其包含通过所提供函数实现的测试的所有元素)
@@ -25,7 +25,7 @@
         - [Array.prototype.includes() - 用来判断一个数组是否包含一个指定的值](#arrayprototypeincludes---用来判断一个数组是否包含一个指定的值)
         - [Array.prototype.indexOf() - 返回在数组中可以找到一个给定元素的第一个索引，如果不存在，则返回-1](#arrayprototypeindexof---返回在数组中可以找到一个给定元素的第一个索引如果不存在则返回-1)
         - [Array.prototype.join() 连接数组元素成一个字符串](#arrayprototypejoin-连接数组元素成一个字符串)
-        - [Array.prototype.keys() - 返回一个包含数组中每个索引键的Array Iterator对象](#arrayprototypekeys---返回一个包含数组中每个索引键的array-iterator对象)
+        - [Array.prototype.keys() - 返回一个新的 Array Iterator 对象，可以遍历所有的索引](#arrayprototypekeys---返回一个新的-array-iterator-对象可以遍历所有的索引)
         - [Array.prototype.lastIndexOf() - 返回指定元素在数组中的最后一个的索引，如果不存在则返回 -1](#arrayprototypelastindexof---返回指定元素在数组中的最后一个的索引如果不存在则返回--1)
         - [Array.prototype.map() - 创建一个新数组，其结果是该数组中的每个元素都调用一个提供的函数后返回的结果](#arrayprototypemap---创建一个新数组其结果是该数组中的每个元素都调用一个提供的函数后返回的结果)
         - [Array.prototype.pop() - 从数组中删除最后一个元素，并返回该元素的值，此方法更改原数组的长度](#arrayprototypepop---从数组中删除最后一个元素并返回该元素的值此方法更改原数组的长度)
@@ -41,8 +41,8 @@
         - [Array.prototype.toLocaleString()](#arrayprototypetolocalestring)
         - [Array.prototype.toString()](#arrayprototypetostring)
         - [Array.prototype.unshift() - 将一个或多个元素添加到数组的开头，并返回该数组的新长度](#arrayprototypeunshift---将一个或多个元素添加到数组的开头并返回该数组的新长度)
-        - [Array.prototype.values() - 返回一个新的 Array Iterator 对象](#arrayprototypevalues---返回一个新的-array-iterator-对象)
-        - [Array.prototype[@@iterator]() - 返回一个新的 Array Iterator 对象](#arrayprototypeiterator---返回一个新的-array-iterator-对象)
+        - [Array.prototype.values() - 返回一个新的 Array Iterator 对象，可以遍历所有成员](#arrayprototypevalues---返回一个新的-array-iterator-对象可以遍历所有成员)
+        - [Array.prototype[@@iterator]() - 返回一个新的 Array Iterator 对象，同values方法，遍历键值](#arrayprototypeiterator---返回一个新的-array-iterator-对象同values方法遍历键值)
 - [其它](#其它)
 - [链接](#链接)
 
@@ -236,11 +236,11 @@ array.copyWithin(target[, start = 0 [, end = this.length ]])
     // Int32Array [4, 2, 3, 4, 5]
     ```
 
-#### Array.prototype.entries() - 方法返回一个新的Array Iterator对象
+#### Array.prototype.entries() - 方法返回一个新的Array Iterator对象，可以迭代索引和成员组成的数据结构
 
 ```js
 /**
- * @description 方法返回一个新的Array Iterator对象，该对象包含数组中每个索引的键/值对
+ * @description 方法返回一个新的Array Iterator对象，可以迭代索引和成员组成的数据结构
  * @return {Array Iterator} 返回一个新的Array Iterator对象
  */
 array.entries()
@@ -250,14 +250,13 @@ array.entries()
     ```js
     var arr = ["a", "b", "c"];
     var iterator = arr.entries();
-    console.log(iterator);
     
-    /*Array Iterator {}
-             __proto__:Array Iterator
-             next:ƒ next()
-             Symbol(Symbol.toStringTag):"Array Iterator"
-             __proto__:Object
-    */
+    for (let item of arr.entries()) {
+        console.log(item);
+    }
+    // ['0', 'a']
+    // ['1', 'b']
+    // ['2', 'c']
     ```
 
 #### Array.prototype.every() - 方法测试数组的所有元素是否都通过了指定函数的测试
@@ -593,16 +592,16 @@ array.join([separator = ','])
     f(1, 'a', true);
     ```
 
-#### Array.prototype.keys() - 返回一个包含数组中每个索引键的Array Iterator对象
+#### Array.prototype.keys() - 返回一个新的 Array Iterator 对象，可以遍历所有的索引
 
 ```js
 /**
- * @description 返回一个包含数组中每个索引键的Array Iterator对象
- * @return {Array Iterator} 返回一个新的Array Iterator对象
+ * @description 返回一个新的 Array Iterator 对象，可以遍历所有的索引
+ * @return {Array Iterator} 
  */
 array.keys()
 ```
-- 索引迭代器会包含那些没有对应元素的索引；
+- 迭代器会包含那些没有对应元素的索引；
 - 示例
     ```js
     var arr = ["a", , "c"];
@@ -1037,11 +1036,11 @@ array.unshift([element1, ..., elementN])
     //arr is [[-3], -2, -1, 0, 1, 2]
     ```
 
-#### Array.prototype.values() - 返回一个新的 Array Iterator 对象
+#### Array.prototype.values() - 返回一个新的 Array Iterator 对象，可以遍历所有成员
 
 ```js
 /**
- * @description 返回一个新的 Array Iterator 对象，该对象包含数组每个索引的值
+ * @description 返回一个新的 Array Iterator 对象，可以遍历所有成员
  * @return {Array Iterator} 
  */
 array.values()
@@ -1053,6 +1052,11 @@ array.values()
     for (let letter of eArr) {
       console.log(letter);
     }
+    // w
+    // y
+    // k
+    // o
+    // p
     ```
     ```js
     let arr = ['w', 'y', 'k', 'o', 'p'];
@@ -1064,7 +1068,7 @@ array.values()
     console.log(eArr.next().value); // p
     ```
 
-#### Array.prototype[@@iterator]() - 返回一个新的 Array Iterator 对象
+#### Array.prototype[@@iterator]() - 返回一个新的 Array Iterator 对象，同values方法，遍历键值
 
 ```js
 /**
