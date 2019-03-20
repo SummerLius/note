@@ -38,8 +38,9 @@
 - https://blog.csdn.net/justloveyou_/article/details/72730597
 - https://visualgo.net/zh
 - [中文WIKI 算法](https://zh.wikipedia.org/wiki/%E7%AE%97%E6%B3%95)
-- [中文WIKI 排序算法](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
-- [英文WIKI 排序算法](https://en.wikipedia.org/wiki/Sorting_algorithm)
+- [中文WIKI | 排序算法](https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95)
+- [英文WIKI | 排序算法](https://en.wikipedia.org/wiki/Sorting_algorithm)
 - [排序算法动画](https://www.toptal.com/developers/sorting-algorithms)
 - [算法基础 网易课程](https://www.coursera.org/learn/suanfa-jichu)
-- https://github.com/jeffgerickson/algorithms
+- [Github | Algorithms - Jeff Erickson](https://github.com/jeffgerickson/algorithms)
+- [博客 | 算法范式](https://www.cnblogs.com/gaochundong/p/algorithmic_paradigms.html)
