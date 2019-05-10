@@ -59,3 +59,7 @@ git clone <repo-url>
     git checkout -b test origin/test
     git checkout --track origin/test
     ```
+- 其他
+
+### git checkout
+### git branch
