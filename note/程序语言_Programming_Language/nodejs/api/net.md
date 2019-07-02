@@ -35,6 +35,7 @@
 ### 事件
 - `close`: 当服务server关闭时触发。注意当connections存在时，会等所有connections结束时才会触发close事件
 - `connection`: 当一个新的connection建立的时候触发
+    - 该事件监听的回调函数参数为一个 `net.Socket` 实例对象
 - `error`: 当net.Server发生错误时触发。注意当error触发时，close事件不会自动触发，也就是如果该error不影响server运行的话，server不会挂掉，除非手动调用server.close()
 - `listening`: server.listen()调用时触发，即net.Server启动时
 
@@ -42,6 +43,7 @@
 
 - `server.listening`：一个布尔值，表明server是否正在监听连接
 - `server.maxConnections`：设置该属性，使得当server连接数过多时拒绝连接。一旦将一个socket发送给 "child_process.fork()" 生成的子进程，就不推荐使用该选项。有需要可以在子进程中设置该选项。 
+    - 使用方法，直接赋值设置即可：`server.maxConnections = 1`
 
 ### 方法
 
@@ -74,6 +76,7 @@
 - `end`: 
 - `error`: 
 - `lookup`: 
+- `ready`
 - `timeout`: 
 
 ### 字段
