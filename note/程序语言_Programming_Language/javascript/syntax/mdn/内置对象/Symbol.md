@@ -75,9 +75,18 @@
 
 ### 简介
 
-symbol是JavaScript六种基本数据类型之一，该数据类型没有对应的字面量（例如，'abc' 1 2），这种类型的值只能由`Symbol()`函数生成，且该函数不支持构造函数运行：`new Symbol()`
+- 概要
+    - symbol是JavaScript六种基本数据类型之一，该数据类型没有对应的字面量（例如，'abc' 1 2）
+    - 这种类型的值只能由`Symbol()`函数生成，且该函数不支持构造函数运行：`new Symbol()`
+    - 函数`Symbol()`，返回symbol类型值，这种值是原始值
+    - 每个从 Symbol() 返回的 symbol 值都是唯一的
+    - 一个 symbol 的值能作为对象属性的标识符
+- 全局共享的 Symbol
+    - Symbol() 的执行，不会在你的整个代码库中创建一个可用的全局 symbol 类型
+    - 要创建跨文件可用的 symbol，甚至是跨域，使用 Symbol.for() 方法 和 symbol.keyFor() 方法，从全局的 symbol 注册表设置和获取 symbol
+- 在对象中查找 Symbol 属性
+    - Object.getOwnPropertySymbols() 方法让你在查找一个给定对象的 symbol 属性时返回一个 symbol 类型数组
 
-函数`Symbol()`，返回symbol类型值，这种值是原始值。
 
 ```javascript
 let s = Symbol();
